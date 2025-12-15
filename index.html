@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Development Quote Generator (ZAR)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar for webkit (Dark Theme) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; /* Gray-800 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706; /* Amber-700 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b; /* Amber-500 */
+        }
+
+        /* Custom Checkbox Styling to match theme */
+        .quote-checkbox {
+            accent-color: #f59e0b;
+            cursor: pointer;
+        }
+
+        /* === PRINT STYLES START === */
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .max-w-4xl {
+                max-width: none !important;
+            }
+
+            /* Hide the main header and print button */
+            header, .print-button {
+                display: none !important;
+            }
+
+            /* Un-stick the summary bar and style it for print */
+            #quote-summary-wrapper {
+                position: relative !important;
+                top: 0 !important;
+                margin-bottom: 2rem !important;
+                box-shadow: none !important;
+                border-bottom: 4px solid #f59e0b; /* Gold accent separator */
+                border-radius: 0 !important;
+                background-color: transparent !important;
+            }
+
+            /* Change background colors for printing */
+            #quote-summary-wrapper .bg-gray-800 {
+                background-color: white !important;
+                border: 1px solid #ccc !important;
+                color: black !important;
+            }
+            
+            #quote-summary-wrapper .text-white {
+                color: black !important;
+            }
+            
+            #quote-summary-wrapper .text-gray-400 {
+                color: #555 !important;
+            }
+
+            /* Style the main feature box for print */
+            .feature-container {
+                padding-top: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                background-color: white !important;
+                color: black !important;
+            }
+            
+            .feature-container h2 {
+                color: black !important;
+            }
+
+            /* Hide the scrollbar area for printing */
+            .feature-list {
+                max-height: none !important;
+                overflow: visible !important;
+                padding-right: 0 !important;
+            }
+
+            /* Hide all descriptions and checkboxes */
+            .quote-checkbox, .feature-description {
+                display: none !important;
+            }
+
+            /* Style the feature list items for print */
+            .feature-item {
+                display: block;
+                padding: 10px 0 !important;
+                background-color: white !important;
+                border: none !important;
+                border-bottom: 1px dashed #ccc !important;
+                color: black !important;
+            }
+            
+            .feature-item .text-white {
+                color: black !important;
+            }
+
+            .base-setup-item {
+                 background-color: #eee !important;
+                 border: 1px solid #ccc !important;
+                 margin-bottom: 1rem;
+                 color: black !important;
+            }
+
+            /* Only show print-selected items and hide non-selected ones (except Base Setup) */
+            .feature-item:not(.print-selected):not(.base-setup-item) {
+                display: none !important;
+            }
+
+            /* Adjust text alignment and ensure cost stands out */
+            .feature-item .flex-1 {
+                margin-left: 0 !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .feature-item .text-lg {
+                font-size: 1.125rem;
+                color: black !important;
+            }
+            .feature-cost-print-only {
+                color: #f59e0b !important; /* Gold accent color */
+                font-weight: 700 !important;
+                display: block !important;
+                flex-shrink: 0;
+            }
+
+            /* Add a print-only title for the feature list */
+            .feature-container h2::after {
+                content: " (Detailed Breakdown)";
+                font-weight: normal;
+                color: #0f172a;
+            }
+        }
+        /* === PRINT STYLES END === */
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans antialiased p-4 sm:p-8 selection:bg-amber-900/50 selection:text-amber-300">
+
+<div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-8">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+            App Development <span class="text-amber-500">Cost Estimator</span>
+        </h1>
+        <p class="mt-3 text-lg text-gray-400">
+            Calculate your minimum viable product (MVP) estimate in Rands.
+        </p>
+    </header>
+
+    <!-- PINNED QUOTE SUMMARY BAR -->
+    <div id="quote-summary-wrapper" class="sticky top-4 z-20 mb-8 rounded-2xl shadow-xl shadow-black/50">
+        <!-- Dark Card for Summary -->
+        <div class="bg-gray-800 border border-gray-700 text-white p-4 sm:p-6 rounded-2xl backdrop-blur-sm bg-opacity-95">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 hidden sm:block border-b border-gray-700 pb-2">Estimated Minimum Quote</h2>
+
+            <div class="flex justify-between flex-wrap gap-y-4">
+                <!-- Base Cost Section -->
+                <div class="flex-1 min-w-[45%] lg:min-w-0 pr-4 border-r border-gray-700">
+                    <p class="text-xs uppercase tracking-wide text-gray-400 font-semibold">Base Setup</p>
+                    <span id="base-cost-display" class="text-xl font-bold text-amber-500">R0</span>
+                </div>
+
+                <!-- Feature Cost Section -->
+                <div class="flex-1 min-w-[45%] lg:min-w-0 px-4 lg:border-r border-gray-700">
+                    <p class="text-xs uppercase tracking-wide text-gray-400 font-semibold">Selected Features</p>
+                    <span id="feature-cost-display" class="text-xl font-bold text-amber-500">R0</span>
+                </div>
+
+                <!-- Total Quote -->
+                <div class="flex-1 w-full lg:w-auto mt-2 pt-2 lg:mt-0 lg:pt-0 lg:pl-4">
+                    <p class="text-xs uppercase tracking-wide text-gray-400 font-semibold">TOTAL ESTIMATE</p>
+                    <span id="total-quote-display" class="text-2xl sm:text-3xl font-extrabold text-white">R0</span>
+                    <p class="text-xs mt-1 text-gray-500">
+                        (Excluding VAT)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Selection Column (Full Width) -->
+    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 feature-container">
+        <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
+            <h2 class="text-2xl font-bold text-white">Select App Features</h2>
+
+            <!-- Print Button (Styled to match Download PDF button) -->
+            <button onclick="printQuote()" class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                <span>Print Quote</span>
+            </button>
+        </div>
+
+        <div id="feature-list" class="space-y-3 feature-list max-h-[60vh] overflow-y-auto pr-2">
+            <!-- Features will be injected here by JavaScript -->
+        </div>
+
+        <p class="mt-6 text-sm text-gray-500 p-2 border-t border-gray-700">
+            *These prices are minimum estimates for basic implementation in the South African market (ZAR). Actual costs vary based on design complexity, testing, and team seniority.
+        </p>
+    </div>
+</div>
+
+<script>
+    // Define the app features and their minimum estimated cost in ZAR
+    const FEATURES = [
+        // Core Components (High Cost)
+        { id: 'auth', name: 'User Authentication (Login/Signup)', cost: 25000, description: 'Email/Password & Social login support, password recovery.' },
+        { id: 'backend', name: 'Custom Backend & Database', cost: 40000, description: 'Scalable cloud infrastructure setup and core data models.' },
+        { id: 'admin', name: 'Web-Based Admin Panel', cost: 35000, description: 'Dashboard to manage users, content, and system settings.' },
+
+        // Interaction & Communication (Medium Cost)
+        { id: 'notifications', name: 'Push Notifications', cost: 18000, description: 'Setup and integration for system alerts and marketing messages.' },
+        { id: 'payments', name: 'Payment Gateway Integration', cost: 45000, description: 'Integration with South African payment services (e.g., PayFast, Yoco).' },
+        { id: 'subscription', name: 'Subscription/In-App Purchase Management', cost: 30000, description: 'Handling recurring payments, trials, and premium content access.' },
+        { id: 'chat', name: 'In-App Chat/Messaging', cost: 60000, description: 'Real-time 1:1 user messaging functionality.' },
+
+        // Utility & Device Features
+        { id: 'gps', name: 'Geolocation / GPS Tracking', cost: 22000, description: 'User location services, map display, or real-time tracking.' },
+        { id: 'camera', name: 'Camera/Photo Library Access', cost: 12000, description: 'Allowing users to capture or upload images/video.' },
+        { id: 'offline', name: 'Offline Functionality & Caching', cost: 30000, description: 'Ability to use key features without internet connectivity.' },
+        { id: 'biometric', name: 'Biometric Login (Face ID/Fingerprint)', cost: 10000, description: 'Quick and secure access using device biometrics.' },
+        { id: 'multi_platform', name: 'Cross-Platform Development (iOS & Android)', cost: 25000, description: 'Using frameworks like Flutter/React Native for dual platform support.' },
+
+        // Advanced & Design (High Cost / Specific)
+        { id: 'ui_ux', name: 'Custom UI/UX Design (Wireframing & Mockups)', cost: 50000, description: 'Professional design phase for a unique, polished interface.' },
+        { id: 'analytics', name: 'Advanced Analytics & Reporting', cost: 15000, description: 'Integration of detailed user tracking and reporting tools.' },
+        { id: 'ai_ml', name: 'Basic AI/ML Model Integration', cost: 40000, description: 'Simple tasks like personalized recommendations or content tagging.' },
+        { id: 'hardware_integration', name: 'IoT/Bluetooth/Wearable Integration', cost: 55000, description: 'Integrating with external hardware or IoT devices (e.g., smart watches).' },
+    ];
+
+    // Fixed base cost for project initiation (includes initial setup, boilerplate, basic testing).
+    const BASE_COST = 85000;
+
+    // DOM elements
+    const featureListEl = document.getElementById('feature-list');
+    const baseCostDisplayEl = document.getElementById('base-cost-display');
+    const featureCostDisplayEl = document.getElementById('feature-cost-display');
+    const totalQuoteDisplayEl = document.getElementById('total-quote-display');
+    let selectedFeatureCost = 0;
+
+    // --- Utility Functions ---
+
+    /**
+     * Formats a number into a ZAR currency string (e.g., R 123,456).
+     * @param {number} amount
+     * @returns {string}
+     */
+    function formatCurrency(amount) {
+        // Using Intl.NumberFormat for clean, locale-aware formatting
+        return new Intl.NumberFormat('en-ZA', {
+            style: 'currency',
+            currency: 'ZAR',
+            minimumFractionDigits: 0,
+        }).format(amount).replace(/ZAR/, 'R'); // Replace ZAR with R
+    }
+
+    /**
+     * Renders the initial feature list with checkboxes, including the Base Setup item.
+     */
+    function renderFeatures() {
+        // Set the base cost display immediately
+        baseCostDisplayEl.textContent = formatCurrency(BASE_COST);
+
+        // Create the Base Setup item (Styled as a locked card)
+        const baseSetupItem = `
+            <div class="flex items-start p-4 bg-gray-700 rounded-xl border border-gray-600 feature-item print-selected base-setup-item">
+                <div class="flex-1 ml-0">
+                    <span class="text-white font-bold text-lg block">Base Setup (Design, Infra & QA)</span>
+                    <span class="block text-amber-500 font-extrabold text-sm sm:text-base mt-0.5 feature-cost-print-only">
+                        ${formatCurrency(BASE_COST)} (Fixed)
+                    </span>
+                    <p class="text-gray-300 text-sm mt-1 feature-description">This covers project initiation, boilerplate setup, basic UI structure, and initial quality assurance.</p>
+                </div>
+                <!-- Lock Icon -->
+                <div class="text-gray-500 ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                         <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 my-3"></div>
+        `;
+
+
+        const featureHtml = FEATURES.map(feature => `
+            <label for="${feature.id}" class="flex items-start p-4 bg-gray-700/50 hover:bg-gray-700 rounded-xl cursor-pointer transition-all duration-200 ease-in-out border border-transparent hover:border-amber-500 feature-item group">
+                <input type="checkbox" id="${feature.id}" data-cost="${feature.cost}" class="mt-1 h-5 w-5 text-amber-500 bg-gray-600 border-gray-500 rounded focus:ring-amber-500 quote-checkbox">
+                <div class="ml-4 flex-1">
+                    <span class="text-white font-semibold text-lg group-hover:text-amber-500 transition-colors">${feature.name}</span>
+                    <!-- Hidden on screen, shown in print only to display cost on the same line -->
+                    <span class="block text-amber-500 font-bold text-sm sm:text-base mt-0.5 feature-cost-print-only">
+                        ${formatCurrency(feature.cost)} (Minimum)
+                    </span>
+                    <p class="text-gray-400 text-sm mt-1 feature-description">${feature.description}</p>
+                </div>
+            </label>
+        `).join('');
+
+        // Prepend the Base Setup item to the feature list
+        featureListEl.innerHTML = baseSetupItem + featureHtml;
+
+        // Attach event listeners to all new checkboxes
+        document.querySelectorAll('.quote-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateQuote);
+        });
+
+        // Initial calculation call
+        updateQuote();
+    }
+
+    /**
+     * Recalculates the total quote based on selected features.
+     */
+    function updateQuote() {
+        selectedFeatureCost = 0;
+        const checkboxes = document.querySelectorAll('.quote-checkbox');
+
+        checkboxes.forEach(checkbox => {
+            const featureItem = checkbox.closest('.feature-item');
+            if (checkbox.checked) {
+                // Ensure cost is treated as a number
+                selectedFeatureCost += parseInt(checkbox.dataset.cost, 10);
+                // Add a print-only class to checked items to ensure they show up nicely
+                featureItem.classList.add('print-selected');
+                
+                // Add visual selection style (e.g., border)
+                featureItem.classList.add('border-amber-500', 'bg-gray-700');
+                featureItem.classList.remove('border-transparent', 'bg-gray-700/50');
+            } else {
+                featureItem.classList.remove('print-selected');
+                
+                // Remove visual selection style
+                featureItem.classList.remove('border-amber-500', 'bg-gray-700');
+                featureItem.classList.add('border-transparent', 'bg-gray-700/50');
+            }
+        });
+
+        const totalCost = BASE_COST + selectedFeatureCost;
+
+        // Update display elements
+        featureCostDisplayEl.textContent = formatCurrency(selectedFeatureCost);
+        totalQuoteDisplayEl.textContent = formatCurrency(totalCost);
+    }
+
+    /**
+     * Triggers the browser's print dialog.
+     */
+    function printQuote() {
+        window.print();
+    }
+
+
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', renderFeatures);
+</script>
+</body>
+</html>
