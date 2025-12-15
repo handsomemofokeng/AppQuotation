@@ -1,23 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Development Quote Generator (ZAR)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            900: '#111827',
+                            800: '#1f2937',
+                            700: '#374151',
+                            600: '#4b5563',
+                            500: '#6b7280',
+                            400: '#9ca3af',
+                            300: '#d1d5db',
+                            200: '#e5e7eb',
+                            100: '#f3f4f6',
+                            50: '#f9fafb',
+                        },
+                        amber: {
+                            500: '#f59e0b', // Accent
+                            600: '#d97706',
+                            900: '#78350f',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
     <style>
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Custom scrollbar for webkit (Dark Theme) */
+        /* Custom scrollbar for webkit (Theme Aware) */
         ::-webkit-scrollbar {
             width: 8px;
         }
-        ::-webkit-scrollbar-track {
+        .dark ::-webkit-scrollbar-track {
             background: #1f2937; /* Gray-800 */
         }
+        ::-webkit-scrollbar-track {
+            background: #f3f4f6; /* Gray-100 */
+        }
+        
         ::-webkit-scrollbar-thumb {
             background: #d97706; /* Amber-700 */
             border-radius: 4px;
@@ -44,8 +79,8 @@
                 max-width: none !important;
             }
 
-            /* Hide the main header and print button */
-            header, .print-button {
+            /* Hide the main header and print button and theme toggle */
+            header, .print-button, #theme-toggle {
                 display: none !important;
             }
 
@@ -61,13 +96,15 @@
             }
 
             /* Change background colors for printing */
-            #quote-summary-wrapper .bg-gray-800 {
+            #quote-summary-wrapper .bg-white,
+            #quote-summary-wrapper .dark\:bg-gray-800 {
                 background-color: white !important;
                 border: 1px solid #ccc !important;
                 color: black !important;
             }
             
-            #quote-summary-wrapper .text-white {
+            #quote-summary-wrapper .text-white,
+            #quote-summary-wrapper .dark\:text-white {
                 color: black !important;
             }
             
@@ -110,7 +147,8 @@
                 color: black !important;
             }
             
-            .feature-item .text-white {
+            .feature-item .text-white,
+            .feature-item .dark\:text-white {
                 color: black !important;
             }
 
@@ -154,42 +192,68 @@
         /* === PRINT STYLES END === */
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans antialiased p-4 sm:p-8 selection:bg-amber-900/50 selection:text-amber-300">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased p-4 sm:p-8 selection:bg-amber-900/50 selection:text-amber-300 transition-colors duration-300">
 
 <div class="max-w-4xl mx-auto">
     <!-- Header -->
-    <header class="text-center mb-8">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            App Development <span class="text-amber-500">Cost Estimator</span>
-        </h1>
-        <p class="mt-3 text-lg text-gray-400">
-            Calculate your minimum viable product (MVP) estimate in Rands.
-        </p>
+    <header class="flex flex-col md:flex-row justify-between items-center mb-8 relative">
+        <div class="text-center md:text-left">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                App Development <span class="text-amber-500">Cost Estimator</span>
+            </h1>
+            <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">
+                Calculate your minimum viable product (MVP) estimate in Rands.
+            </p>
+        </div>
+
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" onclick="toggleTheme()"
+                class="mt-4 md:mt-0 p-3 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                aria-label="Toggle Dark Mode">
+            <!-- Sun Icon (Show in Dark Mode) -->
+            <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor"
+                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                      fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+            <!-- Moon Icon (Show in Light Mode) -->
+            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor"
+                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+        </button>
     </header>
 
     <!-- PINNED QUOTE SUMMARY BAR -->
-    <div id="quote-summary-wrapper" class="sticky top-4 z-20 mb-8 rounded-2xl shadow-xl shadow-black/50">
-        <!-- Dark Card for Summary -->
-        <div class="bg-gray-800 border border-gray-700 text-white p-4 sm:p-6 rounded-2xl backdrop-blur-sm bg-opacity-95">
-            <h2 class="text-xl sm:text-2xl font-bold mb-4 hidden sm:block border-b border-gray-700 pb-2">Estimated Minimum Quote</h2>
+    <div id="quote-summary-wrapper"
+         class="sticky top-4 z-20 mb-8 rounded-2xl shadow-xl shadow-gray-400/20 dark:shadow-black/50">
+        <!-- Card for Summary -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white p-4 sm:p-6 rounded-2xl backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 transition-colors duration-300">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 hidden sm:block border-b border-gray-200 dark:border-gray-700 pb-2">
+                Estimated Minimum Quote</h2>
 
             <div class="flex justify-between flex-wrap gap-y-4">
                 <!-- Base Cost Section -->
-                <div class="flex-1 min-w-[45%] lg:min-w-0 pr-4 border-r border-gray-700">
-                    <p class="text-xs uppercase tracking-wide text-gray-400 font-semibold">Base Setup</p>
+                <div class="flex-1 min-w-[45%] lg:min-w-0 pr-4 border-r border-gray-200 dark:border-gray-700">
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
+                        Base Setup</p>
                     <span id="base-cost-display" class="text-xl font-bold text-amber-500">R0</span>
                 </div>
 
                 <!-- Feature Cost Section -->
-                <div class="flex-1 min-w-[45%] lg:min-w-0 px-4 lg:border-r border-gray-700">
-                    <p class="text-xs uppercase tracking-wide text-gray-400 font-semibold">Selected Features</p>
-                    <span id="feature-cost-display" class="text-xl font-bold text-amber-500">R0</span>
+                <div class="flex-1 min-w-[45%] lg:min-w-0 px-4 lg:border-r border-gray-200 dark:border-gray-700">
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
+                        Selected Features</p>
+                    <span id="feature-cost-display"
+                          class="text-xl font-bold text-amber-500">R0</span>
                 </div>
 
                 <!-- Total Quote -->
                 <div class="flex-1 w-full lg:w-auto mt-2 pt-2 lg:mt-0 lg:pt-0 lg:pl-4">
-                    <p class="text-xs uppercase tracking-wide text-gray-400 font-semibold">TOTAL ESTIMATE</p>
-                    <span id="total-quote-display" class="text-2xl sm:text-3xl font-extrabold text-white">R0</span>
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
+                        TOTAL ESTIMATE</p>
+                    <span id="total-quote-display"
+                          class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">R0</span>
                     <p class="text-xs mt-1 text-gray-500">
                         (Excluding VAT)
                     </p>
@@ -199,14 +263,17 @@
     </div>
 
     <!-- Feature Selection Column (Full Width) -->
-    <div class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 feature-container">
-        <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
-            <h2 class="text-2xl font-bold text-white">Select App Features</h2>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 feature-container transition-colors duration-300">
+        <div class="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Select App Features</h2>
 
             <!-- Print Button (Styled to match Download PDF button) -->
-            <button onclick="printQuote()" class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            <button onclick="printQuote()"
+                    class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                 </svg>
                 <span>Print Quote</span>
             </button>
@@ -216,13 +283,55 @@
             <!-- Features will be injected here by JavaScript -->
         </div>
 
-        <p class="mt-6 text-sm text-gray-500 p-2 border-t border-gray-700">
-            *These prices are minimum estimates for basic implementation in the South African market (ZAR). Actual costs vary based on design complexity, testing, and team seniority.
+        <p class="mt-6 text-sm text-gray-500 p-2 border-t border-gray-200 dark:border-gray-700">
+            *These prices are minimum estimates for basic implementation in the South African market
+            (ZAR). Actual costs vary based on design complexity, testing, and team seniority.
         </p>
     </div>
 </div>
 
 <script>
+    // --- THEME LOGIC ---
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // Change the icons inside the button based on previous settings
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        themeToggleLightIcon.classList.remove('hidden');
+        document.documentElement.classList.add('dark');
+    } else {
+        themeToggleDarkIcon.classList.remove('hidden');
+        document.documentElement.classList.remove('dark');
+    }
+
+    function toggleTheme() {
+        // Toggle icons
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+
+        // If is set in localstorage
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        } else {
+            // if NOT set in localstorage
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+    }
+
+
+    // --- DATA ---
     // Define the app features and their minimum estimated cost in ZAR
     const FEATURES = [
         // Core Components (High Cost)
@@ -285,13 +394,13 @@
 
         // Create the Base Setup item (Styled as a locked card)
         const baseSetupItem = `
-            <div class="flex items-start p-4 bg-gray-700 rounded-xl border border-gray-600 feature-item print-selected base-setup-item">
+            <div class="flex items-start p-4 bg-gray-100 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600 feature-item print-selected base-setup-item transition-colors duration-300">
                 <div class="flex-1 ml-0">
-                    <span class="text-white font-bold text-lg block">Base Setup (Design, Infra & QA)</span>
+                    <span class="text-gray-900 dark:text-white font-bold text-lg block">Base Setup (Design, Infra & QA)</span>
                     <span class="block text-amber-500 font-extrabold text-sm sm:text-base mt-0.5 feature-cost-print-only">
                         ${formatCurrency(BASE_COST)} (Fixed)
                     </span>
-                    <p class="text-gray-300 text-sm mt-1 feature-description">This covers project initiation, boilerplate setup, basic UI structure, and initial quality assurance.</p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1 feature-description">This covers project initiation, boilerplate setup, basic UI structure, and initial quality assurance.</p>
                 </div>
                 <!-- Lock Icon -->
                 <div class="text-gray-500 ml-2">
@@ -300,20 +409,20 @@
                     </svg>
                 </div>
             </div>
-            <div class="border-t border-gray-700 my-3"></div>
+            <div class="border-t border-gray-200 dark:border-gray-700 my-3 transition-colors duration-300"></div>
         `;
 
 
         const featureHtml = FEATURES.map(feature => `
-            <label for="${feature.id}" class="flex items-start p-4 bg-gray-700/50 hover:bg-gray-700 rounded-xl cursor-pointer transition-all duration-200 ease-in-out border border-transparent hover:border-amber-500 feature-item group">
-                <input type="checkbox" id="${feature.id}" data-cost="${feature.cost}" class="mt-1 h-5 w-5 text-amber-500 bg-gray-600 border-gray-500 rounded focus:ring-amber-500 quote-checkbox">
+            <label for="${feature.id}" class="flex items-start p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl cursor-pointer transition-all duration-200 ease-in-out border border-transparent hover:border-amber-500 feature-item group">
+                <input type="checkbox" id="${feature.id}" data-cost="${feature.cost}" class="mt-1 h-5 w-5 text-amber-500 bg-gray-200 dark:bg-gray-600 border-gray-400 dark:border-gray-500 rounded focus:ring-amber-500 quote-checkbox">
                 <div class="ml-4 flex-1">
-                    <span class="text-white font-semibold text-lg group-hover:text-amber-500 transition-colors">${feature.name}</span>
+                    <span class="text-gray-900 dark:text-white font-semibold text-lg group-hover:text-amber-500 transition-colors">${feature.name}</span>
                     <!-- Hidden on screen, shown in print only to display cost on the same line -->
                     <span class="block text-amber-500 font-bold text-sm sm:text-base mt-0.5 feature-cost-print-only">
                         ${formatCurrency(feature.cost)} (Minimum)
                     </span>
-                    <p class="text-gray-400 text-sm mt-1 feature-description">${feature.description}</p>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-1 feature-description">${feature.description}</p>
                 </div>
             </label>
         `).join('');
@@ -346,14 +455,14 @@
                 featureItem.classList.add('print-selected');
                 
                 // Add visual selection style (e.g., border)
-                featureItem.classList.add('border-amber-500', 'bg-gray-700');
-                featureItem.classList.remove('border-transparent', 'bg-gray-700/50');
+                featureItem.classList.add('border-amber-500', 'bg-gray-100', 'dark:bg-gray-700');
+                featureItem.classList.remove('border-transparent', 'bg-gray-50', 'dark:bg-gray-700/50');
             } else {
                 featureItem.classList.remove('print-selected');
                 
                 // Remove visual selection style
-                featureItem.classList.remove('border-amber-500', 'bg-gray-700');
-                featureItem.classList.add('border-transparent', 'bg-gray-700/50');
+                featureItem.classList.remove('border-amber-500', 'bg-gray-100', 'dark:bg-gray-700');
+                featureItem.classList.add('border-transparent', 'bg-gray-50', 'dark:bg-gray-700/50');
             }
         });
 
