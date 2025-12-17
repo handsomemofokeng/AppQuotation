@@ -210,39 +210,55 @@
                 Calculate your minimum viable product (MVP) estimate in Rands.
             </p>
         </div>
-        
+
         <!-- Theme Toggle Button -->
-        <button id="theme-toggle" onclick="toggleTheme()" class="mt-4 md:mt-0 p-3 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow-sm" aria-label="Toggle Dark Mode">
+        <button id="theme-toggle" onclick="toggleTheme()"
+                class="mt-4 md:mt-0 p-3 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                aria-label="Toggle Dark Mode">
             <!-- Sun Icon (Show in Dark Mode) -->
-            <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor"
+                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                      fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
             <!-- Moon Icon (Show in Light Mode) -->
-            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor"
+                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
         </button>
     </header>
 
     <!-- PINNED QUOTE SUMMARY BAR -->
-    <div id="quote-summary-wrapper" class="sticky top-4 z-20 mb-8 rounded-2xl shadow-xl shadow-gray-400/20 dark:shadow-black/50">
+    <div id="quote-summary-wrapper"
+         class="sticky top-4 z-20 mb-8 rounded-2xl shadow-xl shadow-gray-400/20 dark:shadow-black/50">
         <!-- Card for Summary -->
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white p-4 sm:p-6 rounded-2xl backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 transition-colors duration-300">
-            <h2 class="text-xl sm:text-2xl font-bold mb-4 hidden sm:block border-b border-gray-200 dark:border-gray-700 pb-2">Estimated Minimum Quote</h2>
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 hidden sm:block border-b border-gray-200 dark:border-gray-700 pb-2">
+                Estimated Minimum Quote</h2>
 
             <div class="flex justify-between flex-wrap gap-y-4">
                 <!-- Base Cost Section -->
                 <div class="flex-1 min-w-[45%] lg:min-w-0 pr-4 border-r border-gray-200 dark:border-gray-700">
-                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">Base Setup</p>
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
+                        Base Setup</p>
                     <span id="base-cost-display" class="text-xl font-bold text-amber-500">R0</span>
                 </div>
 
                 <!-- Feature Cost Section -->
                 <div class="flex-1 min-w-[45%] lg:min-w-0 px-4 lg:border-r border-gray-200 dark:border-gray-700">
-                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">Selected Features</p>
-                    <span id="feature-cost-display" class="text-xl font-bold text-amber-500">R0</span>
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
+                        Selected Features</p>
+                    <span id="feature-cost-display"
+                          class="text-xl font-bold text-amber-500">R0</span>
                 </div>
 
                 <!-- Total Quote -->
                 <div class="flex-1 w-full lg:w-auto mt-2 pt-2 lg:mt-0 lg:pt-0 lg:pl-4">
-                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">TOTAL ESTIMATE</p>
-                    <span id="total-quote-display" class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">R0</span>
+                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
+                        TOTAL ESTIMATE</p>
+                    <span id="total-quote-display"
+                          class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">R0</span>
                     <p class="text-xs mt-1 text-gray-500">
                         (Excluding VAT)
                     </p>
@@ -257,9 +273,12 @@
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Select App Features</h2>
 
             <!-- Print Button (Styled to match Download PDF button) -->
-            <button onclick="printQuote()" class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            <button onclick="printQuote()"
+                    class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                 </svg>
                 <span>Print Quote</span>
             </button>
@@ -271,7 +290,8 @@
         </div>
 
         <p class="mt-6 text-sm text-gray-500 p-2 border-t border-gray-200 dark:border-gray-700">
-            *These prices are minimum estimates for basic implementation in the South African market (ZAR). Actual costs vary based on design complexity, testing, and team seniority.
+            *These prices are minimum estimates for basic implementation in the South African market
+            (ZAR). Actual costs vary based on design complexity, testing, and team seniority.
         </p>
     </div>
 </div>
@@ -321,32 +341,32 @@
     // Define the app features and their minimum estimated cost in ZAR
     const FEATURES = [
         // Core Components (High Cost)
-        { id: 'auth', name: 'User Authentication (Login/Signup)', cost: 25000, description: 'Email/Password & Social login support, password recovery.' },
-        { id: 'backend', name: 'Custom Backend & Database', cost: 40000, description: 'Scalable cloud infrastructure setup and core data models.' },
-        { id: 'admin', name: 'Web-Based Admin Panel', cost: 35000, description: 'Dashboard to manage users, content, and system settings.' },
+        { id: 'auth', name: 'User Authentication (Login/Signup)', cost: 14000, description: 'Email/Password & Social login support, password recovery.' },
+        { id: 'backend', name: 'Custom Backend & Database', cost: 15500, description: 'Scalable cloud infrastructure setup and core data models.' },
+        { id: 'admin', name: 'Web-Based Admin Panel', cost: 15000, description: 'Dashboard to manage users, content, and system settings.' },
 
         // Interaction & Communication (Medium Cost)
-        { id: 'notifications', name: 'Push Notifications', cost: 18000, description: 'Setup and integration for system alerts and marketing messages.' },
-        { id: 'payments', name: 'Payment Gateway Integration', cost: 45000, description: 'Integration with South African payment services (e.g., PayFast, Yoco).' },
-        { id: 'subscription', name: 'Subscription/In-App Purchase Management', cost: 30000, description: 'Handling recurring payments, trials, and premium content access.' },
-        { id: 'chat', name: 'In-App Chat/Messaging', cost: 60000, description: 'Real-time 1:1 user messaging functionality.' },
+        { id: 'notifications', name: 'Push Notifications', cost: 13300, description: 'Setup and integration for system alerts and marketing messages.' },
+        { id: 'payments', name: 'Payment Gateway Integration', cost: 16000, description: 'Integration with South African payment services (e.g., PayFast, Yoco).' },
+        { id: 'subscription', name: 'Subscription/In-App Purchase Management', cost: 14500, description: 'Handling recurring payments, trials, and premium content access.' },
+        { id: 'chat', name: 'In-App Chat/Messaging', cost: 17500, description: 'Real-time 1:1 user messaging functionality.' },
 
         // Utility & Device Features
-        { id: 'gps', name: 'Geolocation / GPS Tracking', cost: 22000, description: 'User location services, map display, or real-time tracking.' },
-        { id: 'camera', name: 'Camera/Photo Library Access', cost: 12000, description: 'Allowing users to capture or upload images/video.' },
-        { id: 'offline', name: 'Offline Functionality & Caching', cost: 30000, description: 'Ability to use key features without internet connectivity.' },
-        { id: 'biometric', name: 'Biometric Login (Face ID/Fingerprint)', cost: 10000, description: 'Quick and secure access using device biometrics.' },
-        { id: 'multi_platform', name: 'Cross-Platform Development (iOS & Android)', cost: 25000, description: 'Using frameworks like Flutter/React Native for dual platform support.' },
+        { id: 'gps', name: 'Geolocation / GPS Tracking', cost: 13700, description: 'User location services, map display, or real-time tracking.' },
+        { id: 'camera', name: 'Camera/Photo Library Access', cost: 12700, description: 'Allowing users to capture or upload images/video.' },
+        { id: 'offline', name: 'Offline Functionality & Caching', cost: 14500, description: 'Ability to use key features without internet connectivity.' },
+        { id: 'biometric', name: 'Biometric Login (Face ID/Fingerprint)', cost: 12500, description: 'Quick and secure access using device biometrics.' },
+        { id: 'multi_platform', name: 'Cross-Platform Development (iOS & Android)', cost: 14000, description: 'Using frameworks like Flutter/React Native for dual platform support.' },
 
         // Advanced & Design (High Cost / Specific)
-        { id: 'ui_ux', name: 'Custom UI/UX Design (Wireframing & Mockups)', cost: 50000, description: 'Professional design phase for a unique, polished interface.' },
-        { id: 'analytics', name: 'Advanced Analytics & Reporting', cost: 15000, description: 'Integration of detailed user tracking and reporting tools.' },
-        { id: 'ai_ml', name: 'Basic AI/ML Model Integration', cost: 40000, description: 'Simple tasks like personalized recommendations or content tagging.' },
-        { id: 'hardware_integration', name: 'IoT/Bluetooth/Wearable Integration', cost: 55000, description: 'Integrating with external hardware or IoT devices (e.g., smart watches).' },
+        { id: 'ui_ux', name: 'Custom UI/UX Design (Wireframing & Mockups)', cost: 16500, description: 'Professional design phase for a unique, polished interface.' },
+        { id: 'analytics', name: 'Advanced Analytics & Reporting', cost: 13000, description: 'Integration of detailed user tracking and reporting tools.' },
+        { id: 'ai_ml', name: 'Basic AI/ML Model Integration', cost: 15500, description: 'Simple tasks like personalized recommendations or content tagging.' },
+        { id: 'hardware_integration', name: 'IoT/Bluetooth/Wearable Integration', cost: 17000, description: 'Integrating with external hardware or IoT devices (e.g., smart watches).' },
     ];
 
     // Fixed base cost for project initiation (includes initial setup, boilerplate, basic testing).
-    const BASE_COST = 85000;
+    const BASE_COST = 20000;
 
     // DOM elements
     const featureListEl = document.getElementById('feature-list');
