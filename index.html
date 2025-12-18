@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Development Quote Generator (ZAR)</title>
+    <title>App Development Effort Estimator (ZAR)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -58,16 +58,12 @@
             header, .print-button, #theme-toggle, #platform-selection-area { display: none !important; }
             #quote-summary-wrapper { position: relative !important; top: 0 !important; margin-bottom: 2rem !important; box-shadow: none !important; border-bottom: 4px solid #d97706; border-radius: 0 !important; background-color: transparent !important; }
             #quote-summary-wrapper .bg-white, #quote-summary-wrapper .dark\:bg-gray-800 { background-color: white !important; border: 1px solid #ccc !important; color: black !important; }
-            #quote-summary-wrapper .text-white, #quote-summary-wrapper .dark\:text-white { color: black !important; }
             .feature-container { padding-top: 0 !important; box-shadow: none !important; border: none !important; background-color: white !important; color: black !important; }
             .feature-list { max-height: none !important; overflow: visible !important; padding-right: 0 !important; }
             .quote-checkbox, .feature-description { display: none !important; }
             .grid { display: block !important; }
             .feature-item { display: block; padding: 10px 0 !important; background-color: white !important; border: none !important; border-bottom: 1px dashed #ccc !important; color: black !important; }
-            .feature-item .text-white, .feature-item .dark\:text-white { color: black !important; }
-            .base-setup-item { background-color: #eee !important; border: 1px solid #ccc !important; margin-bottom: 1rem; color: black !important; }
             .feature-item:not(.print-selected):not(.base-setup-item) { display: none !important; }
-            .feature-item .flex-1 { margin-left: 0 !important; display: flex; justify-content: space-between; align-items: center; }
             .feature-cost-print-only { color: #d97706 !important; font-weight: 700 !important; display: block !important; }
         }
     </style>
@@ -79,9 +75,10 @@
     <header class="flex flex-col md:flex-row justify-between items-center mb-8 relative">
         <div class="text-center md:text-left">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                App Development <span class="text-amber-600">Cost Estimator</span>
+                App <span class="text-amber-600">Cost Estimator</span>
             </h1>
-            <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">MVP estimate in ZAR.</p>
+            <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">Rate: R500/hr • 8hr days •
+                20-day working month.</p>
         </div>
 
         <button id="theme-toggle" onclick="toggleTheme()"
@@ -103,7 +100,12 @@
          class="sticky top-4 z-20 mb-6 rounded-2xl shadow-xl shadow-gray-400/20 dark:shadow-black/50">
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white p-4 sm:p-6 rounded-2xl backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 transition-colors duration-300">
             <div class="flex justify-between items-center mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h2 class="text-xl sm:text-2xl font-bold">Estimated Minimum Quote</h2>
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-bold">Project Summary</h2>
+                    <p id="formatted-time-display"
+                       class="text-xs text-amber-600 font-bold uppercase tracking-wider">Estimated
+                        Timeline: 0h</p>
+                </div>
                 <button onclick="printQuote()"
                         class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -118,18 +120,21 @@
             <div class="flex justify-between flex-wrap gap-y-4">
                 <div class="flex-1 min-w-[45%] lg:min-w-0 pr-4 border-r border-gray-200 dark:border-gray-700">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
-                        Base Setup</p>
-                    <span id="base-cost-display" class="text-xl font-bold text-amber-600">R0</span>
+                        Base Effort</p>
+                    <span id="base-hours-display"
+                          class="text-lg font-bold text-gray-700 dark:text-gray-300">0 hrs</span>
+                    <p id="base-cost-display" class="text-sm font-semibold text-amber-600">R0</p>
                 </div>
                 <div class="flex-1 min-w-[45%] lg:min-w-0 px-4 lg:border-r border-gray-200 dark:border-gray-700">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
-                        Selected Features</p>
-                    <span id="feature-cost-display"
-                          class="text-xl font-bold text-amber-600">R0</span>
+                        Feature Effort</p>
+                    <span id="feature-hours-display"
+                          class="text-lg font-bold text-gray-700 dark:text-gray-300">0 hrs</span>
+                    <p id="feature-cost-display" class="text-sm font-semibold text-amber-600">R0</p>
                 </div>
                 <div class="flex-1 w-full lg:w-auto mt-2 pt-2 lg:mt-0 lg:pt-0 lg:pl-4">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
-                        TOTAL ESTIMATE</p>
+                        TOTAL QUOTE</p>
                     <span id="total-quote-display"
                           class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">R0</span>
                     <p id="multiplier-label"
@@ -146,7 +151,6 @@
         <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">1. Select Target
             Platform</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <!-- Android -->
             <div onclick="setPlatform('android')" id="platform-android"
                  class="platform-card selected flex flex-col items-center p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-amber-600 transition-all group">
                 <svg class="w-12 h-12 mb-2 text-gray-400 group-hover:text-amber-600 transition-colors"
@@ -155,7 +159,6 @@
                 </svg>
                 <span class="font-bold text-lg">Android</span>
             </div>
-            <!-- iOS -->
             <div onclick="setPlatform('ios')" id="platform-ios"
                  class="platform-card flex flex-col items-center p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-amber-600 transition-all group">
                 <svg class="w-12 h-12 mb-2 text-gray-400 group-hover:text-amber-600 transition-colors"
@@ -164,7 +167,6 @@
                 </svg>
                 <span class="font-bold text-lg">iOS</span>
             </div>
-            <!-- Multiplatform -->
             <div onclick="setPlatform('multiplatform')" id="platform-multiplatform"
                  class="platform-card flex flex-col items-center p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-amber-600 transition-all group">
                 <div class="flex gap-2 mb-2">
@@ -191,8 +193,12 @@
 </div>
 
 <script>
+    const HOURLY_RATE = 500;
+    const BASE_HOURS = 40;
+    const HOURS_PER_DAY = 8;
+    const DAYS_PER_WEEK = 5;
+    const WEEKS_PER_MONTH = 4; // Simplified: 20-day month
     let platformMultiplier = 1;
-    const BASE_COST = 20000;
 
     function toggleTheme() {
         const isDark = document.documentElement.classList.toggle('dark');
@@ -209,25 +215,57 @@
     }
 
     const FEATURES = [
-        { id: 'auth', name: 'User Authentication', cost: 14000, description: 'Email & Social login support.' },
-        { id: 'backend', name: 'Custom Backend', cost: 15500, description: 'Scalable cloud infrastructure.' },
-        { id: 'admin', name: 'Web Admin Panel', cost: 15000, description: 'User & content management.' },
-        { id: 'notifications', name: 'Push Notifications', cost: 13300, description: 'In-app alerts & marketing.' },
-        { id: 'payments', name: 'Payment Integration', cost: 16000, description: 'PayFast, Yoco or Stripe.' },
-        { id: 'subscription', name: 'Subscriptions', cost: 14500, description: 'Recurring payment handling.' },
-        { id: 'chat', name: 'Real-time Chat', cost: 17500, description: 'Direct messaging features.' },
-        { id: 'gps', name: 'GPS & Mapping', cost: 13700, description: 'Location services & tracking.' },
-        { id: 'camera', name: 'Camera Access', cost: 12700, description: 'Image & video upload tools.' },
-        { id: 'offline', name: 'Offline Sync', cost: 14500, description: 'Local data caching.' },
-        { id: 'biometric', name: 'Biometric Login', cost: 12500, description: 'Face ID / Fingerprint security.' },
-        { id: 'ui_ux', name: 'Custom UI/UX Design', cost: 16500, description: 'Unique layout & design phase.' },
-        { id: 'analytics', name: 'Advanced Analytics', cost: 13000, description: 'User behavior tracking.' },
-        { id: 'ai_ml', name: 'AI Integration', cost: 15500, description: 'Smart recommendations.' },
-        { id: 'hardware', name: 'IoT/Hardware', cost: 17000, description: 'Bluetooth/Wearable connectivity.' },
+        { id: 'auth', name: 'User Authentication', hours: 28, description: 'Email & Social login support.' },
+        { id: 'backend', name: 'Custom Backend', hours: 31, description: 'Scalable cloud infrastructure.' },
+        { id: 'admin', name: 'Web Admin Panel', hours: 30, description: 'User & content management.' },
+        { id: 'notifications', name: 'Push Notifications', hours: 26, description: 'In-app alerts & marketing.' },
+        { id: 'payments', name: 'Payment Integration', hours: 32, description: 'PayFast, Yoco or Stripe.' },
+        { id: 'subscription', name: 'Subscriptions', hours: 29, description: 'Recurring payment handling.' },
+        { id: 'chat', name: 'Real-time Chat', hours: 35, description: 'Direct messaging features.' },
+        { id: 'gps', name: 'GPS & Mapping', hours: 27, description: 'Location services & tracking.' },
+        { id: 'camera', name: 'Camera Access', hours: 25, description: 'Image & video upload tools.' },
+        { id: 'offline', name: 'Offline Sync', hours: 29, description: 'Local data caching.' },
+        { id: 'biometric', name: 'Biometric Login', hours: 25, description: 'Face ID / Fingerprint security.' },
+        { id: 'ui_ux', name: 'Custom UI/UX Design', hours: 33, description: 'Unique layout & design phase.' },
+        { id: 'analytics', name: 'Advanced Analytics', hours: 26, description: 'User behavior tracking.' },
+        { id: 'ai_ml', name: 'AI Integration', hours: 31, description: 'Smart recommendations.' },
+        { id: 'hardware', name: 'IoT/Hardware', hours: 34, description: 'Bluetooth/Wearable connectivity.' },
     ];
 
     function formatCurrency(amount) {
         return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', minimumFractionDigits: 0 }).format(amount).replace(/ZAR/, 'R');
+    }
+
+    /**
+     * Converts hours into Months, Weeks, Days, Hours based on business units
+     */
+    function formatTimeEstimate(totalHours) {
+        if (totalHours === 0) return "0 hrs";
+
+        const hoursInMonth = HOURS_PER_DAY * DAYS_PER_WEEK * WEEKS_PER_MONTH; // 160 hrs
+        const hoursInWeek = HOURS_PER_DAY * DAYS_PER_WEEK; // 40 hrs
+        const hoursInDay = HOURS_PER_DAY; // 8 hrs
+
+        let remaining = totalHours;
+
+        const months = Math.floor(remaining / hoursInMonth);
+        remaining %= hoursInMonth;
+
+        const weeks = Math.floor(remaining / hoursInWeek);
+        remaining %= hoursInWeek;
+
+        const days = Math.floor(remaining / hoursInDay);
+        remaining %= hoursInDay;
+
+        const hours = remaining;
+
+        const parts = [];
+        if (months > 0) parts.push(`${months}m`);
+        if (weeks > 0) parts.push(`${weeks}w`);
+        if (days > 0) parts.push(`${days}d`);
+        if (hours > 0) parts.push(`${hours}h`);
+
+        return parts.join(' ');
     }
 
     function setPlatform(platform) {
@@ -242,7 +280,6 @@
         const displayName = platform === 'multiplatform' ? 'Multiplatform' : (platform.charAt(0).toUpperCase() + platform.slice(1));
         document.getElementById('multiplier-label').textContent = `Platform: ${displayName}`;
 
-        // Immediate update of quote logic
         updateQuote();
     }
 
@@ -250,9 +287,9 @@
         const baseSetupItem = `
             <div class="flex items-start p-4 bg-gray-100 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600 feature-item print-selected base-setup-item w-full mb-4">
                 <div class="flex-1">
-                    <span class="text-gray-900 dark:text-white font-bold text-lg block">Base Setup</span>
-                    <span class="block text-amber-600 font-extrabold text-sm mt-0.5 feature-cost-print-only">Included</span>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Foundational infra & CI/CD.</p>
+                    <span class="text-gray-900 dark:text-white font-bold text-lg block text-amber-600">Base Setup & Scaffolding</span>
+                    <span class="block text-gray-700 dark:text-gray-200 font-extrabold text-sm mt-0.5 feature-cost-print-only">${BASE_HOURS} hrs effort</span>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Foundational infrastructure, DevOps, and project management.</p>
                 </div>
             </div>
             <div class="border-t border-gray-200 dark:border-gray-700 mb-6"></div>
@@ -260,10 +297,15 @@
 
         const featureHtml = FEATURES.map(f => `
             <label for="${f.id}" class="flex items-start p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl cursor-pointer transition-all border border-transparent hover:border-amber-600 feature-item group">
-                <input type="checkbox" id="${f.id}" data-cost="${f.cost}" class="mt-1 h-5 w-5 text-amber-600 bg-gray-200 dark:bg-gray-600 border-gray-400 dark:border-gray-500 rounded quote-checkbox flex-shrink-0">
+                <input type="checkbox" id="${f.id}" data-hours="${f.hours}" class="mt-1 h-5 w-5 text-amber-600 bg-gray-200 dark:bg-gray-600 border-gray-400 dark:border-gray-500 rounded quote-checkbox flex-shrink-0">
                 <div class="ml-4 flex-1">
-                    <span class="text-gray-900 dark:text-white font-semibold text-lg group-hover:text-amber-600">${f.name}</span>
-                    <span class="block text-amber-600 font-bold text-sm mt-0.5 feature-cost-print-only">R ${f.cost.toLocaleString()}</span>
+                    <div class="flex justify-between items-start">
+                        <span class="text-gray-900 dark:text-white font-semibold text-lg group-hover:text-amber-600">${f.name}</span>
+                        <div class="text-right">
+                             <span class="text-amber-600 font-bold text-sm bg-amber-100 dark:bg-amber-900/30 px-2 py-0.5 rounded block mb-1">${f.hours} hrs</span>
+                             <span class="text-[10px] text-gray-500 dark:text-gray-400 font-mono">est. ${formatCurrency(f.hours * HOURLY_RATE)}</span>
+                        </div>
+                    </div>
                     <p class="text-gray-600 dark:text-gray-400 text-sm mt-1 feature-description">${f.description}</p>
                 </div>
             </label>
@@ -275,24 +317,34 @@
     }
 
     function updateQuote() {
-        let featureCostTotalRaw = 0;
+        let featureHoursTotalRaw = 0;
         document.querySelectorAll('.quote-checkbox').forEach(cb => {
             const item = cb.closest('.feature-item');
             if (cb.checked) {
-                featureCostTotalRaw += parseInt(cb.dataset.cost);
+                featureHoursTotalRaw += parseInt(cb.dataset.hours);
                 item.classList.add('print-selected', 'border-amber-600', 'bg-gray-100', 'dark:bg-gray-700');
             } else {
                 item.classList.remove('print-selected', 'border-amber-600', 'bg-gray-100', 'dark:bg-gray-700');
             }
         });
 
-        const totalBase = BASE_COST * platformMultiplier;
-        const totalFeatures = featureCostTotalRaw * platformMultiplier;
+        const totalBaseHours = BASE_HOURS * platformMultiplier;
+        const totalFeatureHours = featureHoursTotalRaw * platformMultiplier;
+        const grandTotalHours = totalBaseHours + totalFeatureHours;
 
-        // Update DOM displays
-        document.getElementById('base-cost-display').textContent = formatCurrency(totalBase);
-        document.getElementById('feature-cost-display').textContent = formatCurrency(totalFeatures);
-        document.getElementById('total-quote-display').textContent = formatCurrency(totalBase + totalFeatures);
+        const baseCost = totalBaseHours * HOURLY_RATE;
+        const featureCost = totalFeatureHours * HOURLY_RATE;
+        const grandTotalCost = baseCost + featureCost;
+
+        // Update Summary Bar
+        document.getElementById('base-hours-display').textContent = `${totalBaseHours} hrs`;
+        document.getElementById('base-cost-display').textContent = formatCurrency(baseCost);
+
+        document.getElementById('feature-hours-display').textContent = `${totalFeatureHours} hrs`;
+        document.getElementById('feature-cost-display').textContent = formatCurrency(featureCost);
+
+        document.getElementById('formatted-time-display').textContent = `Timeline: ${formatTimeEstimate(grandTotalHours)} total effort`;
+        document.getElementById('total-quote-display').textContent = formatCurrency(grandTotalCost);
     }
 
     function printQuote() { window.print(); }
