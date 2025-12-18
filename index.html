@@ -24,7 +24,7 @@
                             50: '#f9fafb',
                         },
                         amber: {
-                            500: '#f59e0b', // Accent
+                            500: '#f59e0b',
                             600: '#d97706',
                             900: '#78350f',
                         }
@@ -37,193 +37,62 @@
         }
     </script>
     <style>
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        .dark ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-track { background: #f3f4f6; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
 
-        /* Custom scrollbar for webkit (Theme Aware) */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        .dark ::-webkit-scrollbar-track {
-            background: #1f2937; /* Gray-800 */
-        }
-        ::-webkit-scrollbar-track {
-            background: #f3f4f6; /* Gray-100 */
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #d97706; /* Amber-700 */
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #f59e0b; /* Amber-500 */
-        }
+        .quote-checkbox { accent-color: #d97706; cursor: pointer; }
 
-        /* Custom Checkbox Styling to match theme */
-        .quote-checkbox {
-            accent-color: #f59e0b;
-            cursor: pointer;
+        .platform-card.selected {
+            border-color: #d97706 !important;
+            background-color: rgba(217, 119, 6, 0.15);
         }
+        .platform-card.selected svg { color: #d97706 !important; }
 
-        /* === PRINT STYLES START === */
         @media print {
-            body {
-                background-color: white !important;
-                color: black !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .max-w-4xl {
-                max-width: none !important;
-            }
-
-            /* Hide the main header and print button and theme toggle */
-            header, .print-button, #theme-toggle {
-                display: none !important;
-            }
-
-            /* Un-stick the summary bar and style it for print */
-            #quote-summary-wrapper {
-                position: relative !important;
-                top: 0 !important;
-                margin-bottom: 2rem !important;
-                box-shadow: none !important;
-                border-bottom: 4px solid #f59e0b; /* Gold accent separator */
-                border-radius: 0 !important;
-                background-color: transparent !important;
-            }
-
-            /* Change background colors for printing */
-            #quote-summary-wrapper .bg-white,
-            #quote-summary-wrapper .dark\:bg-gray-800 {
-                background-color: white !important;
-                border: 1px solid #ccc !important;
-                color: black !important;
-            }
-            
-            #quote-summary-wrapper .text-white,
-            #quote-summary-wrapper .dark\:text-white {
-                color: black !important;
-            }
-            
-            #quote-summary-wrapper .text-gray-400 {
-                color: #555 !important;
-            }
-
-            /* Style the main feature box for print */
-            .feature-container {
-                padding-top: 0 !important;
-                box-shadow: none !important;
-                border: none !important;
-                background-color: white !important;
-                color: black !important;
-            }
-            
-            .feature-container h2 {
-                color: black !important;
-            }
-
-            /* Hide the scrollbar area for printing */
-            .feature-list {
-                max-height: none !important;
-                overflow: visible !important;
-                padding-right: 0 !important;
-            }
-
-            /* Hide all descriptions and checkboxes */
-            .quote-checkbox, .feature-description {
-                display: none !important;
-            }
-
-            /* Disable grid layout for printing */
-            .grid {
-                display: block !important;
-            }
-
-            /* Style the feature list items for print */
-            .feature-item {
-                display: block;
-                padding: 10px 0 !important;
-                background-color: white !important;
-                border: none !important;
-                border-bottom: 1px dashed #ccc !important;
-                color: black !important;
-            }
-            
-            .feature-item .text-white,
-            .feature-item .dark\:text-white {
-                color: black !important;
-            }
-
-            .base-setup-item {
-                 background-color: #eee !important;
-                 border: 1px solid #ccc !important;
-                 margin-bottom: 1rem;
-                 color: black !important;
-            }
-
-            /* Only show print-selected items and hide non-selected ones (except Base Setup) */
-            .feature-item:not(.print-selected):not(.base-setup-item) {
-                display: none !important;
-            }
-
-            /* Adjust text alignment and ensure cost stands out */
-            .feature-item .flex-1 {
-                margin-left: 0 !important;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .feature-item .text-lg {
-                font-size: 1.125rem;
-                color: black !important;
-            }
-            .feature-cost-print-only {
-                color: #f59e0b !important; /* Gold accent color */
-                font-weight: 700 !important;
-                display: block !important;
-                flex-shrink: 0;
-            }
-
-            /* Add a print-only title for the feature list */
-            .feature-container h2::after {
-                content: " (Detailed Breakdown)";
-                font-weight: normal;
-                color: #0f172a;
-            }
+            body { background-color: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
+            .max-w-4xl { max-width: none !important; }
+            header, .print-button, #theme-toggle, #platform-selection-area { display: none !important; }
+            #quote-summary-wrapper { position: relative !important; top: 0 !important; margin-bottom: 2rem !important; box-shadow: none !important; border-bottom: 4px solid #d97706; border-radius: 0 !important; background-color: transparent !important; }
+            #quote-summary-wrapper .bg-white, #quote-summary-wrapper .dark\:bg-gray-800 { background-color: white !important; border: 1px solid #ccc !important; color: black !important; }
+            #quote-summary-wrapper .text-white, #quote-summary-wrapper .dark\:text-white { color: black !important; }
+            .feature-container { padding-top: 0 !important; box-shadow: none !important; border: none !important; background-color: white !important; color: black !important; }
+            .feature-list { max-height: none !important; overflow: visible !important; padding-right: 0 !important; }
+            .quote-checkbox, .feature-description { display: none !important; }
+            .grid { display: block !important; }
+            .feature-item { display: block; padding: 10px 0 !important; background-color: white !important; border: none !important; border-bottom: 1px dashed #ccc !important; color: black !important; }
+            .feature-item .text-white, .feature-item .dark\:text-white { color: black !important; }
+            .base-setup-item { background-color: #eee !important; border: 1px solid #ccc !important; margin-bottom: 1rem; color: black !important; }
+            .feature-item:not(.print-selected):not(.base-setup-item) { display: none !important; }
+            .feature-item .flex-1 { margin-left: 0 !important; display: flex; justify-content: space-between; align-items: center; }
+            .feature-cost-print-only { color: #d97706 !important; font-weight: 700 !important; display: block !important; }
         }
-        /* === PRINT STYLES END === */
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased p-4 sm:p-8 selection:bg-amber-900/50 selection:text-amber-300 transition-colors duration-300">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased p-4 sm:p-8 transition-colors duration-300">
 
 <div class="max-w-4xl mx-auto">
     <!-- Header -->
     <header class="flex flex-col md:flex-row justify-between items-center mb-8 relative">
         <div class="text-center md:text-left">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                App Development <span class="text-amber-500">Cost Estimator</span>
+                App Development <span class="text-amber-600">Cost Estimator</span>
             </h1>
-            <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">
-                Calculate your minimum viable product (MVP) estimate in Rands.
-            </p>
+            <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">MVP estimate in ZAR.</p>
         </div>
 
-        <!-- Theme Toggle Button -->
         <button id="theme-toggle" onclick="toggleTheme()"
-                class="mt-4 md:mt-0 p-3 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow-sm"
-                aria-label="Toggle Dark Mode">
-            <!-- Sun Icon (Show in Dark Mode) -->
+                class="mt-4 md:mt-0 p-3 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow-sm">
             <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor"
-                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                 viewBox="0 0 20 20">
                 <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
                       fill-rule="evenodd" clip-rule="evenodd"></path>
             </svg>
-            <!-- Moon Icon (Show in Light Mode) -->
             <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor"
-                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                 viewBox="0 0 20 20">
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
             </svg>
         </button>
@@ -231,265 +100,202 @@
 
     <!-- PINNED QUOTE SUMMARY BAR -->
     <div id="quote-summary-wrapper"
-         class="sticky top-4 z-20 mb-8 rounded-2xl shadow-xl shadow-gray-400/20 dark:shadow-black/50">
-        <!-- Card for Summary -->
+         class="sticky top-4 z-20 mb-6 rounded-2xl shadow-xl shadow-gray-400/20 dark:shadow-black/50">
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white p-4 sm:p-6 rounded-2xl backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 transition-colors duration-300">
-            <h2 class="text-xl sm:text-2xl font-bold mb-4 hidden sm:block border-b border-gray-200 dark:border-gray-700 pb-2">
-                Estimated Minimum Quote</h2>
+            <div class="flex justify-between items-center mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <h2 class="text-xl sm:text-2xl font-bold">Estimated Minimum Quote</h2>
+                <button onclick="printQuote()"
+                        class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                    </svg>
+                    <span class="hidden sm:inline">Print Quote</span>
+                </button>
+            </div>
 
             <div class="flex justify-between flex-wrap gap-y-4">
-                <!-- Base Cost Section -->
                 <div class="flex-1 min-w-[45%] lg:min-w-0 pr-4 border-r border-gray-200 dark:border-gray-700">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
                         Base Setup</p>
-                    <span id="base-cost-display" class="text-xl font-bold text-amber-500">R0</span>
+                    <span id="base-cost-display" class="text-xl font-bold text-amber-600">R0</span>
                 </div>
-
-                <!-- Feature Cost Section -->
                 <div class="flex-1 min-w-[45%] lg:min-w-0 px-4 lg:border-r border-gray-200 dark:border-gray-700">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
                         Selected Features</p>
                     <span id="feature-cost-display"
-                          class="text-xl font-bold text-amber-500">R0</span>
+                          class="text-xl font-bold text-amber-600">R0</span>
                 </div>
-
-                <!-- Total Quote -->
                 <div class="flex-1 w-full lg:w-auto mt-2 pt-2 lg:mt-0 lg:pt-0 lg:pl-4">
                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold">
                         TOTAL ESTIMATE</p>
                     <span id="total-quote-display"
                           class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">R0</span>
-                    <p class="text-xs mt-1 text-gray-500">
-                        (Excluding VAT)
-                    </p>
+                    <p id="multiplier-label"
+                       class="text-[10px] text-amber-600 dark:text-amber-500 font-bold uppercase mt-1">
+                        Platform: Android</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Feature Selection Column (Full Width) -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 feature-container transition-colors duration-300">
-        <div class="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Select App Features</h2>
-
-            <!-- Print Button (Styled to match Download PDF button) -->
-            <button onclick="printQuote()"
-                    class="print-button flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+    <!-- PLATFORM SELECTION SECTION -->
+    <div id="platform-selection-area"
+         class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 mb-8 transition-colors duration-300">
+        <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">1. Select Target
+            Platform</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Android -->
+            <div onclick="setPlatform('android')" id="platform-android"
+                 class="platform-card selected flex flex-col items-center p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-amber-600 transition-all group">
+                <svg class="w-12 h-12 mb-2 text-gray-400 group-hover:text-amber-600 transition-colors"
+                     fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.523 15.3414C16.8921 15.3414 16.3761 15.8574 16.3761 16.4883C16.3761 17.1192 16.8921 17.6352 17.523 17.6352C18.1539 17.6352 18.6699 17.1192 18.6699 16.4883C18.6699 15.8574 18.1539 15.3414 17.523 15.3414ZM6.47702 15.3414C5.84612 15.3414 5.33013 15.8574 5.33013 16.4883C5.33013 17.1192 5.84612 17.6352 6.47702 17.6352C7.10792 17.6352 7.62391 17.1192 7.62391 16.4883C7.62391 15.8574 7.10792 15.3414 6.47702 15.3414ZM17.9152 11.0029L19.7903 7.75519C19.9271 7.5181 19.8459 7.21443 19.6088 7.07764C19.3718 6.94084 19.0681 7.02206 18.9313 7.25916L17.0315 10.5492C15.5457 9.87034 13.8566 9.48832 12 9.48832C10.1434 9.48832 8.45427 9.87034 6.96853 10.5492L5.06869 7.25916C4.93189 7.02206 4.62823 6.94084 4.39113 7.07764C4.15404 7.21443 4.07282 7.5181 4.20961 7.75519L6.08476 11.0029C3.1795 12.6366 1.22913 15.6515 1.22913 19.1437H22.7709C22.7709 15.6515 20.8205 12.6366 17.9152 11.0029Z"/>
                 </svg>
-                <span>Print Quote</span>
-            </button>
+                <span class="font-bold text-lg">Android</span>
+            </div>
+            <!-- iOS -->
+            <div onclick="setPlatform('ios')" id="platform-ios"
+                 class="platform-card flex flex-col items-center p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-amber-600 transition-all group">
+                <svg class="w-12 h-12 mb-2 text-gray-400 group-hover:text-amber-600 transition-colors"
+                     fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                <span class="font-bold text-lg">iOS</span>
+            </div>
+            <!-- Multiplatform -->
+            <div onclick="setPlatform('multiplatform')" id="platform-multiplatform"
+                 class="platform-card flex flex-col items-center p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-amber-600 transition-all group">
+                <div class="flex gap-2 mb-2">
+                    <svg class="w-12 h-12 text-gray-400 group-hover:text-amber-600 transition-colors"
+                         fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.523 15.3414C16.8921 15.3414 16.3761 15.8574 16.3761 16.4883C16.3761 17.1192 16.8921 17.6352 17.523 17.6352C18.1539 17.6352 18.6699 17.1192 18.6699 16.4883C18.6699 15.8574 18.1539 15.3414 17.523 15.3414ZM6.47702 15.3414C5.84612 15.3414 5.33013 15.8574 5.33013 16.4883C5.33013 17.1192 5.84612 17.6352 6.47702 17.6352C7.10792 17.6352 7.62391 17.1192 7.62391 16.4883C7.62391 15.8574 7.10792 15.3414 6.47702 15.3414ZM17.9152 11.0029L19.7903 7.75519C19.9271 7.5181 19.8459 7.21443 19.6088 7.07764C19.3718 6.94084 19.0681 7.02206 18.9313 7.25916L17.0315 10.5492C15.5457 9.87034 13.8566 9.48832 12 9.48832C10.1434 9.48832 8.45427 9.87034 6.96853 10.5492L5.06869 7.25916C4.93189 7.02206 4.62823 6.94084 4.39113 7.07764C4.15404 7.21443 4.07282 7.5181 4.20961 7.75519L6.08476 11.0029C3.1795 12.6366 1.22913 15.6515 1.22913 19.1437H22.7709C22.7709 15.6515 20.8205 12.6366 17.9152 11.0029Z"/>
+                    </svg>
+                    <svg class="w-12 h-12 text-gray-400 group-hover:text-amber-600 transition-colors"
+                         fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                </div>
+                <span class="font-bold text-lg">Multiplatform</span>
+            </div>
         </div>
+    </div>
 
-        <!-- REMOVED space-y-3 to allow grid layout -->
-        <div id="feature-list" class="feature-list max-h-[60vh] overflow-y-auto pr-2">
-            <!-- Features will be injected here by JavaScript -->
-        </div>
-
-        <p class="mt-6 text-sm text-gray-500 p-2 border-t border-gray-200 dark:border-gray-700">
-            *These prices are minimum estimates for basic implementation in the South African market
-            (ZAR). Actual costs vary based on design complexity, testing, and team seniority.
-        </p>
+    <!-- Feature Selection Column -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 feature-container transition-colors duration-300">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
+            2. Select App Features</h2>
+        <div id="feature-list" class="feature-list max-h-[60vh] overflow-y-auto pr-2"></div>
     </div>
 </div>
 
 <script>
-    // --- THEME LOGIC ---
-    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-    // Change the icons inside the button based on previous settings
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        themeToggleLightIcon.classList.remove('hidden');
-        document.documentElement.classList.add('dark');
-    } else {
-        themeToggleDarkIcon.classList.remove('hidden');
-        document.documentElement.classList.remove('dark');
-    }
-
-    function toggleTheme() {
-        // Toggle icons
-        themeToggleDarkIcon.classList.toggle('hidden');
-        themeToggleLightIcon.classList.toggle('hidden');
-
-        // If is set in localstorage
-        if (localStorage.getItem('color-theme')) {
-            if (localStorage.getItem('color-theme') === 'light') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            }
-        } else {
-            // if NOT set in localstorage
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            }
-        }
-    }
-
-
-    // --- DATA ---
-    // Define the app features and their minimum estimated cost in ZAR
-    const FEATURES = [
-        // Core Components (High Cost)
-        { id: 'auth', name: 'User Authentication (Login/Signup)', cost: 14000, description: 'Email/Password & Social login support, password recovery.' },
-        { id: 'backend', name: 'Custom Backend & Database', cost: 15500, description: 'Scalable cloud infrastructure setup and core data models.' },
-        { id: 'admin', name: 'Web-Based Admin Panel', cost: 15000, description: 'Dashboard to manage users, content, and system settings.' },
-
-        // Interaction & Communication (Medium Cost)
-        { id: 'notifications', name: 'Push Notifications', cost: 13300, description: 'Setup and integration for system alerts and marketing messages.' },
-        { id: 'payments', name: 'Payment Gateway Integration', cost: 16000, description: 'Integration with South African payment services (e.g., PayFast, Yoco).' },
-        { id: 'subscription', name: 'Subscription/In-App Purchase Management', cost: 14500, description: 'Handling recurring payments, trials, and premium content access.' },
-        { id: 'chat', name: 'In-App Chat/Messaging', cost: 17500, description: 'Real-time 1:1 user messaging functionality.' },
-
-        // Utility & Device Features
-        { id: 'gps', name: 'Geolocation / GPS Tracking', cost: 13700, description: 'User location services, map display, or real-time tracking.' },
-        { id: 'camera', name: 'Camera/Photo Library Access', cost: 12700, description: 'Allowing users to capture or upload images/video.' },
-        { id: 'offline', name: 'Offline Functionality & Caching', cost: 14500, description: 'Ability to use key features without internet connectivity.' },
-        { id: 'biometric', name: 'Biometric Login (Face ID/Fingerprint)', cost: 12500, description: 'Quick and secure access using device biometrics.' },
-        { id: 'multi_platform', name: 'Cross-Platform Development (iOS & Android)', cost: 14000, description: 'Using frameworks like Flutter/React Native for dual platform support.' },
-
-        // Advanced & Design (High Cost / Specific)
-        { id: 'ui_ux', name: 'Custom UI/UX Design (Wireframing & Mockups)', cost: 16500, description: 'Professional design phase for a unique, polished interface.' },
-        { id: 'analytics', name: 'Advanced Analytics & Reporting', cost: 13000, description: 'Integration of detailed user tracking and reporting tools.' },
-        { id: 'ai_ml', name: 'Basic AI/ML Model Integration', cost: 15500, description: 'Simple tasks like personalized recommendations or content tagging.' },
-        { id: 'hardware_integration', name: 'IoT/Bluetooth/Wearable Integration', cost: 17000, description: 'Integrating with external hardware or IoT devices (e.g., smart watches).' },
-    ];
-
-    // Fixed base cost for project initiation (includes initial setup, boilerplate, basic testing).
+    let platformMultiplier = 1;
     const BASE_COST = 20000;
 
-    // DOM elements
-    const featureListEl = document.getElementById('feature-list');
-    const baseCostDisplayEl = document.getElementById('base-cost-display');
-    const featureCostDisplayEl = document.getElementById('feature-cost-display');
-    const totalQuoteDisplayEl = document.getElementById('total-quote-display');
-    let selectedFeatureCost = 0;
-
-    // --- Utility Functions ---
-
-    /**
-     * Formats a number into a ZAR currency string (e.g., R 123,456).
-     * @param {number} amount
-     * @returns {string}
-     */
-    function formatCurrency(amount) {
-        // Using Intl.NumberFormat for clean, locale-aware formatting
-        return new Intl.NumberFormat('en-ZA', {
-            style: 'currency',
-            currency: 'ZAR',
-            minimumFractionDigits: 0,
-        }).format(amount).replace(/ZAR/, 'R'); // Replace ZAR with R
+    function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', !isDark);
+        document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', isDark);
+        localStorage.setItem('color-theme', isDark ? 'dark' : 'light');
     }
 
-    /**
-     * Renders the initial feature list with checkboxes, including the Base Setup item.
-     */
-    function renderFeatures() {
-        // Set the base cost display immediately
-        baseCostDisplayEl.textContent = formatCurrency(BASE_COST);
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-toggle-light-icon').classList.remove('hidden');
+    } else {
+        document.getElementById('theme-toggle-dark-icon').classList.remove('hidden');
+    }
 
-        // Create the Base Setup item (Styled as a locked card)
+    const FEATURES = [
+        { id: 'auth', name: 'User Authentication', cost: 14000, description: 'Email & Social login support.' },
+        { id: 'backend', name: 'Custom Backend', cost: 15500, description: 'Scalable cloud infrastructure.' },
+        { id: 'admin', name: 'Web Admin Panel', cost: 15000, description: 'User & content management.' },
+        { id: 'notifications', name: 'Push Notifications', cost: 13300, description: 'In-app alerts & marketing.' },
+        { id: 'payments', name: 'Payment Integration', cost: 16000, description: 'PayFast, Yoco or Stripe.' },
+        { id: 'subscription', name: 'Subscriptions', cost: 14500, description: 'Recurring payment handling.' },
+        { id: 'chat', name: 'Real-time Chat', cost: 17500, description: 'Direct messaging features.' },
+        { id: 'gps', name: 'GPS & Mapping', cost: 13700, description: 'Location services & tracking.' },
+        { id: 'camera', name: 'Camera Access', cost: 12700, description: 'Image & video upload tools.' },
+        { id: 'offline', name: 'Offline Sync', cost: 14500, description: 'Local data caching.' },
+        { id: 'biometric', name: 'Biometric Login', cost: 12500, description: 'Face ID / Fingerprint security.' },
+        { id: 'ui_ux', name: 'Custom UI/UX Design', cost: 16500, description: 'Unique layout & design phase.' },
+        { id: 'analytics', name: 'Advanced Analytics', cost: 13000, description: 'User behavior tracking.' },
+        { id: 'ai_ml', name: 'AI Integration', cost: 15500, description: 'Smart recommendations.' },
+        { id: 'hardware', name: 'IoT/Hardware', cost: 17000, description: 'Bluetooth/Wearable connectivity.' },
+    ];
+
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', minimumFractionDigits: 0 }).format(amount).replace(/ZAR/, 'R');
+    }
+
+    function setPlatform(platform) {
+        document.querySelectorAll('.platform-card').forEach(card => card.classList.remove('selected'));
+        const el = document.getElementById(`platform-${platform}`);
+        if (el) el.classList.add('selected');
+
+        if(platform === 'android') platformMultiplier = 1;
+        else if(platform === 'ios') platformMultiplier = 2;
+        else platformMultiplier = 3;
+
+        const displayName = platform === 'multiplatform' ? 'Multiplatform' : (platform.charAt(0).toUpperCase() + platform.slice(1));
+        document.getElementById('multiplier-label').textContent = `Platform: ${displayName}`;
+
+        // Immediate update of quote logic
+        updateQuote();
+    }
+
+    function renderFeatures() {
         const baseSetupItem = `
-            <div class="flex items-start p-4 bg-gray-100 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600 feature-item print-selected base-setup-item transition-colors duration-300 w-full mb-4">
-                <div class="flex-1 ml-0">
-                    <span class="text-gray-900 dark:text-white font-bold text-lg block">Base Setup (Design, Infra & QA)</span>
-                    <span class="block text-amber-500 font-extrabold text-sm sm:text-base mt-0.5 feature-cost-print-only">
-                        ${formatCurrency(BASE_COST)} (Fixed)
-                    </span>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1 feature-description">This covers project initiation, boilerplate setup, basic UI structure, and initial quality assurance.</p>
-                </div>
-                <!-- Lock Icon -->
-                <div class="text-gray-500 ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                         <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                    </svg>
+            <div class="flex items-start p-4 bg-gray-100 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600 feature-item print-selected base-setup-item w-full mb-4">
+                <div class="flex-1">
+                    <span class="text-gray-900 dark:text-white font-bold text-lg block">Base Setup</span>
+                    <span class="block text-amber-600 font-extrabold text-sm mt-0.5 feature-cost-print-only">Included</span>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Foundational infra & CI/CD.</p>
                 </div>
             </div>
-            <!-- Separator -->
-            <div class="border-t border-gray-200 dark:border-gray-700 mb-6 transition-colors duration-300"></div>
+            <div class="border-t border-gray-200 dark:border-gray-700 mb-6"></div>
         `;
 
-
-        const featureHtml = FEATURES.map(feature => `
-            <label for="${feature.id}" class="flex items-start p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl cursor-pointer transition-all duration-200 ease-in-out border border-transparent hover:border-amber-500 feature-item group h-full">
-                <input type="checkbox" id="${feature.id}" data-cost="${feature.cost}" class="mt-1 h-5 w-5 text-amber-500 bg-gray-200 dark:bg-gray-600 border-gray-400 dark:border-gray-500 rounded focus:ring-amber-500 quote-checkbox flex-shrink-0">
+        const featureHtml = FEATURES.map(f => `
+            <label for="${f.id}" class="flex items-start p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl cursor-pointer transition-all border border-transparent hover:border-amber-600 feature-item group">
+                <input type="checkbox" id="${f.id}" data-cost="${f.cost}" class="mt-1 h-5 w-5 text-amber-600 bg-gray-200 dark:bg-gray-600 border-gray-400 dark:border-gray-500 rounded quote-checkbox flex-shrink-0">
                 <div class="ml-4 flex-1">
-                    <span class="text-gray-900 dark:text-white font-semibold text-lg group-hover:text-amber-500 transition-colors">${feature.name}</span>
-                    <!-- Hidden on screen, shown in print only to display cost on the same line -->
-                    <span class="block text-amber-500 font-bold text-sm sm:text-base mt-0.5 feature-cost-print-only">
-                        ${formatCurrency(feature.cost)} (Minimum)
-                    </span>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-1 feature-description">${feature.description}</p>
+                    <span class="text-gray-900 dark:text-white font-semibold text-lg group-hover:text-amber-600">${f.name}</span>
+                    <span class="block text-amber-600 font-bold text-sm mt-0.5 feature-cost-print-only">R ${f.cost.toLocaleString()}</span>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-1 feature-description">${f.description}</p>
                 </div>
             </label>
         `).join('');
 
-        // Prepend the Base Setup item to the feature list
-        // Wrap features in a grid
-        featureListEl.innerHTML = baseSetupItem + `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${featureHtml}</div>`;
-
-        // Attach event listeners to all new checkboxes
-        document.querySelectorAll('.quote-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', updateQuote);
-        });
-
-        // Initial calculation call
+        document.getElementById('feature-list').innerHTML = baseSetupItem + `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${featureHtml}</div>`;
+        document.querySelectorAll('.quote-checkbox').forEach(cb => cb.addEventListener('change', updateQuote));
         updateQuote();
     }
 
-    /**
-     * Recalculates the total quote based on selected features.
-     */
     function updateQuote() {
-        selectedFeatureCost = 0;
-        const checkboxes = document.querySelectorAll('.quote-checkbox');
-
-        checkboxes.forEach(checkbox => {
-            const featureItem = checkbox.closest('.feature-item');
-            if (checkbox.checked) {
-                // Ensure cost is treated as a number
-                selectedFeatureCost += parseInt(checkbox.dataset.cost, 10);
-                // Add a print-only class to checked items to ensure they show up nicely
-                featureItem.classList.add('print-selected');
-                
-                // Add visual selection style (e.g., border)
-                featureItem.classList.add('border-amber-500', 'bg-gray-100', 'dark:bg-gray-700');
-                featureItem.classList.remove('border-transparent', 'bg-gray-50', 'dark:bg-gray-700/50');
+        let featureCostTotalRaw = 0;
+        document.querySelectorAll('.quote-checkbox').forEach(cb => {
+            const item = cb.closest('.feature-item');
+            if (cb.checked) {
+                featureCostTotalRaw += parseInt(cb.dataset.cost);
+                item.classList.add('print-selected', 'border-amber-600', 'bg-gray-100', 'dark:bg-gray-700');
             } else {
-                featureItem.classList.remove('print-selected');
-                
-                // Remove visual selection style
-                featureItem.classList.remove('border-amber-500', 'bg-gray-100', 'dark:bg-gray-700');
-                featureItem.classList.add('border-transparent', 'bg-gray-50', 'dark:bg-gray-700/50');
+                item.classList.remove('print-selected', 'border-amber-600', 'bg-gray-100', 'dark:bg-gray-700');
             }
         });
 
-        const totalCost = BASE_COST + selectedFeatureCost;
+        const totalBase = BASE_COST * platformMultiplier;
+        const totalFeatures = featureCostTotalRaw * platformMultiplier;
 
-        // Update display elements
-        featureCostDisplayEl.textContent = formatCurrency(selectedFeatureCost);
-        totalQuoteDisplayEl.textContent = formatCurrency(totalCost);
+        // Update DOM displays
+        document.getElementById('base-cost-display').textContent = formatCurrency(totalBase);
+        document.getElementById('feature-cost-display').textContent = formatCurrency(totalFeatures);
+        document.getElementById('total-quote-display').textContent = formatCurrency(totalBase + totalFeatures);
     }
 
-    /**
-     * Triggers the browser's print dialog.
-     */
-    function printQuote() {
-        window.print();
-    }
-
-
-    // --- Initialization ---
+    function printQuote() { window.print(); }
     document.addEventListener('DOMContentLoaded', renderFeatures);
 </script>
 </body>
