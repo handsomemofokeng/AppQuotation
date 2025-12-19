@@ -99,8 +99,9 @@
         <div id="quote-summary-wrapper">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold dark:text-white">Summary</h2>
-                <button onclick="printQuote()"
-                        class="print-button p-2 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors">
+                <button onclick="window.print()"
+                        class="print-button p-2 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
+                        title="Download Quote">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -253,7 +254,7 @@
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-8">
                     <div class="text-center sm:text-left">
                         <h4 class="text-xl font-black">Finalize Quote</h4>
-                        <p class="text-sm text-gray-500">Submit to receive a detailed breakdown via
+                        <p class="text-sm text-gray-500">Submit to receive a formal breakdown via
                             email.</p>
                     </div>
                     <button id="submit-btn" onclick="submitProject()"
@@ -280,11 +281,11 @@
             </svg>
         </div>
         <h3 class="text-2xl font-black mb-2 dark:text-white">Estimate Ready!</h3>
-        <p class="text-gray-500 dark:text-gray-400 mb-8">An email draft has been prepared. We
-            recommend saving this quote as a PDF.</p>
-        <button onclick="closeModalAndPrint()"
+        <p class="text-gray-500 dark:text-gray-400 mb-8">A formal email draft has been prepared. We
+            also recommend saving this quote as a PDF for your records.</p>
+        <button onclick="closeModalAndDownload()"
                 class="w-full py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl mb-3">
-            Save Quote as PDF
+            Download PDF Quote
         </button>
         <button onclick="document.getElementById('success-modal').classList.add('hidden')"
                 class="w-full py-3 text-gray-500 font-bold">Close
@@ -355,8 +356,8 @@
         btn.disabled = true; loader.classList.remove('hidden');
 
         const systemPrompt = `Analyze the user's app description.
-        Select necessary feature IDs: ${FEATURES.map(f => f.id).join(', ')}.
-        Return JSON: { "selectedIds": ["id1", "id2"], "analysis": "Professional 2-sentence summary of chosen features." }`;
+        Select necessary feature IDs from: ${FEATURES.map(f => f.id).join(', ')}.
+        Return JSON: { "selectedIds": ["id1", "id2"], "analysis": "Professional 2-sentence summary of features vs vision." }`;
 
         try {
             const result = await callGemini(details, systemPrompt);
@@ -370,7 +371,7 @@
             document.getElementById('feature-selection-area').scrollIntoView({ behavior: 'smooth' });
         } catch (error) {
             console.error(error);
-            alert("The AI is currently unavailable. Please select features manually.");
+            alert("The AI Architect is unavailable. Please select features manually.");
         } finally {
             btn.disabled = false; loader.classList.add('hidden');
         }
@@ -380,14 +381,8 @@
         const isDark = document.documentElement.classList.toggle('dark');
         const sun = document.getElementById('theme-toggle-light-icon');
         const moon = document.getElementById('theme-toggle-dark-icon');
-
-        if (isDark) {
-            sun.classList.remove('hidden');
-            moon.classList.add('hidden');
-        } else {
-            sun.classList.add('hidden');
-            moon.classList.remove('hidden');
-        }
+        if (isDark) { sun.classList.remove('hidden'); moon.classList.add('hidden'); }
+        else { sun.classList.add('hidden'); moon.classList.remove('hidden'); }
     }
 
     function setPlatform(platform) {
@@ -472,63 +467,92 @@
         document.getElementById('formatted-time-display').textContent = formatTime(grandH);
     }
 
-    /**
-     * Converts hours to a Months, Weeks, Days string.
-     * Assumptions: 1 Day = 8h, 1 Week = 40h (5 days), 1 Month = 160h (4 weeks)
-     */
     function formatTime(totalHours) {
         if (!totalHours) return "0d";
+        const hInDay = 8;
+        const hInWeek = 40;
+        const hInMonth = 160;
+        let rem = totalHours;
+        const m = Math.floor(rem / hInMonth); rem %= hInMonth;
+        const w = Math.floor(rem / hInWeek); rem %= hInWeek;
+        const d = Math.ceil(rem / hInDay);
+        let p = [];
+        if (m > 0) p.push(`${m}m`);
+        if (w > 0) p.push(`${w}w`);
+        if (d > 0 || p.length === 0) p.push(`${d}d`);
+        return p.join(' ');
+    }
 
-        const hoursInDay = 8;
-        const hoursInWeek = 40;
-        const hoursInMonth = 160;
-
-        let remaining = totalHours;
-
-        const months = Math.floor(remaining / hoursInMonth);
-        remaining %= hoursInMonth;
-
-        const weeks = Math.floor(remaining / hoursInWeek);
-        remaining %= hoursInWeek;
-
-        const days = Math.floor(remaining / hoursInDay);
-        // Any leftover hours smaller than a day are ignored or rounded for high-level timeline
-
-        let parts = [];
-        if (months > 0) parts.push(`${months}m`);
-        if (weeks > 0) parts.push(`${weeks}w`);
-        if (days > 0 || (months === 0 && weeks === 0)) parts.push(`${days}d`);
-
-        return parts.join(' ');
+    function syncNotesToPrint(val) {
+        document.getElementById('print-notes-content').textContent = val || "No project vision described.";
     }
 
     function submitProject() {
         const total = document.getElementById('total-quote-display').textContent;
-        const features = Array.from(document.querySelectorAll('.quote-checkbox:checked')).map(cb => "• " + cb.dataset.name).join('%0D%0A');
-        const vision = document.getElementById('app-details').value;
-        const body = `App Estimate: ${total}%0D%0APlatform: ${selectedPlatformLabel}%0D%0A%0D%0AVision: ${vision}%0D%0A%0D%0AFeatures:%0D%0A${features}`;
-        window.location.href = `mailto:softwaredev230@gmail.com?subject=Project Estimate: ${total}&body=${body}`;
-        setTimeout(() => document.getElementById('success-modal').classList.remove('hidden'), 500);
+        const platform = selectedPlatformLabel;
+        const hours = document.getElementById('total-hours-display').textContent;
+        const timeline = document.getElementById('formatted-time-display').textContent;
+        const vision = document.getElementById('app-details').value || "Not provided";
+        const baseCost = document.getElementById('base-cost-display').textContent;
+        const featCost = document.getElementById('feature-cost-display').textContent;
+
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        let featureLines = "";
+        document.querySelectorAll('.quote-checkbox:checked').forEach(cb => {
+            featureLines += `• ${cb.dataset.name}\n`;
+        });
+        if (!featureLines) featureLines = "• Core Architecture Only";
+
+        const subject = encodeURIComponent(`Project Quotation Request - ${platform}`);
+        const bodyText = `Dear Software Development Team,
+
+I would like to formally submit a request for a project quotation based on the following scope generated via the App Cost Estimator.
+
+PROJECT SUMMARY
+--------------------------------------------------
+Date Generated: ${formattedDate}
+Target Platform: ${platform}
+Estimated Total: ${total}
+Estimated Effort: ${hours}
+Estimated Timeline: ${timeline}
+
+COST BREAKDOWN
+--------------------------------------------------
+Core Architecture: ${baseCost}
+Feature Development: ${featCost}
+
+PROJECT VISION & OBJECTIVES
+--------------------------------------------------
+${vision}
+
+SELECTED FEATURE SCOPE
+--------------------------------------------------
+${featureLines}
+NEXT STEPS
+--------------------------------------------------
+Please review the above requirements and let me know if you require any further clarification to finalize this proposal. I look forward to your feedback regarding the feasibility and official timeline.
+
+Kind regards,
+[Your Name]
+[Your Contact Number]
+
+--------------------------------------------------
+Generated via App Cost Estimator Tool`;
+
+        const mailto = `mailto:softwaredev230@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+
+        window.location.href = mailto;
+        document.getElementById('success-modal').classList.remove('hidden');
     }
 
-    function syncNotesToPrint(v) { document.getElementById('print-notes-content').textContent = v || "No vision notes."; }
-    function printQuote() { window.print(); }
-    function closeModalAndPrint() { document.getElementById('success-modal').classList.add('hidden'); window.print(); }
+    function closeModalAndDownload() {
+        document.getElementById('success-modal').classList.add('hidden');
+        window.print();
+    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const isDark = document.documentElement.classList.contains('dark');
-        const sun = document.getElementById('theme-toggle-light-icon');
-        const moon = document.getElementById('theme-toggle-dark-icon');
-
-        if (isDark) {
-            sun.classList.remove('hidden');
-            moon.classList.add('hidden');
-        } else {
-            sun.classList.add('hidden');
-            moon.classList.remove('hidden');
-        }
-        renderFeatures();
-    });
+    window.onload = renderFeatures;
 </script>
 </body>
 </html>
