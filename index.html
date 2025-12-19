@@ -214,9 +214,12 @@
                 <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
                     <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                     <div class="relative z-10">
+                        <label for="app-details"></label>
                         <textarea id="app-details" oninput="syncNotesToPrint(this.value)" rows="4"
                                   class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6"
-                                  placeholder="Describe your app goals (e.g., 'An Uber-like app for booking gym trainers with QR check-ins')."></textarea>
+                                  placeholder="Describe your app goals (e.g., 'An Uber-like app for booking gym trainers with QR check-ins').">
+
+                        </textarea>
 
                         <button id="ai-help-btn" onclick="generateAiInsight()"
                                 class="w-full px-8 py-5 bg-amber-600 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-amber-700 active:scale-[0.98] shadow-lg shadow-amber-600/20">
@@ -294,7 +297,7 @@
 </div>
 
 <script>
-    const apiKey = "";
+    const apiKey = "AIzaSyDN7R9nVBq1AoC2Hg7_FhVtdd5M-GWAJUU";
     const HOURLY_RATE = 500;
     const BASE_HOURS = 40;
     let platformMultiplier = 1;
