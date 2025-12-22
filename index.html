@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Cost Estimator</title>
+    <!-- App Icon (Calculator SVG) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23d97706%22><path d=%22M19 2H5a2 2 0 00-2 2v16a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2zM7 18v-2h2v2H7zm0-4v-2h2v2H7zm0-4V8h2v2H7zm4 8v-2h2v2h-2zm0-4v-2h2v2h-2zm0-4V8h2v2h-2zm4 8v-2h2v2h-2zm0-4v-2h2v2h-2zm0-4V8h2v2h-2zm2-4H5V4h14v2z%22/></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -44,7 +46,33 @@
         }
         .dark .card-active { background-color: rgba(217, 119, 6, 0.1); }
 
-        .controls-top { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 50; display: flex; gap: 0.75rem; }
+        .feature-icon {
+            position: absolute;
+            top: 0.9rem;
+            right: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            transition: all 0.5s ease;
+            background: rgba(156, 163, 175, 0.1);
+        }
+        .feature-icon svg {
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+            transition: all 0.5s ease;
+        }
+
+        .card-active .feature-icon {
+            background: rgba(217, 119, 6, 0.15);
+            transform: scale(1.1);
+        }
+        .card-active .feature-icon svg {
+            color: #d97706;
+        }
 
         @keyframes shimmer {
             0% { background-position: -200% 0; }
@@ -56,235 +84,221 @@
             animation: shimmer 2s infinite;
         }
 
-        @media print {
-            @page { margin: 1cm; size: A4; }
-            body { background-color: white !important; color: black !important; padding: 0 !important; margin: 0 !important; overflow: visible !important;}
-            header, .print-button, .controls-top, #platform-selection-area, #describe-vision-area, .sidebar-header, .checkmark-wrapper, .ai-ignore, #submit-section { display: none !important; }
-            aside { position: static !important; width: 100% !important; border: none !important; box-shadow: none !important; padding: 0 0 2rem 0 !important; background: white !important; }
-            main { margin-left: 0 !important; padding: 0 !important; }
-            #quote-summary-wrapper { border-bottom: 2px solid #e5e7eb; padding-bottom: 2rem !important; margin-bottom: 2rem !important; }
-            #feature-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 1rem !important; }
-            .feature-item:not(.print-selected) { display: none !important; }
-            .feature-item { break-inside: avoid; border: 1px solid #d97706 !important; background: #fff9f2 !important; padding: 1rem !important; }
-            #print-notes-section { display: block !important; margin-top: 2rem; border-top: 1px solid #e5e7eb; padding-top: 1.5rem; }
+        /* Pinned Bottom Summary Styles */
+        .bottom-summary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
         }
-        #print-notes-section { display: none; }
+        .dark .bottom-summary {
+            background: rgba(17, 24, 39, 0.8);
+            border-top: 1px solid #374151;
+        }
+
+        @media print {
+            .bottom-summary, #theme-toggle, #describe-vision-area, #platform-selection-area, #ai-help-btn, #char-counter, .checkmark-wrapper { display: none !important; }
+            body { background: white !important; }
+            main { padding: 0 !important; }
+            #feature-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+            .feature-item:not(.print-selected) { display: none !important; }
+            .feature-item { break-inside: avoid; border: 1px solid #d97706 !important; }
+        }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300 pb-32">
 
-<div class="controls-top">
-    <button id="theme-toggle" onclick="toggleTheme()"
-            class="p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 shadow-lg hover:scale-105 transition-all">
-        <svg id="theme-toggle-light-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                  fill-rule="evenodd" clip-rule="evenodd"></path>
-        </svg>
-        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor"
-             viewBox="0 0 20 20">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-        </svg>
-    </button>
-</div>
-
-<div class="flex flex-col lg:flex-row min-h-screen">
-    <!-- LEFT SIDEBAR -->
-    <aside class="w-full lg:w-[380px] xl:w-[420px] lg:fixed lg:left-0 lg:top-0 lg:bottom-0 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 z-30 p-6 lg:p-8 overflow-y-auto">
-        <header class="flex justify-between items-start mb-10 sidebar-header">
+<!-- Top Header Controls -->
+<nav class="sticky top-0 z-40 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-6 py-5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-5">
+            <!-- Larger Calculator Icon -->
+            <div class="p-3 bg-amber-600 rounded-2xl shadow-xl shadow-amber-600/30 transform hover:rotate-3 transition-transform">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="2" width="14" height="20" rx="2" stroke-width="2.5" />
+                    <line x1="8" y1="6" x2="16" y2="6" stroke-width="2.5" />
+                    <circle cx="8" cy="11" r="1.2" fill="currentColor" />
+                    <circle cx="12" cy="11" r="1.2" fill="currentColor" />
+                    <circle cx="16" cy="11" r="1.2" fill="currentColor" />
+                    <circle cx="8" cy="15" r="1.2" fill="currentColor" />
+                    <circle cx="12" cy="15" r="1.2" fill="currentColor" />
+                    <circle cx="16" cy="15" r="1.2" fill="currentColor" />
+                    <circle cx="8" cy="19" r="1.2" fill="currentColor" />
+                    <circle cx="12" cy="19" r="1.2" fill="currentColor" />
+                    <circle cx="16" cy="19" r="1.2" fill="currentColor" />
+                </svg>
+            </div>
             <div>
-                <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">App
-                    <span class="text-amber-600">Estimator</span></h1>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">R500/hr • Live
-                    Calculation</p>
-            </div>
-        </header>
-
-        <div id="quote-summary-wrapper">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold dark:text-white">Summary</h2>
-                <button onclick="window.print()"
-                        class="print-button p-2 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="space-y-6">
-                <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-black mb-1">
-                        Total Quote</p>
-                    <div id="total-quote-display"
-                         class="text-4xl font-black text-gray-900 dark:text-white transition-all">R0
-                    </div>
-                    <p id="multiplier-label" class="text-xs text-amber-600 font-bold mt-1">Platform:
-                        Android</p>
-                </div>
-
-                <!-- Summary Sidebar Multiplier/Insight labels only -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-white dark:bg-gray-800 p-3 rounded-2xl border border-gray-100 dark:border-gray-700">
-                        <p class="text-[8px] uppercase font-bold text-gray-400 mb-0.5">Effort</p>
-                        <p id="total-hours-display" class="text-sm font-bold">0 hrs</p>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 p-3 rounded-2xl border border-gray-100 dark:border-gray-700">
-                        <p class="text-[8px] uppercase font-bold text-gray-400 mb-0.5">Est.
-                            Timeline</p>
-                        <p id="formatted-time-display" class="text-sm font-bold text-amber-600">
-                            0d</p>
-                    </div>
-                </div>
-
-                <div class="space-y-3 pt-6 border-t border-gray-100 dark:border-gray-700 text-xs">
-                    <div class="flex justify-between items-center"><span class="text-gray-500">Core Architecture</span><span
-                            id="base-cost-display" class="font-bold">R0</span></div>
-                    <div class="flex justify-between items-center"><span class="text-gray-500">Selected Features</span><span
-                            id="feature-cost-display" class="font-bold">R0</span></div>
-                </div>
-            </div>
-
-            <div id="print-notes-section">
-                <h3 class="text-sm font-black uppercase text-amber-600 mb-2">Project Vision</h3>
-                <div id="print-notes-content"
-                     class="bg-gray-50 p-3 rounded-lg border border-gray-200 italic text-xs"></div>
+                <h1 class="text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none">
+                    App Cost <span class="text-amber-600">Estimator</span>
+                </h1>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-2">
+                    Professional Software Quoting Tool</p>
             </div>
         </div>
-    </aside>
+        <button id="theme-toggle" onclick="toggleTheme()"
+                class="p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 shadow-sm hover:scale-105 transition-all">
+            <svg id="theme-toggle-light-icon" class="w-6 h-6" fill="currentColor"
+                 viewBox="0 0 20 20">
+                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                      fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor"
+                 viewBox="0 0 20 20">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+        </button>
+    </div>
+</nav>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 lg:ml-[380px] xl:ml-[420px] p-6 lg:p-12">
-        <div class="max-w-7xl mx-auto">
+<main class="p-6 lg:p-12">
+    <div class="max-w-7xl mx-auto">
 
-            <!-- Step 1: Describe Vision -->
-            <section id="describe-vision-area" class="mb-16">
-                <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
-                    <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">1</span>
-                    Describe Your Vision
-                </h2>
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
-                    <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                    <div class="relative z-10">
-                        <div class="relative">
-                            <textarea id="app-details" maxlength="300"
-                                      oninput="updateVisionInput(this)" rows="4"
-                                      class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6 pr-12"
-                                      placeholder="Describe your app goals (e.g., 'An Uber-like app for booking gym trainers with QR check-ins')."></textarea>
-                            <div id="char-counter"
-                                 class="absolute bottom-10 right-4 text-[10px] font-black text-gray-400">
-                                0 / 300
-                            </div>
+        <!-- Step 1: Describe Vision -->
+        <section id="describe-vision-area" class="mb-16">
+            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
+                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">1</span>
+                Describe Your Vision
+            </h2>
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
+                <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                <div class="relative z-10">
+                    <div class="relative">
+                        <textarea id="app-details" maxlength="300"
+                                  oninput="updateVisionInput(this)" rows="3"
+                                  class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6 pr-12"
+                                  placeholder="What are you building? (e.g., 'An app for ordering home-cooked meals with subscription plans')."></textarea>
+                        <div id="char-counter"
+                             class="absolute bottom-10 right-4 text-[10px] font-black text-gray-400">
+                            0 / 300
                         </div>
+                    </div>
 
-                        <button id="ai-help-btn" onclick="generateAiInsight()"
-                                class="w-full px-8 py-5 bg-amber-600 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-amber-700 active:scale-[0.98] shadow-lg shadow-amber-600/20">
-                            <span class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24"><path stroke-linecap="round"
-                                                               stroke-linejoin="round"
-                                                               stroke-width="2.5"
-                                                               d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                ✨ AI Feature Recommender
-                            </span>
-                            <div id="ai-loading"
-                                 class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        </button>
+                    <button id="ai-help-btn" onclick="generateAiInsight()"
+                            class="w-full px-8 py-4 bg-amber-600 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-amber-700 active:scale-[0.98] shadow-lg shadow-amber-600/20">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            ✨ AI Feature Recommender
+                        </span>
+                        <div id="ai-loading"
+                             class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                    </button>
 
-                        <!-- NEW: AI Analysis Result positioned directly under the button -->
-                        <div id="ai-insight-panel"
-                             class="hidden mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
-                            <div class="p-5 rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/50 shadow-inner">
-                                <div class="flex items-center gap-2 mb-3 text-amber-600">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-                                    </svg>
-                                    <span class="text-xs font-black uppercase tracking-widest">AI Architect Analysis</span>
-                                </div>
-                                <p id="ai-insight-text"
-                                   class="text-sm leading-relaxed text-gray-700 dark:text-gray-300 italic"></p>
-                                <div class="mt-4 pt-3 border-t border-amber-200/50 dark:border-amber-900/30">
-                                    <p class="text-[10px] text-amber-700/70 dark:text-amber-500/70 font-bold uppercase tracking-widest">
-                                        Success: Features automatically matched in Step 3</p>
-                                </div>
-                            </div>
+                    <div id="ai-insight-panel"
+                         class="hidden mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                        <div class="p-5 rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/50">
+                            <p id="ai-insight-text"
+                               class="text-sm leading-relaxed text-gray-700 dark:text-gray-300 italic"></p>
                         </div>
-
-                        <p class="text-[10px] text-gray-400 text-center mt-4 uppercase font-black tracking-widest">
-                            AI analysis pre-selects features in Step 3</p>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Step 2: Platform Selection -->
-            <section id="platform-selection-area" class="mb-16">
-                <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
-                    <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">2</span>
-                    Select Target Platform
-                </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div onclick="setPlatform('android')" id="platform-android"
-                         class="platform-card card-active flex flex-col items-center justify-center p-8 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all text-center">
-                        <svg class="w-10 h-10 mb-3 text-gray-400" viewBox="0 0 24 24"
-                             fill="currentColor">
+        <!-- Step 2: Platform Selection -->
+        <section id="platform-selection-area" class="mb-16">
+            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
+                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">2</span>
+                Select Target Platform
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div onclick="setPlatform('android')" id="platform-android"
+                     class="platform-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
+                    <svg class="w-8 h-8 mb-3 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/>
+                    </svg>
+                    <span class="font-black uppercase tracking-widest text-[10px]">Android</span>
+                </div>
+                <div onclick="setPlatform('ios')" id="platform-ios"
+                     class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
+                    <svg class="w-8 h-8 mb-3 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    <span class="font-black uppercase tracking-widest text-[10px]">iOS Native</span>
+                </div>
+                <div onclick="setPlatform('multiplatform')" id="platform-multiplatform"
+                     class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
+                    <div class="flex gap-1 mb-3 text-gray-400">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/>
                         </svg>
-                        <span class="font-black uppercase tracking-widest text-[10px]">Android</span>
-                    </div>
-                    <div onclick="setPlatform('ios')" id="platform-ios"
-                         class="platform-card flex flex-col items-center justify-center p-8 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all text-center">
-                        <svg class="w-10 h-10 mb-3 text-gray-400" fill="currentColor"
-                             viewBox="0 0 24 24">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                         </svg>
-                        <span class="font-black uppercase tracking-widest text-[10px]">iOS Native</span>
                     </div>
-                    <div onclick="setPlatform('multiplatform')" id="platform-multiplatform"
-                         class="platform-card flex flex-col items-center justify-center p-8 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all text-center">
-                        <div class="flex gap-1 mb-3 text-gray-400">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/>
-                            </svg>
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                            </svg>
-                        </div>
-                        <span class="font-black uppercase tracking-widest text-[10px]">Cross-Platform</span>
-                    </div>
+                    <span class="font-black uppercase tracking-widest text-[10px]">Cross-Platform</span>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Step 3: Review & Confirm -->
-            <section id="feature-selection-area" class="mb-16">
-                <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
-                    <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">3</span>
-                    Review & Select Features
-                </h2>
-                <div id="base-setup-container" class="mb-8"></div>
-                <div id="feature-grid"
-                     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
-            </section>
+        <!-- Step 3: Feature Grid -->
+        <section id="feature-selection-area" class="mb-32">
+            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
+                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">3</span>
+                Select Project Features
+            </h2>
+            <div id="base-setup-container" class="mb-6"></div>
+            <div id="feature-grid"
+                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+        </section>
+    </div>
+</main>
 
-            <section id="submit-section"
-                     class="mb-20 pt-10 border-t border-gray-100 dark:border-gray-700">
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-8">
-                    <div class="text-center sm:text-left">
-                        <h4 class="text-xl font-black">Finalize Quote</h4>
-                        <p class="text-sm text-gray-500">Submit to receive a formal breakdown via
-                            email.</p>
-                    </div>
-                    <button id="submit-btn" onclick="submitProject()"
-                            class="w-full sm:w-auto px-12 py-5 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/20 flex items-center justify-center gap-3 active:scale-95">
-                        Submit Inquiry
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                        </svg>
-                    </button>
+<!-- PINNED BOTTOM SUMMARY -->
+<div class="bottom-summary shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)]">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-8 overflow-x-auto w-full md:w-auto">
+            <div class="flex-shrink-0">
+                <p class="text-[9px] uppercase font-black text-gray-500 tracking-tighter">Projected
+                    Quote</p>
+                <p id="total-quote-display" class="text-2xl font-black text-amber-600 leading-none">
+                    R0</p>
+            </div>
+            <div class="hidden sm:block w-px h-8 bg-gray-200 dark:bg-gray-700"></div>
+            <div class="flex gap-6">
+                <div>
+                    <p class="text-[9px] uppercase font-black text-gray-400">Hours</p>
+                    <p id="total-hours-display" class="text-sm font-bold">0 hrs</p>
                 </div>
-            </section>
+                <div>
+                    <p class="text-[9px] uppercase font-black text-gray-400">Timeline</p>
+                    <p id="formatted-time-display" class="text-sm font-bold">0d</p>
+                </div>
+                <div>
+                    <p class="text-[9px] uppercase font-black text-gray-400">Platform</p>
+                    <p id="multiplier-label" class="text-sm font-bold text-amber-600">Android</p>
+                </div>
+            </div>
         </div>
-    </main>
+
+        <div class="flex gap-2 w-full md:w-auto">
+            <button onclick="window.print()"
+                    class="p-4 rounded-2xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                </svg>
+            </button>
+            <button id="submit-btn" onclick="submitProject()"
+                    class="flex-1 md:flex-none px-10 py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap">
+                Submit Quote
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                </svg>
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- SUCCESS MODAL -->
@@ -299,7 +313,7 @@
         </div>
         <h3 class="text-2xl font-black mb-2 dark:text-white">Estimate Ready!</h3>
         <p class="text-gray-500 dark:text-gray-400 mb-8">A formal email draft has been prepared. We
-            also recommend saving this quote as a PDF for your records.</p>
+            also recommend saving this quote as a PDF.</p>
         <button onclick="closeModalAndDownload()"
                 class="w-full py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl mb-3">
             Download PDF Quote
@@ -379,52 +393,27 @@
 
     async function generateAiInsight() {
         const details = document.getElementById('app-details').value.trim();
-        if (!details) {
-            const msg = document.createElement('div');
-            msg.className = "fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-amber-600 text-white font-bold rounded-full shadow-lg z-50 animate-bounce";
-            msg.textContent = "Please describe your app vision first!";
-            document.body.appendChild(msg);
-            setTimeout(() => msg.remove(), 3000);
-            return;
-        }
-
+        if (!details) return;
         const btn = document.getElementById('ai-help-btn');
         const loader = document.getElementById('ai-loading');
         btn.disabled = true; loader.classList.remove('hidden');
-
-        const systemPrompt = `Analyze user's app description. Select feature IDs from: ${FEATURES.map(f => f.id).join(', ')}. Return JSON: { "selectedIds": ["id1", "id2"], "analysis": "Professional 2-sentence summary of the architecture based on their vision." }`;
-
+        const systemPrompt = `Analyze user's app description. Select feature IDs from: ${FEATURES.map(f => f.id).join(', ')}. Return JSON: { "selectedIds": ["id1", "id2"], "analysis": "Professional 1-sentence architectural summary." }`;
         try {
             const result = await callGemini(details, systemPrompt);
-
-            // Apply selections silently in the background
             document.querySelectorAll('.quote-checkbox').forEach(cb => {
                 cb.checked = result.selectedIds.includes(cb.id);
             });
             updateQuote();
-
-            // Show result right under the button without scrolling
             document.getElementById('ai-insight-text').textContent = result.analysis;
             document.getElementById('ai-insight-panel').classList.remove('hidden');
-
-        } catch (error) {
-            console.error(error);
-            const errMsg = document.createElement('div');
-            errMsg.className = "fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-red-600 text-white font-bold rounded-full shadow-lg z-50";
-            errMsg.textContent = "The AI Architect is currently busy. Please try again in a moment.";
-            document.body.appendChild(errMsg);
-            setTimeout(() => errMsg.remove(), 4000);
-        } finally {
-            btn.disabled = false; loader.classList.add('hidden');
-        }
+        } catch (e) { console.error(e); }
+        finally { btn.disabled = false; loader.classList.add('hidden'); }
     }
 
     function toggleTheme() {
         const isDark = document.documentElement.classList.toggle('dark');
-        const sun = document.getElementById('theme-toggle-light-icon');
-        const moon = document.getElementById('theme-toggle-dark-icon');
-        if (isDark) { sun.classList.add('hidden'); moon.classList.remove('hidden'); }
-        else { sun.classList.remove('hidden'); moon.classList.add('hidden'); }
+        document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', isDark);
+        document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', !isDark);
     }
 
     function setPlatform(platform) {
@@ -433,7 +422,7 @@
         if(platform === 'android') { platformMultiplier = 1; selectedPlatformLabel = "Android"; }
         else if(platform === 'ios') { platformMultiplier = 1.3; selectedPlatformLabel = "iOS Native"; }
         else { platformMultiplier = 1.8; selectedPlatformLabel = "Cross-Platform"; }
-        document.getElementById('multiplier-label').textContent = `Platform: ${selectedPlatformLabel}`;
+        document.getElementById('multiplier-label').textContent = selectedPlatformLabel;
         updateQuote();
         updateFeatureCardLabels();
     }
@@ -449,40 +438,39 @@
             }
         });
         const baseH = Math.round(BASE_HOURS * platformMultiplier);
-        const staticH = document.getElementById('base-setup-hours-label-static');
-        const staticC = document.getElementById('base-setup-cost-label');
-        if (staticH) staticH.textContent = `${baseH} hrs`;
-        if (staticC) staticC.textContent = `est. R${(baseH * HOURLY_RATE).toLocaleString()}`;
+        if (document.getElementById('base-setup-hours')) document.getElementById('base-setup-hours').textContent = `${baseH} hrs`;
+        if (document.getElementById('base-setup-cost')) document.getElementById('base-setup-cost').textContent = `est. R${(baseH * HOURLY_RATE).toLocaleString()}`;
     }
 
     function renderFeatures() {
-        const baseSetupItem = `
-            <div class="p-6 rounded-3xl border-2 card-active feature-item print-selected flex justify-between items-center gap-6">
-                <div><span class="text-amber-600 font-black text-xl uppercase tracking-tight block">Core Architecture</span><p class="text-gray-400 text-xs">Infrastructure, cloud, and foundation.</p></div>
-                <div class="text-right"><span id="base-setup-hours-label-static" class="text-amber-600 font-black text-xl block">0 hrs</span><span id="base-setup-cost-label" class="text-[8px] text-gray-500 font-black uppercase">est. R0</span></div>
+        const baseHtml = `
+            <div class="p-6 rounded-3xl border-2 card-active feature-item print-selected flex justify-between items-center bg-white dark:bg-gray-800">
+                <div><span class="text-amber-600 font-black text-lg uppercase tracking-tight block">Base Architecture</span><p class="text-gray-400 text-[10px]">Cloud foundation & security.</p></div>
+                <div class="text-right"><span id="base-setup-hours" class="text-amber-600 font-black text-xl block">0 hrs</span><span id="base-setup-cost" class="text-[8px] text-gray-500 font-black">est. R0</span></div>
             </div>`;
+        document.getElementById('base-setup-container').innerHTML = baseHtml;
 
         const featureHtml = FEATURES.map(f => `
-            <label for="${f.id}" class="flex flex-col p-5 bg-white dark:bg-gray-800 border-2 ${f.highlight ? 'border-amber-400/30' : 'border-gray-100 dark:border-gray-700'} hover:border-amber-600 rounded-3xl cursor-pointer transition-all feature-item group custom-checkbox relative overflow-hidden">
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="relative w-6 h-6 checkmark-wrapper">
+            <label for="${f.id}" class="flex flex-col p-5 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-amber-600 rounded-3xl cursor-pointer transition-all feature-item group custom-checkbox relative overflow-hidden">
+                <div class="feature-icon"></div>
+                <div class="flex items-center gap-3 mb-3 pr-8">
+                    <div class="relative w-5 h-5 checkmark-wrapper">
                         <input type="checkbox" id="${f.id}" data-hours="${f.hours}" data-name="${f.name}" class="absolute opacity-0 w-full h-full cursor-pointer z-10 quote-checkbox">
-                        <div class="checkmark h-6 w-6 bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-600 rounded flex items-center justify-center transition-all">
+                        <div class="checkmark h-5 w-5 bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-600 rounded flex items-center justify-center transition-all">
                             <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
                     </div>
-                    <span class="text-gray-900 dark:text-white font-black text-base group-hover:text-amber-600 transition-colors flex-1">${f.name}</span>
+                    <span class="text-gray-900 dark:text-white font-black text-sm group-hover:text-amber-600 transition-colors">${f.name}</span>
                 </div>
                 <div class="mt-auto">
-                    <p class="text-gray-400 text-[10px] mb-3 line-clamp-1">${f.desc}</p>
+                    <p class="text-gray-400 text-[9px] mb-3 line-clamp-2">${f.desc}</p>
                     <div class="flex justify-between items-end">
-                        <span id="hours-label-${f.id}" class="text-amber-600 font-black text-[10px] bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded-full">${f.hours} hrs</span>
-                        <div id="cost-label-${f.id}" class="text-[8px] text-gray-500 font-black uppercase">est. R0</div>
+                        <span id="hours-label-${f.id}" class="text-amber-600 font-black text-[9px] bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded-full">${f.hours} hrs</span>
+                        <div id="cost-label-${f.id}" class="text-[8px] text-gray-500 font-black uppercase tracking-tighter">est. R0</div>
                     </div>
                 </div>
             </label>`).join('');
 
-        document.getElementById('base-setup-container').innerHTML = baseSetupItem;
         document.getElementById('feature-grid').innerHTML = featureHtml;
         document.querySelectorAll('.quote-checkbox').forEach(cb => cb.addEventListener('change', updateQuote));
         updateQuote();
@@ -493,17 +481,13 @@
         let featureHoursRaw = 0;
         document.querySelectorAll('.quote-checkbox').forEach(cb => {
             const item = cb.closest('.feature-item');
-            if (cb.checked) {
-                featureHoursRaw += parseInt(cb.dataset.hours);
-                item.classList.add('print-selected', 'card-active');
-            } else { item.classList.remove('print-selected', 'card-active'); }
+            if (cb.checked) { featureHoursRaw += parseInt(cb.dataset.hours); item.classList.add('print-selected', 'card-active'); }
+            else { item.classList.remove('print-selected', 'card-active'); }
         });
         const totalBaseH = Math.round(BASE_HOURS * platformMultiplier);
         const totalFeatH = Math.round(featureHoursRaw * platformMultiplier);
         const grandH = totalBaseH + totalFeatH;
         document.getElementById('total-hours-display').textContent = `${grandH} hrs`;
-        document.getElementById('base-cost-display').textContent = "R" + (totalBaseH * HOURLY_RATE).toLocaleString();
-        document.getElementById('feature-cost-display').textContent = "R" + (totalFeatH * HOURLY_RATE).toLocaleString();
         document.getElementById('total-quote-display').textContent = "R" + (grandH * HOURLY_RATE).toLocaleString();
         document.getElementById('formatted-time-display').textContent = formatTime(grandH);
     }
@@ -521,83 +505,40 @@
     }
 
     function updateVisionInput(el) {
-        const val = el.value;
-        const count = val.length;
-        const counter = document.getElementById('char-counter');
-        counter.textContent = `${count} / 300`;
-
-        if (count >= 300) {
-            counter.className = "absolute bottom-10 right-4 text-[10px] font-black text-red-500";
-        } else if (count > 250) {
-            counter.className = "absolute bottom-10 right-4 text-[10px] font-black text-amber-500";
-        } else {
-            counter.className = "absolute bottom-10 right-4 text-[10px] font-black text-gray-400";
-        }
-
-        document.getElementById('print-notes-content').textContent = val || "No project vision described.";
+        document.getElementById('char-counter').textContent = `${el.value.length} / 300`;
     }
 
     function submitProject() {
-        const total = document.getElementById('total-quote-display').textContent;
-        const baseCost = document.getElementById('base-cost-display').textContent;
-        const featCost = document.getElementById('feature-cost-display').textContent;
-        const platform = selectedPlatformLabel;
-        const hours = document.getElementById('total-hours-display').textContent;
-        const timeline = document.getElementById('formatted-time-display').textContent;
-        const vision = document.getElementById('app-details').value || "[No vision details provided]";
-        const formattedDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-
-        let featureLines = "";
-        document.querySelectorAll('.quote-checkbox:checked').forEach(cb => {
-            featureLines += `• ${cb.dataset.name}\n`;
-        });
-        if (!featureLines) featureLines = "• Core Architecture Only (Standard Foundation)";
-
-        const subject = encodeURIComponent(`Project Quotation Request - ${platform}`);
-
-        const bodyText = `Dear Software Development Team,
-
-I would like to formally submit a request for a project quotation based on the following scope generated via the App Cost Estimator.
-
-PROJECT SUMMARY
---------------------------------------------------
-Date Generated: ${formattedDate}
-Target Platform: ${platform}
-Estimated Total: ${total}
-Estimated Effort: ${hours}
-Estimated Timeline: ${timeline}
-
-COST BREAKDOWN
---------------------------------------------------
-Core Architecture: ${baseCost}
-Feature Development: ${featCost}
-
-PROJECT VISION & OBJECTIVES
---------------------------------------------------
-${vision}
-
-SELECTED FEATURE SCOPE
---------------------------------------------------
-${featureLines}
-
-NEXT STEPS
---------------------------------------------------
-Please review the above requirements and let me know if you require any further clarification to finalize this proposal. I look forward to your feedback regarding the feasibility and official timeline.
-
-Kind regards,
-[Your Name]
-[Your Contact Number]
-
---------------------------------------------------
-Generated via App Cost Estimator Tool`;
-
-        window.location.href = `mailto:softwaredev230@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
         document.getElementById('success-modal').classList.remove('hidden');
     }
 
     function closeModalAndDownload() {
         document.getElementById('success-modal').classList.add('hidden');
-        window.print();
+
+        // Prepare Email Draft
+        const vision = document.getElementById('app-details').value.trim();
+        const total = document.getElementById('total-quote-display').textContent;
+        const hours = document.getElementById('total-hours-display').textContent;
+        const timeline = document.getElementById('formatted-time-display').textContent;
+        const selected = [];
+        document.querySelectorAll('.quote-checkbox:checked').forEach(cb => selected.push(cb.dataset.name));
+
+        const subject = encodeURIComponent(`App Estimate: ${vision.substring(0, 30)}...`);
+        const body = encodeURIComponent(
+            `Project Vision: ${vision}\n\n` +
+            `Platform: ${selectedPlatformLabel}\n` +
+            `Total Estimate: ${total}\n` +
+            `Total Labor: ${hours}\n` +
+            `Projected Timeline: ${timeline}\n\n` +
+            `Selected Features:\n- Base Architecture\n- ${selected.join('\n- ')}\n\n` +
+            `Generated via App Cost Estimator.`
+        );
+
+        // Open Email
+        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+
+        // Trigger PDF Download (via Print)
+        setTimeout(() => { window.print(); }, 500);
     }
 
     window.onload = renderFeatures;
