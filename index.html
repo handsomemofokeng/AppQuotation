@@ -27,7 +27,6 @@
         }
     </script>
 
-    <!-- TRACKING SYSTEM INITIALIZATION -->
     <script>
         function trackEvent(name, data = {}) {
             console.log(`[Analytics] Event: ${name}`, data);
@@ -79,9 +78,7 @@
             background: rgba(217, 119, 6, 0.2);
             transform: scale(1.1) rotate(-5deg);
         }
-        .card-active .feature-icon svg {
-            color: #d97706;
-        }
+        .card-active .feature-icon svg { color: #d97706; }
 
         .base-icon {
             background: rgba(217, 119, 6, 0.2);
@@ -93,11 +90,7 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        .base-icon svg {
-            width: 32px;
-            height: 32px;
-            color: #d97706;
-        }
+        .base-icon svg { width: 32px; height: 32px; color: #d97706; }
 
         @keyframes shimmer {
             0% { background-position: -200% 0; }
@@ -125,7 +118,6 @@
             border-top: 1px solid #374151;
         }
 
-        /* Print Logic */
         #print-header { display: none; }
         @media print {
             #print-header {
@@ -135,7 +127,7 @@
                 color: #000;
                 margin-bottom: 2rem;
             }
-            .bottom-summary, #theme-toggle, #describe-vision-area, #platform-selection-area, #design-selection-area, #ai-help-btn, #char-counter, .checkmark-wrapper, #ai-actions { display: none !important; }
+            .bottom-summary, #theme-toggle, #describe-vision-area, #platform-selection-area, #design-selection-area, #ai-actions { display: none !important; }
             body { background: white !important; color: black !important; }
             main { padding: 0 !important; }
             #feature-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
@@ -152,39 +144,26 @@
     <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="flex items-center gap-5">
             <div class="p-3 bg-amber-600 rounded-2xl shadow-xl shadow-amber-600/30 transform hover:rotate-3 transition-transform">
-                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor"
-                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                     <rect x="4" y="2" width="16" height="20" rx="2"/>
                     <line x1="8" y1="6" x2="16" y2="6"/>
-                    <line x1="16" y1="14" x2="16" y2="14"/>
-                    <line x1="12" y1="14" x2="12" y2="14"/>
-                    <line x1="8" y1="14" x2="8" y2="14"/>
-                    <line x1="16" y1="18" x2="16" y2="18"/>
-                    <line x1="12" y1="18" x2="12" y2="18"/>
-                    <line x1="8" y1="18" x2="8" y2="18"/>
-                    <line x1="16" y1="10" x2="16" y2="10"/>
-                    <line x1="12" y1="10" x2="12" y2="10"/>
-                    <line x1="8" y1="10" x2="8" y2="10"/>
+                    <line x1="16" y1="14" x2="16" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="14" x2="8" y2="14"/>
+                    <line x1="16" y1="18" x2="16" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/><line x1="8" y1="18" x2="8" y2="18"/>
+                    <line x1="16" y1="10" x2="16" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="8" y1="10" x2="8" y2="10"/>
                 </svg>
             </div>
             <div>
                 <h1 class="text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none">
                     App <span class="text-amber-600">Cost Estimator</span>
                 </h1>
-                <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-2">
-                    Professional Software Quoting Tool</p>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-2">Professional Software Quoting Tool</p>
             </div>
         </div>
-        <button id="theme-toggle" onclick="toggleTheme()"
-                class="p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 shadow-sm hover:scale-105 transition-all">
-            <svg id="theme-toggle-light-icon" class="w-6 h-6" fill="currentColor"
-                 viewBox="0 0 20 20">
-                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                      fill-rule="evenodd" clip-rule="evenodd"></path>
+        <button id="theme-toggle" onclick="toggleTheme()" class="p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 shadow-sm hover:scale-105 transition-all">
+            <svg id="theme-toggle-light-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
             </svg>
-            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor"
-                 viewBox="0 0 20 20">
+            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
             </svg>
         </button>
@@ -194,29 +173,14 @@
 <main class="p-6 lg:p-12">
     <div class="max-w-7xl mx-auto">
 
-        <!-- PRINT ONLY HEADER (Visible at top of print) -->
-        <div id="print-header" class="rounded-3xl p-10 mb-10 shadow-none">
+        <!-- PRINT ONLY HEADER -->
+        <div id="print-header" class="rounded-3xl p-10 mb-10">
             <h2 class="text-3xl font-black mb-6 border-b-2 border-amber-600 pb-4">Project Quotation Summary</h2>
             <div class="grid grid-cols-4 gap-8">
-                <div>
-                    <p class="text-xs uppercase font-black text-gray-500 mb-1">Projected Total</p>
-                    <p id="p-total" class="text-3xl font-black text-amber-600">R0</p>
-                </div>
-                <div>
-                    <p class="text-xs uppercase font-black text-gray-500 mb-1">Estimated Effort</p>
-                    <p id="p-hours" class="text-xl font-bold">0 hrs</p>
-                </div>
-                <div>
-                    <p class="text-xs uppercase font-black text-gray-500 mb-1">Delivery Timeline</p>
-                    <p id="p-timeline" class="text-xl font-bold">0d</p>
-                </div>
-                <div>
-                    <p class="text-xs uppercase font-black text-gray-500 mb-1">Build Specs</p>
-                    <p id="p-spec" class="text-xl font-black text-amber-600">Android / MVP</p>
-                </div>
-            </div>
-            <div class="mt-8 p-4 bg-gray-50 rounded-xl">
-                <p class="text-xs font-bold text-gray-600 italic">"This estimate is based on the features selected below. Final project costs may vary based on specific technical requirements."</p>
+                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Projected Total</p><p id="p-total" class="text-3xl font-black text-amber-600">R0</p></div>
+                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Estimated Effort</p><p id="p-hours" class="text-xl font-bold">0 hrs</p></div>
+                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Delivery Timeline</p><p id="p-timeline" class="text-xl font-bold">0d</p></div>
+                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Build Specs</p><p id="p-spec" class="text-xl font-black text-amber-600">Android / MVP</p></div>
             </div>
         </div>
 
@@ -229,56 +193,33 @@
             <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
                 <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 <div class="relative z-10">
-                    <div class="relative">
-                        <textarea id="app-details" maxlength="500" oninput="updateVisionInput(this)"
-                                  rows="4"
-                                  class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6 pr-12"
-                                  placeholder="What are you building? (e.g., 'An app for ordering home-cooked meals with subscription plans'). Be detailed for better AI results."></textarea>
-                        <div id="char-counter"
-                             class="absolute bottom-10 right-4 text-[10px] font-black text-gray-400">
-                            0 / 500
-                        </div>
-                    </div>
+                    <textarea id="app-details" maxlength="500" oninput="updateVisionInput(this)" rows="4"
+                              class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6"
+                              placeholder="What are you building? (e.g., 'An app for ordering home-cooked meals with subscription plans')."></textarea>
 
                     <div id="ai-actions" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <button onclick="generateAiInsight('recommend')"
                                 class="px-6 py-4 bg-amber-600 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-amber-700 active:scale-[0.98] shadow-lg shadow-amber-600/20">
                             <span class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                                ✨ Auto-Select Features
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                Optimize Feature Set
                             </span>
-                            <div id="ai-loading-recommend"
-                                 class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                            <div id="ai-loading-recommend" class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
                         </button>
-
                         <button onclick="generateAiInsight('breakdown')"
                                 class="px-6 py-4 bg-gray-800 dark:bg-gray-700 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-gray-900 dark:hover:bg-gray-600 active:scale-[0.98] shadow-lg">
                             <span class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2.5"
-                                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                ✨ Intelligent Scope Breakdown
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                Generate Project Strategy
                             </span>
-                            <div id="ai-loading-breakdown"
-                                 class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                            <div id="ai-loading-breakdown" class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
                         </button>
                     </div>
 
-                    <div id="ai-insight-panel"
-                         class="hidden mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div id="ai-insight-panel" class="hidden mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
                         <div class="p-5 rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/50">
-                            <h4 id="ai-insight-title"
-                                class="text-xs font-black uppercase tracking-widest text-amber-600 mb-2">
-                                AI Analysis</h4>
-                            <div id="ai-insight-text"
-                                 class="text-sm leading-relaxed text-gray-700 dark:text-gray-300 space-y-2"></div>
+                            <h4 id="ai-insight-title" class="text-xs font-black uppercase tracking-widest text-amber-600 mb-2">Analysis</h4>
+                            <div id="ai-insight-text" class="text-sm leading-relaxed text-gray-700 dark:text-gray-300 space-y-2"></div>
                         </div>
                     </div>
                 </div>
@@ -292,32 +233,16 @@
                 Target Platform
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div onclick="setPlatform('android')" id="platform-android"
-                     class="platform-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
-                    <svg class="w-8 h-8 mb-3 text-gray-400 transition-colors" viewBox="0 0 24 24"
-                         fill="currentColor">
-                        <path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/>
-                    </svg>
+                <div onclick="setPlatform('android')" id="platform-android" class="platform-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
+                    <svg class="w-8 h-8 mb-3 text-amber-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">Android</span>
                 </div>
-                <div onclick="setPlatform('ios')" id="platform-ios"
-                     class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
-                    <svg class="w-8 h-8 mb-3 text-gray-400 transition-colors" fill="currentColor"
-                         viewBox="0 0 24 24">
-                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                    </svg>
+                <div onclick="setPlatform('ios')" id="platform-ios" class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                    <svg class="w-8 h-8 mb-3" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">iOS Native</span>
                 </div>
-                <div onclick="setPlatform('multi')" id="platform-multi"
-                     class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
-                    <div class="flex gap-1 mb-3 text-gray-400 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/>
-                        </svg>
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                        </svg>
-                    </div>
+                <div onclick="setPlatform('multi')" id="platform-multi" class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                    <div class="flex gap-1 mb-3"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/></svg><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></div>
                     <span class="font-black uppercase tracking-widest text-[10px]">Cross-Platform</span>
                 </div>
             </div>
@@ -327,46 +252,20 @@
         <section id="design-selection-area" class="mb-16">
             <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
                 <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">3</span>
-                Design Level
+                Design Tier
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div onclick="setDesign('mvp')" id="design-mvp"
-                     class="design-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
-                    <svg class="w-8 h-8 mb-3 text-gray-400 transition-colors" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                        <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
-                        <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
-                        <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                    </svg>
+                <div onclick="setDesign('mvp')" id="design-mvp" class="design-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
+                    <svg class="w-8 h-8 mb-3 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">MVP Tier</span>
-                    <p class="text-[9px] text-gray-400 mt-1">Standard UI, minimal custom elements</p>
                 </div>
-                <div onclick="setDesign('professional')" id="design-professional"
-                     class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
-                    <svg class="w-8 h-8 mb-3 text-gray-400 transition-colors" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path d="M6 3h12l4 5-10 13L2 8z"></path>
-                        <path d="M11 3 8 8l3 13"></path>
-                        <path d="M13 3l3 5-3 13"></path>
-                        <path d="M2 8h20"></path>
-                    </svg>
+                <div onclick="setDesign('professional')" id="design-professional" class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                    <svg class="w-8 h-8 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 5-10 13L2 8z"></path><path d="M11 3 8 8l3 13"></path><path d="M13 3l3 5-3 13"></path><path d="M2 8h20"></path></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">Professional</span>
-                    <p class="text-[9px] text-gray-400 mt-1">Polished UX, custom design system</p>
                 </div>
-                <div onclick="setDesign('premium')" id="design-premium"
-                     class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
-                    <svg class="w-8 h-8 mb-3 text-gray-400 transition-colors" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path>
-                    </svg>
-                    <span class="font-black uppercase tracking-widest text-[10px]">Premium / Luxe</span>
-                    <p class="text-[9px] text-gray-400 mt-1">High-end animations, unique identity</p>
+                <div onclick="setDesign('premium')" id="design-premium" class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                    <svg class="w-8 h-8 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
+                    <span class="font-black uppercase tracking-widest text-[10px]">Premium</span>
                 </div>
             </div>
         </section>
@@ -378,13 +277,11 @@
                 Select Project Features
             </h2>
             <div id="base-setup-container" class="mb-6"></div>
-            <div id="feature-grid"
-                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+            <div id="feature-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
         </section>
     </div>
 </main>
 
-<!-- Footer Adjustments -->
 <div class="bottom-summary shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)]">
     <div class="max-w-7xl mx-auto px-4 lg:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="grid grid-cols-2 sm:flex sm:flex-row items-center gap-x-6 gap-y-4 w-full md:w-auto">
@@ -411,57 +308,19 @@
         </div>
 
         <div class="flex gap-2 w-full md:w-auto">
-            <button onclick="window.print()" title="Print Quotation"
-                    class="p-4 rounded-2xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-500">
+            <button onclick="window.print()" class="p-4 rounded-2xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-gray-600 dark:text-gray-400">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-                    <path d="M6 9V2h12v7"></path>
-                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                    <rect x="6" y="14" width="12" height="8"></rect>
+                    <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
                 </svg>
             </button>
-            <button id="submit-btn" onclick="submitProject()"
-                    class="flex-1 md:flex-none px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap">
-                ✨ Draft AI Proposal
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            <button onclick="sendEnquiryEmail()"
+                    class="flex-1 md:flex-none px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-3 active:scale-95 whitespace-nowrap">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
+                Send Inquiry
             </button>
         </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div id="success-modal"
-     class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-gray-900/80 backdrop-blur-sm">
-    <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-2xl w-full shadow-2xl overflow-y-auto max-h-[90vh]">
-        <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                      d="M5 13l4 4L19 7"></path>
-            </svg>
-        </div>
-        <h3 class="text-2xl font-black mb-2 text-center dark:text-white">Estimate Ready!</h3>
-        <p class="text-gray-500 text-center dark:text-gray-400 mb-6">Gemini has drafted a professional proposal for you.</p>
-
-        <div id="proposal-draft-area"
-             class="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl mb-8 border border-gray-200 dark:border-gray-700 font-serif text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
-            Generating AI Draft...
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-            <button onclick="copyProposal()"
-                    class="py-4 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white font-black rounded-2xl hover:bg-gray-200">
-                Copy Draft
-            </button>
-            <button onclick="closeModalAndDownload()"
-                    class="py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl">
-                Email & Print
-            </button>
-        </div>
-        <button onclick="document.getElementById('success-modal').classList.add('hidden')"
-                class="w-full py-3 text-gray-500 font-bold mt-4">Close
-        </button>
     </div>
 </div>
 
@@ -505,7 +364,7 @@
         { id: 'ar_vr', name: 'AR / VR', hours: 55, desc: 'Augmented reality overlay or 3D views.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="12" r="2"/></svg>` },
         { id: 'referral', name: 'Referral System', hours: 24, desc: 'Invite codes and user rewards logic.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>` },
         { id: 'pdf_gen', name: 'PDF Generation', hours: 20, desc: 'Dynamic PDF export (invoices, docs).', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15h3"/><path d="M9 18h6"/></svg>` }
-    ];
+   ];
 
     async function callGemini(userPrompt, systemPrompt) {
         const apiKey = "";
@@ -524,91 +383,76 @@
     async function generateAiInsight(mode) {
         const details = document.getElementById('app-details').value.trim();
         if (!details) return;
-        trackEvent('ai_insight_requested', { mode: mode, detail_length: details.length });
         const loader = document.getElementById(`ai-loading-${mode}`);
-        const errorPanel = document.getElementById('ai-insight-panel');
+        const panel = document.getElementById('ai-insight-panel');
         const insightText = document.getElementById('ai-insight-text');
         const insightTitle = document.getElementById('ai-insight-title');
         loader.classList.remove('hidden');
-        errorPanel.classList.add('hidden');
+        panel.classList.add('hidden');
+
         let systemPrompt = mode === 'recommend'
-            ? `Select feature IDs from: ${FEATURES.map(f => f.id).join(', ')}. Return JSON: { "selectedIds": ["id1"], "analysis": "1-sentence summary" }`
-            : `Analyze this app idea. Provide: 1) A professional roadmap (3-4 phases). 2) Suggested tech stack. Return JSON: { "phases": ["Phase 1: ..."], "tech": ["React Native", ...], "summary": "advice" }`;
+            ? `Select feature IDs from: ${FEATURES.map(f => f.id).join(', ')}. Return JSON: { "selectedIds": ["id1"], "analysis": "summary" }`
+            : `Senior strategist analysis. Return JSON: { "valueProp": "text", "milestones": ["text"], "marketFit": "text", "techSummary": "text" }`;
+
         try {
             const result = await callGemini(details, systemPrompt);
             if (mode === 'recommend') {
-                insightTitle.textContent = "AI Feature Recommendation";
+                insightTitle.textContent = "Recommended Project Scope";
                 document.querySelectorAll('.quote-checkbox').forEach(cb => cb.checked = false);
                 result.selectedIds?.forEach(id => { const cb = document.getElementById(id); if (cb) cb.checked = true; });
                 updateQuote();
                 insightText.textContent = result.analysis;
             } else {
-                insightTitle.textContent = "Scope Breakdown";
-                insightText.innerHTML = `<b>Roadmap:</b><ul class='list-disc pl-5'>${result.phases.map(p=>`<li>${p}</li>`).join('')}</ul><b>Tech:</b> ${result.tech.join(', ')}`;
+                insightTitle.textContent = "Strategic Project Roadmap";
+                insightText.innerHTML = `
+                    <div><span class="font-black text-amber-600">Vision:</span> ${result.valueProp}</div>
+                    <div><span class="font-black text-amber-600">Milestones:</span><ul class='list-disc pl-5'>${result.milestones.map(m=>`<li>${m}</li>`).join('')}</ul></div>
+                    <div><span class="font-black text-amber-600">Tech:</span> ${result.techSummary}</div>
+                `;
             }
-            errorPanel.classList.remove('hidden');
-        } catch (e) { insightText.textContent = "AI Analysis failed."; errorPanel.classList.remove('hidden'); }
+            panel.classList.remove('hidden');
+        } catch (e) { insightText.textContent = "Analysis failed."; panel.classList.remove('hidden'); }
         finally { loader.classList.add('hidden'); }
-    }
-
-    async function submitProject() {
-        document.getElementById('success-modal').classList.remove('hidden');
-        const draftArea = document.getElementById('proposal-draft-area');
-        draftArea.textContent = "✨ Drafting proposal...";
-        const vision = document.getElementById('app-details').value.trim();
-        const total = document.getElementById('total-quote-display').textContent;
-        const selected = Array.from(document.querySelectorAll('.quote-checkbox:checked')).map(cb => cb.dataset.name);
-        trackEvent('proposal_generated', { total_budget: total, platform: selectedPlatformLabel, design: selectedDesignLabel, feature_count: selected.length });
-        const prompt = `Proposal for: ${vision}. Platform: ${selectedPlatformLabel}. Design: ${selectedDesignLabel}. Budget: ${total}. Features: ${selected.join(', ')}. Return JSON: { "draft": "text" }`;
-        try {
-            const result = await callGemini(prompt, "Professional consultant.");
-            draftArea.textContent = result.draft;
-        } catch (e) { draftArea.textContent = "Failed to generate draft."; }
     }
 
     function toggleTheme() {
         const isDark = document.documentElement.classList.toggle('dark');
         document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', isDark);
         document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', !isDark);
-        trackEvent('theme_toggled', { theme: isDark ? 'dark' : 'light' });
     }
 
     function setPlatform(platform) {
         document.querySelectorAll('.platform-card').forEach(card => {
             card.classList.remove('card-active');
+            card.classList.add('text-gray-400');
             card.querySelector('svg').classList.remove('text-amber-600');
-            card.querySelector('svg').classList.add('text-gray-400');
         });
         const activeCard = document.getElementById(`platform-${platform}`);
         activeCard.classList.add('card-active');
-        activeCard.querySelector('svg').classList.remove('text-gray-400');
+        activeCard.classList.remove('text-gray-400');
         activeCard.querySelector('svg').classList.add('text-amber-600');
         if(platform === 'android') { platformMultiplier = 1.0; selectedPlatformLabel = "Android"; }
         else if(platform === 'ios') { platformMultiplier = 1.3; selectedPlatformLabel = "iOS Native"; }
         else { platformMultiplier = 1.8; selectedPlatformLabel = "Cross-Platform"; }
         document.getElementById('multiplier-platform').textContent = selectedPlatformLabel;
-        document.getElementById('p-spec').textContent = `${selectedPlatformLabel} / ${selectedDesignLabel}`;
         updateQuote();
-        trackEvent('platform_selected', { platform: selectedPlatformLabel });
     }
 
     function setDesign(level) {
         document.querySelectorAll('.design-card').forEach(card => {
             card.classList.remove('card-active');
+            card.classList.add('text-gray-400');
             card.querySelector('svg').classList.remove('text-amber-600');
-            card.querySelector('svg').classList.add('text-gray-400');
         });
         const activeCard = document.getElementById(`design-${level}`);
         activeCard.classList.add('card-active');
-        activeCard.querySelector('svg').classList.remove('text-gray-400');
+        activeCard.classList.remove('text-gray-400');
         activeCard.querySelector('svg').classList.add('text-amber-600');
         if(level === 'mvp') { designMultiplier = 1.0; selectedDesignLabel = "MVP"; }
         else if(level === 'professional') { designMultiplier = 1.4; selectedDesignLabel = "Professional"; }
         else { designMultiplier = 2.0; selectedDesignLabel = "Premium"; }
         document.getElementById('multiplier-design').textContent = selectedDesignLabel;
-        document.getElementById('p-spec').textContent = `${selectedPlatformLabel} / ${selectedDesignLabel}`;
         updateQuote();
-        trackEvent('design_level_selected', { design: selectedDesignLabel });
     }
 
     function updateQuote() {
@@ -631,15 +475,15 @@
         const hourString = `${grandH} hrs`;
         const timeString = formatTime(grandH);
 
-        // Update UI
         document.getElementById('total-hours-display').textContent = hourString;
         document.getElementById('total-quote-display').textContent = quoteString;
         document.getElementById('formatted-time-display').textContent = timeString;
 
-        // Update Print Header
+        // Print header updates
         document.getElementById('p-total').textContent = quoteString;
         document.getElementById('p-hours').textContent = hourString;
         document.getElementById('p-timeline').textContent = timeString;
+        document.getElementById('p-spec').textContent = `${selectedPlatformLabel} / ${selectedDesignLabel}`;
 
         FEATURES.forEach(f => {
             const l = document.getElementById(`cost-label-${f.id}`);
@@ -652,43 +496,37 @@
     }
 
     function formatTime(totalHours) {
-        if (!totalHours) return "0d";
         const totalDays = Math.ceil(totalHours / 8);
         const months = Math.floor(totalDays / 20);
-        let remaining = totalDays % 20;
-        const weeks = Math.floor(remaining / 5);
-        const days = remaining % 5;
-        const parts = [];
-        if (months > 0) parts.push(`${months}mo`);
-        if (weeks > 0) parts.push(`${weeks}wk`);
-        if (days > 0) parts.push(`${days}d`);
-        return parts.length === 0 ? '0d' : parts.join(' ');
+        let rem = totalDays % 20;
+        const weeks = Math.floor(rem / 5);
+        const days = rem % 5;
+        const p = [];
+        if (months > 0) p.push(`${months}mo`);
+        if (weeks > 0) p.push(`${weeks}wk`);
+        if (days > 0) p.push(`${days}d`);
+        return p.length ? p.join(' ') : '0d';
     }
 
     function renderFeatures() {
         const baseHtml = `
-            <div class="p-8 rounded-3xl border-2 card-active feature-item print-selected flex gap-6 items-center bg-white dark:bg-gray-800 relative overflow-hidden">
-                <div class="base-icon shadow-lg shadow-amber-600/10">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20v-4"/><path d="M12 20v-8"/><path d="M19 20V8"/><path d="M12 4l-4 4h8l-4-4z"/></svg>
-                </div>
+            <div class="p-8 rounded-3xl border-2 card-active feature-item print-selected flex gap-6 items-center bg-white dark:bg-gray-800 relative">
+                <div class="base-icon shadow-lg shadow-amber-600/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 20h20"/><path d="M5 20v-4"/><path d="M12 20v-8"/><path d="M19 20V8"/></svg></div>
                 <div class="flex-grow">
                     <span class="text-amber-600 font-black text-xl uppercase tracking-tight block">Base Architecture</span>
-                    <p class="text-gray-400 text-xs">Cloud infrastructure, security, and boilerplate.</p>
+                    <p class="text-gray-400 text-xs">Standard cloud infrastructure and security layers.</p>
                 </div>
-                <div class="text-right flex flex-col justify-center">
-                    <span id="base-setup-hours" class="text-amber-600 font-black text-2xl block">0 hrs</span>
-                    <span id="base-setup-cost" class="text-[10px] text-gray-500 font-black uppercase tracking-tighter">est. R0</span>
-                </div>
+                <div class="text-right"><span id="base-setup-hours" class="text-amber-600 font-black text-2xl block">0 hrs</span><span id="base-setup-cost" class="text-[10px] text-gray-500 font-black">est. R0</span></div>
             </div>`;
         document.getElementById('base-setup-container').innerHTML = baseHtml;
         document.getElementById('feature-grid').innerHTML = FEATURES.map(f => `
             <label for="${f.id}" class="flex flex-col p-5 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-amber-600 rounded-3xl cursor-pointer transition-all feature-item group custom-checkbox relative overflow-hidden">
                 <div class="feature-icon">${f.icon}</div>
                 <div class="flex items-center gap-3 mb-3 pr-12 relative z-10">
-                    <div class="relative w-5 h-5 checkmark-wrapper">
+                    <div class="relative w-5 h-5">
                         <input type="checkbox" id="${f.id}" data-hours="${f.hours}" data-name="${f.name}" class="absolute opacity-0 w-full h-full cursor-pointer z-10 quote-checkbox">
                         <div class="checkmark h-5 w-5 bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-600 rounded flex items-center justify-center transition-all">
-                            <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="4"><path d="M5 13l4 4L19 7"/></svg>
                         </div>
                     </div>
                     <span class="text-gray-900 dark:text-white font-black text-sm group-hover:text-amber-600 transition-colors">${f.name}</span>
@@ -701,24 +539,46 @@
                     </div>
                 </div>
             </label>`).join('');
-        document.querySelectorAll('.quote-checkbox').forEach(cb => {
-            cb.addEventListener('change', (e) => {
-                updateQuote();
-                if (e.target.checked) trackEvent('feature_selected', { feature_id: e.target.id, feature_name: e.target.dataset.name });
-            });
-        });
+        document.querySelectorAll('.quote-checkbox').forEach(cb => cb.addEventListener('change', updateQuote));
         updateQuote();
     }
 
-    function updateVisionInput(el) { document.getElementById('char-counter').textContent = `${el.value.length} / 500`; }
-    function copyProposal() {
-        navigator.clipboard.writeText(document.getElementById('proposal-draft-area').textContent);
-        trackEvent('proposal_copied');
+    function updateVisionInput(el) { /* Optional: show char count */ }
+
+    function sendEnquiryEmail() {
+        const email = "softwaredev230@gmail.com";
+        const vision = document.getElementById('app-details').value.trim() || "No detailed description provided.";
+        const total = document.getElementById('total-quote-display').textContent;
+        const hours = document.getElementById('total-hours-display').textContent;
+        const timeline = document.getElementById('formatted-time-display').textContent;
+        const selectedFeatures = Array.from(document.querySelectorAll('.quote-checkbox:checked')).map(cb => `• ${cb.dataset.name}`).join('\n');
+
+        const subject = encodeURIComponent(`Project Quote Inquiry: App Development`);
+        const body = encodeURIComponent(
+            `Project Quote Inquiry\n` +
+            `========================\n\n` +
+            `Hi Team,\n\n` +
+            `I have generated a project estimate using the App Cost Estimator and would like to discuss this further.\n\n` +
+            `--- PROJECT SUMMARY ---\n` +
+            `Vision: ${vision}\n` +
+            `Platform: ${selectedPlatformLabel}\n` +
+            `Design Tier: ${selectedDesignLabel}\n\n` +
+            `--- ESTIMATED PRICING & EFFORT ---\n` +
+            `Total Quote: ${total}\n` +
+            `Total Estimated Effort: ${hours}\n` +
+            `Projected Delivery: ${timeline}\n\n` +
+            `--- SELECTED FEATURE SCOPE ---\n` +
+            `• Core Infrastructure & Base Architecture\n` +
+            `${selectedFeatures || "• No additional features selected"}\n\n` +
+            `Please let me know your availability for a follow-up consultation.\n\n` +
+            `Best regards,\n` +
+            `[Prospective Client]`
+        );
+
+        trackEvent('enquiry_triggered', { total: total });
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     }
-    function closeModalAndDownload() {
-        trackEvent('proposal_printed');
-        window.print();
-    }
+
     window.onload = renderFeatures;
 </script>
 </body>
