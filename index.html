@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Cost Estimator</title>
-    <!-- App Icon (Cleaner Calculator SVG) -->
+    <!-- App Icon (Calculator SVG) -->
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23d97706%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><rect x=%224%22 y=%222%22 width=%2216%22 height=%2220%22 rx=%222%22/><line x1=%228%22 y1=%226%22 x2=%2216%22 y2=%226%22/><line x1=%2216%22 y1=%2214%22 x2=%2216%22 y2=%2214%22/><line x1=%2212%22 y1=%2214%22 x2=%2212%22 y2=%2214%22/><line x1=%228%22 y1=%2214%22 x2=%228%22 y2=%2214%22/><line x1=%2216%22 y1=%2218%22 x2=%2216%22 y2=%2218%22/><line x1=%2212%22 y1=%2218%22 x2=%2212%22 y2=%2218%22/><line x1=%228%22 y1=%2218%22 x2=%228%22 y2=%2218%22/><line x1=%2216%22 y1=%2210%22 x2=%2216%22 y2=%2210%22/><line x1=%2212%22 y1=%2210%22 x2=%2212%22 y2=%2210%22/><line x1=%228%22 y1=%2210%22 x2=%228%22 y2=%2210%22/></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,12 +24,6 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'], },
                 }
             }
-        }
-    </script>
-
-    <script>
-        function trackEvent(name, data = {}) {
-            console.log(`[Analytics] Event: ${name}`, data);
         }
     </script>
 
@@ -193,7 +187,7 @@
             <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
                 <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 <div class="relative z-10">
-                    <textarea id="app-details" maxlength="500" oninput="updateVisionInput(this)" rows="4"
+                    <textarea id="app-details" maxlength="500" rows="4"
                               class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6"
                               placeholder="What are you building? (e.g., 'An app for ordering home-cooked meals with subscription plans')."></textarea>
 
@@ -242,7 +236,10 @@
                     <span class="font-black uppercase tracking-widest text-[10px]">iOS Native</span>
                 </div>
                 <div onclick="setPlatform('multi')" id="platform-multi" class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
-                    <div class="flex gap-1 mb-3"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/></svg><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></div>
+                    <div class="flex gap-1 mb-3">
+                        <svg id="multi-icon-android" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/></svg>
+                        <svg id="multi-icon-ios" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    </div>
                     <span class="font-black uppercase tracking-widest text-[10px]">Cross-Platform</span>
                 </div>
             </div>
@@ -334,7 +331,7 @@
     let selectedDesignLabel = "MVP";
 
     const FEATURES = [
-        { id: 'gemini', name: 'Gemini AI', hours: 45, desc: 'Generative AI, automation, and LLM logic.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>` },
+        { id: 'ai_integration', name: 'AI Integration', hours: 45, desc: 'Generative AI, automation, and LLM processing.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.73-2.73 2.5 2.5 0 0 1-2.31-2.31 2.5 2.5 0 0 1 0-4.8 2.5 2.5 0 0 1 2.31-2.31 2.5 2.5 0 0 1 2.73-2.73A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.73-2.73 2.5 2.5 0 0 0 2.31-2.31 2.5 2.5 0 0 0 0-4.8 2.5 2.5 0 0 0-2.31-2.31 2.5 2.5 0 0 0-2.73-2.73A2.5 2.5 0 0 0 14.5 2Z"/><path d="M12 12h.01"/><path d="M12 7h.01"/><path d="M12 17h.01"/></svg>` },
         { id: 'booking', name: 'Booking System', hours: 38, desc: 'Reservation flow and availability management.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>` },
         { id: 'scheduling', name: 'Smart Scheduling', hours: 32, desc: 'Calendar sync, reminders, and recurrences.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>` },
         { id: 'qr_scanner', name: 'QR Code Reader', hours: 26, desc: 'In-app camera logic for scanning codes.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 12h.01"/><path d="M16 12h1"/></svg>` },
@@ -349,19 +346,16 @@
         { id: 'marketplace', name: 'Marketplace/Store', hours: 45, desc: 'Product listings, cart, and checkout.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>` },
         { id: 'chat', name: 'Real-time Chat', hours: 35, desc: 'Instant messaging between users.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>` },
         { id: 'gps', name: 'GPS & Mapping', hours: 27, desc: 'Location tracking and maps.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>` },
-        { id: 'reviews', name: 'Rating System', hours: 22, desc: 'Star ratings and user feedback loops.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>` },
-        { id: 'media_upload', name: 'Media Handling', hours: 30, desc: 'Photo/Video uploads and cloud storage.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>` },
-        { id: 'offline', name: 'Offline Support', hours: 29, desc: 'Allow app use without internet.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l22 22"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><path d="M12 20h.01"/></svg>` },
-        { id: 'biometric', name: 'Biometric Login', hours: 25, desc: 'FaceID/Fingerprint security.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>` },
-        { id: 'ui_ux', name: 'Custom Design', hours: 33, desc: 'Bespoke high-fidelity UI/UX.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 5 5"/><path d="m9.5 6.5 4 4"/></svg>` },
-        { id: 'multilingual', name: 'Multilingual', hours: 24, desc: 'Support for multiple languages (RTL/LTR).', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>` },
+        { id: 'biometric', name: 'Biometric Login', hours: 25, desc: 'FaceID or Fingerprint security.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M7 12c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5Z"/><path d="M12 12h.01"/><path d="M15 15l2 2"/><path d="M12 17v2"/><path d="M9 15l-2 2"/><path d="M7 12H5"/><path d="M9 9l-2-2"/><path d="M12 7V5"/><path d="M15 9l2-2"/><path d="M17 12h2"/></svg>` },
+        { id: 'dam', name: 'Digital Asset Management', hours: 34, desc: 'Centralized storage for files, images, and docs.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10v6"/><path d="m9 13 3 3 3-3"/><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>` },
+        { id: 'inventory', name: 'Inventory Management', hours: 32, desc: 'Track stock levels and SKU movements.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>` },
+        { id: 'multilingual', name: 'Multilingual', hours: 24, desc: 'Support for multiple languages.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>` },
         { id: 'analytics', name: 'User Analytics', hours: 26, desc: 'Tracking user behavior insights.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>` },
         { id: 'ads', name: 'Ad Integration', hours: 20, desc: 'Monetization via AdMob or similar.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M7 15h.01"/><path d="M12 15h.01"/><path d="M17 15h.01"/></svg>` },
         { id: 'hardware', name: 'IoT/Hardware', hours: 34, desc: 'Bluetooth/Hardware integration.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 7 10 10-5 5V2l5 5L7 17"/></svg>` },
         { id: 'dark_mode', name: 'Dark/Light Mode', hours: 16, desc: 'Dynamic theme switching support.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>` },
         { id: 'search', name: 'Advanced Search', hours: 28, desc: 'Fuzzy search, filters, and indexing.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>` },
         { id: 'video_stream', name: 'Video Streaming', hours: 42, desc: 'HLS/DASH player and CDN logic.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="15" x="2" y="3" rx="2"/><path d="m10 8 5 3-5 3V8Z"/></svg>` },
-        { id: 'ar_vr', name: 'AR / VR', hours: 55, desc: 'Augmented reality overlay or 3D views.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="12" r="2"/></svg>` },
         { id: 'referral', name: 'Referral System', hours: 24, desc: 'Invite codes and user rewards logic.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>` },
         { id: 'pdf_gen', name: 'PDF Generation', hours: 20, desc: 'Dynamic PDF export (invoices, docs).', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15h3"/><path d="M9 18h6"/></svg>` }
    ];
@@ -425,15 +419,39 @@
         document.querySelectorAll('.platform-card').forEach(card => {
             card.classList.remove('card-active');
             card.classList.add('text-gray-400');
-            card.querySelector('svg').classList.remove('text-amber-600');
+            const svg = card.querySelector('svg');
+            if (svg) svg.classList.remove('text-amber-600');
         });
+
         const activeCard = document.getElementById(`platform-${platform}`);
         activeCard.classList.add('card-active');
         activeCard.classList.remove('text-gray-400');
-        activeCard.querySelector('svg').classList.add('text-amber-600');
-        if(platform === 'android') { platformMultiplier = 1.0; selectedPlatformLabel = "Android"; }
-        else if(platform === 'ios') { platformMultiplier = 1.3; selectedPlatformLabel = "iOS Native"; }
-        else { platformMultiplier = 1.8; selectedPlatformLabel = "Cross-Platform"; }
+
+        const androidIcon = document.getElementById('multi-icon-android');
+        const iosIcon = document.getElementById('multi-icon-ios');
+        const standardIcon = activeCard.querySelector('svg');
+
+        // Reset multi icons
+        if (androidIcon) androidIcon.classList.remove('text-amber-600');
+        if (iosIcon) iosIcon.classList.remove('text-amber-600');
+
+        if(platform === 'android') {
+            platformMultiplier = 1.0;
+            selectedPlatformLabel = "Android";
+            standardIcon.classList.add('text-amber-600');
+        }
+        else if(platform === 'ios') {
+            platformMultiplier = 1.3;
+            selectedPlatformLabel = "iOS Native";
+            standardIcon.classList.add('text-amber-600');
+        }
+        else {
+            platformMultiplier = 1.8;
+            selectedPlatformLabel = "Cross-Platform";
+            androidIcon.classList.add('text-amber-600');
+            iosIcon.classList.add('text-amber-600');
+        }
+
         document.getElementById('multiplier-platform').textContent = selectedPlatformLabel;
         updateQuote();
     }
@@ -479,7 +497,6 @@
         document.getElementById('total-quote-display').textContent = quoteString;
         document.getElementById('formatted-time-display').textContent = timeString;
 
-        // Print header updates
         document.getElementById('p-total').textContent = quoteString;
         document.getElementById('p-hours').textContent = hourString;
         document.getElementById('p-timeline').textContent = timeString;
@@ -511,7 +528,11 @@
     function renderFeatures() {
         const baseHtml = `
             <div class="p-8 rounded-3xl border-2 card-active feature-item print-selected flex gap-6 items-center bg-white dark:bg-gray-800 relative">
-                <div class="base-icon shadow-lg shadow-amber-600/10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 20h20"/><path d="M5 20v-4"/><path d="M12 20v-8"/><path d="M19 20V8"/></svg></div>
+                <div class="base-icon shadow-lg shadow-amber-600/10">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
                 <div class="flex-grow">
                     <span class="text-amber-600 font-black text-xl uppercase tracking-tight block">Base Architecture</span>
                     <p class="text-gray-400 text-xs">Standard cloud infrastructure and security layers.</p>
@@ -543,8 +564,6 @@
         updateQuote();
     }
 
-    function updateVisionInput(el) { /* Optional: show char count */ }
-
     function sendEnquiryEmail() {
         const email = "softwaredev230@gmail.com";
         const vision = document.getElementById('app-details').value.trim() || "No detailed description provided.";
@@ -558,7 +577,7 @@
             `Project Quote Inquiry\n` +
             `========================\n\n` +
             `Hi Team,\n\n` +
-            `I have generated a project estimate using the App Cost Estimator and would like to discuss this further.\n\n` +
+            `I have generated a project estimate and would like to discuss this further.\n\n` +
             `--- PROJECT SUMMARY ---\n` +
             `Vision: ${vision}\n` +
             `Platform: ${selectedPlatformLabel}\n` +
@@ -574,8 +593,6 @@
             `Best regards,\n` +
             `[Prospective Client]`
         );
-
-        trackEvent('enquiry_triggered', { total: total });
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     }
 
