@@ -26,6 +26,14 @@
             }
         }
     </script>
+
+    <!-- TRACKING SYSTEM INITIALIZATION -->
+    <script>
+        function trackEvent(name, data = {}) {
+            console.log(`[Analytics] Event: ${name}`, data);
+        }
+    </script>
+
     <style>
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 8px; }
@@ -107,13 +115,13 @@
             left: 0;
             right: 0;
             z-index: 50;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
             border-top: 1px solid #e5e7eb;
             transition: all 0.3s ease;
         }
         .dark .bottom-summary {
-            background: rgba(17, 24, 39, 0.8);
+            background: rgba(17, 24, 39, 0.9);
             border-top: 1px solid #374151;
         }
 
@@ -151,7 +159,7 @@
             </div>
             <div>
                 <h1 class="text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none">
-                    App Cost <span class="text-amber-600">Estimator</span>
+                    App <span class="text-amber-600">Cost Estimator</span>
                 </h1>
                 <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-2">
                     Professional Software Quoting Tool</p>
@@ -174,6 +182,7 @@
 
 <main class="p-6 lg:p-12">
     <div class="max-w-7xl mx-auto">
+        <!-- Vision Area -->
         <section id="describe-vision-area" class="mb-16">
             <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
                 <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">1</span>
@@ -238,6 +247,7 @@
             </div>
         </section>
 
+        <!-- Platform Area -->
         <section id="platform-selection-area" class="mb-16">
             <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
                 <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">2</span>
@@ -275,7 +285,7 @@
             </div>
         </section>
 
-        <!-- Step 3: Design Selection with Consistent Icons -->
+        <!-- Design Level -->
         <section id="design-selection-area" class="mb-16">
             <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
                 <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">3</span>
@@ -295,8 +305,7 @@
                         <line x1="12" y1="22.08" x2="12" y2="12"></line>
                     </svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">MVP Tier</span>
-                    <p class="text-[9px] text-gray-400 mt-1">Standard UI, minimal custom
-                        elements</p>
+                    <p class="text-[9px] text-gray-400 mt-1">Standard UI, minimal custom elements</p>
                 </div>
                 <div onclick="setDesign('professional')" id="design-professional"
                      class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
@@ -319,12 +328,12 @@
                         <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path>
                     </svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">Premium / Luxe</span>
-                    <p class="text-[9px] text-gray-400 mt-1">High-end animations, unique
-                        identity</p>
+                    <p class="text-[9px] text-gray-400 mt-1">High-end animations, unique identity</p>
                 </div>
             </div>
         </section>
 
+        <!-- Features -->
         <section id="feature-selection-area" class="mb-32">
             <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
                 <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">4</span>
@@ -337,45 +346,45 @@
     </div>
 </main>
 
+<!-- Footer Adjustments -->
 <div class="bottom-summary shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)]">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-8 overflow-x-auto w-full md:w-auto">
-            <div class="flex-shrink-0">
-                <p class="text-[9px] uppercase font-black text-gray-500 tracking-tighter">Projected
-                    Quote</p>
-                <p id="total-quote-display" class="text-2xl font-black text-amber-600 leading-none">
-                    R0</p>
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-6">
+        <!-- Main stats container: Removed overflow-x-auto, added flex-wrap for responsiveness without scroll -->
+        <div class="grid grid-cols-2 sm:flex sm:flex-row items-center gap-x-6 gap-y-4 w-full md:w-auto">
+            <div class="flex-shrink-0 min-w-[120px]">
+                <p class="text-[9px] uppercase font-black text-gray-500 tracking-tighter">Projected Quote</p>
+                <p id="total-quote-display" class="text-2xl font-black text-amber-600 leading-none">R0</p>
             </div>
-            <div class="flex gap-8">
-                <div>
-                    <p class="text-[9px] uppercase font-black text-gray-400">Hours</p>
-                    <p id="total-hours-display" class="text-sm font-bold">0 hrs</p>
-                </div>
-                <div>
-                    <p class="text-[9px] uppercase font-black text-gray-400">Timeline</p>
-                    <p id="formatted-time-display" class="text-sm font-bold">0d</p>
-                </div>
-                <div>
-                    <p class="text-[9px] uppercase font-black text-gray-400">Spec</p>
-                    <div class="flex gap-2 text-[10px] font-black uppercase text-amber-600">
-                        <span id="multiplier-platform">Android</span>
-                        <span class="text-gray-300">|</span>
-                        <span id="multiplier-design">MVP</span>
-                    </div>
-                </div>
+            <div class="flex-shrink-0">
+                <p class="text-[9px] uppercase font-black text-gray-400">Hours</p>
+                <p id="total-hours-display" class="text-sm font-bold">0 hrs</p>
+            </div>
+            <div class="flex-shrink-0">
+                <p class="text-[9px] uppercase font-black text-gray-400">Timeline</p>
+                <p id="formatted-time-display" class="text-sm font-bold">0d</p>
+            </div>
+            <div class="flex-shrink-0 col-span-2 sm:col-auto">
+                <p class="text-[9px] uppercase font-black text-gray-400">Spec</p>
+                <p id="spec-display" class="text-sm font-black flex items-center">
+                    <span id="multiplier-platform" class="text-amber-600">Android</span>
+                    <span class="text-gray-300 mx-1">/</span>
+                    <span id="multiplier-design" class="text-amber-600">MVP</span>
+                </p>
             </div>
         </div>
+
+        <!-- Actions container -->
         <div class="flex gap-2 w-full md:w-auto">
-            <button onclick="window.print()"
-                    class="p-4 rounded-2xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 00-2 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            <button onclick="window.print()" title="Print Quotation"
+                    class="p-4 rounded-2xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-500">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                    <path d="M6 9V2h12v7"></path>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
                 </svg>
             </button>
             <button id="submit-btn" onclick="submitProject()"
-                    class="flex-1 md:flex-none px-10 py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap">
+                    class="flex-1 md:flex-none px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap">
                 ✨ Draft AI Proposal
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
@@ -397,8 +406,7 @@
             </svg>
         </div>
         <h3 class="text-2xl font-black mb-2 text-center dark:text-white">Estimate Ready!</h3>
-        <p class="text-gray-500 text-center dark:text-gray-400 mb-6">Gemini has drafted a
-            professional proposal for you.</p>
+        <p class="text-gray-500 text-center dark:text-gray-400 mb-6">Gemini has drafted a professional proposal for you.</p>
 
         <div id="proposal-draft-area"
              class="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl mb-8 border border-gray-200 dark:border-gray-700 font-serif text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
@@ -480,6 +488,7 @@
     async function generateAiInsight(mode) {
         const details = document.getElementById('app-details').value.trim();
         if (!details) return;
+        trackEvent('ai_insight_requested', { mode: mode, detail_length: details.length });
         const loader = document.getElementById(`ai-loading-${mode}`);
         const errorPanel = document.getElementById('ai-insight-panel');
         const insightText = document.getElementById('ai-insight-text');
@@ -516,6 +525,7 @@
         const vision = document.getElementById('app-details').value.trim();
         const total = document.getElementById('total-quote-display').textContent;
         const selected = Array.from(document.querySelectorAll('.quote-checkbox:checked')).map(cb => cb.dataset.name);
+        trackEvent('proposal_generated', { total_budget: total, platform: selectedPlatformLabel, design: selectedDesignLabel, feature_count: selected.length });
         const prompt = `Proposal for: ${vision}. Platform: ${selectedPlatformLabel}. Design: ${selectedDesignLabel}. Budget: ${total}. Features: ${selected.join(', ')}. Return JSON: { "draft": "text" }`;
         try {
             const result = await callGemini(prompt, "Professional consultant.");
@@ -527,6 +537,7 @@
         const isDark = document.documentElement.classList.toggle('dark');
         document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', isDark);
         document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', !isDark);
+        trackEvent('theme_toggled', { theme: isDark ? 'dark' : 'light' });
     }
 
     function setPlatform(platform) {
@@ -545,6 +556,7 @@
         else { platformMultiplier = 1.8; selectedPlatformLabel = "Cross-Platform"; }
         document.getElementById('multiplier-platform').textContent = selectedPlatformLabel;
         updateQuote();
+        trackEvent('platform_selected', { platform: selectedPlatformLabel });
     }
 
     function setDesign(level) {
@@ -563,6 +575,7 @@
         else { designMultiplier = 2.0; selectedDesignLabel = "Premium"; }
         document.getElementById('multiplier-design').textContent = selectedDesignLabel;
         updateQuote();
+        trackEvent('design_level_selected', { design: selectedDesignLabel });
     }
 
     function updateQuote() {
@@ -602,25 +615,16 @@
      */
     function formatTime(totalHours) {
         if (!totalHours) return "0d";
-
-        const workingHoursPerDay = 8;
-        const workingDaysPerWeek = 5;
-        const workingWeeksPerMonth = 4;
-
-        let totalDays = Math.ceil(totalHours / workingHoursPerDay);
-
-        let months = Math.floor(totalDays / (workingDaysPerWeek * workingWeeksPerMonth));
-        let remainingDaysAfterMonths = totalDays % (workingDaysPerWeek * workingWeeksPerMonth);
-
-        let weeks = Math.floor(remainingDaysAfterMonths / workingDaysPerWeek);
-        let days = remainingDaysAfterMonths % workingDaysPerWeek;
-
-        let parts = [];
+        const totalDays = Math.ceil(totalHours / 8);
+        const months = Math.floor(totalDays / 20);
+        let remaining = totalDays % 20;
+        const weeks = Math.floor(remaining / 5);
+        const days = remaining % 5;
+        const parts = [];
         if (months > 0) parts.push(`${months}mo`);
         if (weeks > 0) parts.push(`${weeks}wk`);
-        if (days > 0 || parts.length === 0) parts.push(`${days}d`);
-
-        return parts.join(' ');
+        if (days > 0) parts.push(`${days}d`);
+        return parts.length === 0 ? '0d' : parts.join(' ');
     }
 
     function renderFeatures() {
@@ -660,21 +664,24 @@
                     </div>
                 </div>
             </label>`).join('');
-        document.querySelectorAll('.quote-checkbox').forEach(cb => cb.addEventListener('change', updateQuote));
-
-        // Initial icon colors
-        document.querySelectorAll('.platform-card.card-active svg, .design-card.card-active svg').forEach(s => {
-            s.classList.remove('text-gray-400');
-            s.classList.add('text-amber-600');
+        document.querySelectorAll('.quote-checkbox').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                updateQuote();
+                if (e.target.checked) trackEvent('feature_selected', { feature_id: e.target.id, feature_name: e.target.dataset.name });
+            });
         });
-
         updateQuote();
     }
 
     function updateVisionInput(el) { document.getElementById('char-counter').textContent = `${el.value.length} / 500`; }
-    function copyProposal() { navigator.clipboard.writeText(document.getElementById('proposal-draft-area').textContent); }
-    function closeModalAndDownload() { window.print(); }
-
+    function copyProposal() {
+        navigator.clipboard.writeText(document.getElementById('proposal-draft-area').textContent);
+        trackEvent('proposal_copied');
+    }
+    function closeModalAndDownload() {
+        trackEvent('proposal_printed');
+        window.print();
+    }
     window.onload = renderFeatures;
 </script>
 </body>
