@@ -114,20 +114,30 @@
 
         #print-header { display: none; }
         @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             #print-header {
                 display: block !important;
                 border: 2px solid #d97706;
-                background: #fff;
-                color: #000;
+                background: #ffffff !important;
+                color: #000 !important;
                 margin-bottom: 2rem;
+                border-radius: 20px;
             }
             .bottom-summary, #theme-toggle, #describe-vision-area, #platform-selection-area, #design-selection-area, #ai-actions, nav { display: none !important; }
             body { background: white !important; color: black !important; padding-bottom: 0 !important; }
             main { padding: 0 !important; }
             #feature-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
             .feature-item:not(.print-selected) { display: none !important; }
-            .feature-item { break-inside: avoid; border: 1px solid #d97706 !important; background: white !important; }
-            .feature-item p, .feature-item span { color: black !important; }
+            .feature-item {
+                break-inside: avoid;
+                border: 1.5px solid #d97706 !important;
+                background: white !important;
+                box-shadow: none !important;
+            }
+            .feature-item p, .feature-item span, .feature-item div { color: black !important; }
+            .feature-item .text-amber-600 { color: #d97706 !important; }
+            /* Ensure logo icon background prints */
+            .print-logo-box { background-color: #d97706 !important; }
         }
     </style>
 </head>
@@ -166,11 +176,11 @@
 <main class="p-6 lg:p-12">
     <div class="max-w-7xl mx-auto">
 
-        <!-- PRINT ONLY HEADER -->
-        <div id="print-header" class="rounded-3xl p-10 mb-10 border-2 border-amber-600">
-            <!-- Brand Section for Printing -->
-            <div class="flex items-center gap-6 mb-10 pb-6 border-b border-gray-100">
-                <div class="p-4 bg-amber-600 rounded-2xl">
+        <!-- PRINT HEADER (CALCULATOR LOGO & BRANDING) -->
+        <div id="print-header" class="p-8 border-2 border-amber-600 bg-white">
+            <div class="flex items-center gap-6 mb-8 pb-6 border-b border-gray-100">
+                <!-- Calculator Icon Box -->
+                <div class="print-logo-box p-4 bg-amber-600 rounded-2xl">
                     <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <rect x="4" y="2" width="16" height="20" rx="2"/>
                         <line x1="8" y1="6" x2="16" y2="6"/>
@@ -180,18 +190,18 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-4xl font-black text-gray-900 tracking-tight leading-none">
+                    <h1 class="text-4xl font-black text-black tracking-tight leading-none">
                         App <span class="text-amber-600">Cost Estimator</span>
                     </h1>
-                    <p class="text-sm uppercase tracking-[0.2em] text-gray-500 font-bold mt-2">Professional Software Quotation Summary</p>
+                    <p class="text-sm uppercase tracking-[0.2em] text-gray-600 font-black mt-2">Professional Software Quotation</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-4 gap-8">
-                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Projected Total</p><p id="p-total" class="text-3xl font-black text-amber-600">R0</p></div>
-                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Estimated Effort</p><p id="p-hours" class="text-xl font-bold">0 hrs</p></div>
-                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Delivery Timeline</p><p id="p-timeline" class="text-xl font-bold">0d</p></div>
-                <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Build Specs</p><p id="p-spec" class="text-xl font-black text-amber-600">Android / MVP</p></div>
+            <div class="grid grid-cols-4 gap-6">
+                <div><p class="text-[10px] uppercase font-black text-gray-500 mb-1">Projected Total</p><p id="p-total" class="text-3xl font-black text-amber-600">R0</p></div>
+                <div><p class="text-[10px] uppercase font-black text-gray-500 mb-1">Estimated Effort</p><p id="p-hours" class="text-xl font-bold text-black">0 hrs</p></div>
+                <div><p class="text-[10px] uppercase font-black text-gray-500 mb-1">Delivery Timeline</p><p id="p-timeline" class="text-xl font-bold text-black">0d</p></div>
+                <div><p class="text-[10px] uppercase font-black text-gray-500 mb-1">Build Specs</p><p id="p-spec" class="text-xl font-black text-amber-600">Android / MVP</p></div>
             </div>
         </div>
 
