@@ -121,14 +121,13 @@
                 color: #000;
                 margin-bottom: 2rem;
             }
-            .bottom-summary, #theme-toggle, #describe-vision-area, #platform-selection-area, #design-selection-area, #ai-actions { display: none !important; }
-            body { background: white !important; color: black !important; }
+            .bottom-summary, #theme-toggle, #describe-vision-area, #platform-selection-area, #design-selection-area, #ai-actions, nav { display: none !important; }
+            body { background: white !important; color: black !important; padding-bottom: 0 !important; }
             main { padding: 0 !important; }
             #feature-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
             .feature-item:not(.print-selected) { display: none !important; }
             .feature-item { break-inside: avoid; border: 1px solid #d97706 !important; background: white !important; }
             .feature-item p, .feature-item span { color: black !important; }
-            nav { border-bottom: 2px solid #000 !important; }
         }
     </style>
 </head>
@@ -168,8 +167,26 @@
     <div class="max-w-7xl mx-auto">
 
         <!-- PRINT ONLY HEADER -->
-        <div id="print-header" class="rounded-3xl p-10 mb-10">
-            <h2 class="text-3xl font-black mb-6 border-b-2 border-amber-600 pb-4">Project Quotation Summary</h2>
+        <div id="print-header" class="rounded-3xl p-10 mb-10 border-2 border-amber-600">
+            <!-- Brand Section for Printing -->
+            <div class="flex items-center gap-6 mb-10 pb-6 border-b border-gray-100">
+                <div class="p-4 bg-amber-600 rounded-2xl">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                        <rect x="4" y="2" width="16" height="20" rx="2"/>
+                        <line x1="8" y1="6" x2="16" y2="6"/>
+                        <line x1="16" y1="14" x2="16" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="14" x2="8" y2="14"/>
+                        <line x1="16" y1="18" x2="16" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/><line x1="8" y1="18" x2="8" y2="18"/>
+                        <line x1="16" y1="10" x2="16" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="8" y1="10" x2="8" y2="10"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl font-black text-gray-900 tracking-tight leading-none">
+                        App <span class="text-amber-600">Cost Estimator</span>
+                    </h1>
+                    <p class="text-sm uppercase tracking-[0.2em] text-gray-500 font-bold mt-2">Professional Software Quotation Summary</p>
+                </div>
+            </div>
+
             <div class="grid grid-cols-4 gap-8">
                 <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Projected Total</p><p id="p-total" class="text-3xl font-black text-amber-600">R0</p></div>
                 <div><p class="text-xs uppercase font-black text-gray-500 mb-1">Estimated Effort</p><p id="p-hours" class="text-xl font-bold">0 hrs</p></div>
@@ -253,7 +270,7 @@
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div onclick="setDesign('mvp')" id="design-mvp" class="design-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
-                    <svg class="w-8 h-8 mb-3 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <svg class="w-8 h-8 mb-3 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4 a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">MVP Tier</span>
                 </div>
                 <div onclick="setDesign('professional')" id="design-professional" class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
@@ -310,7 +327,7 @@
                     <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
                 </svg>
             </button>
-            <button onclick="sendEnquiryEmail()"
+            <button id="send-inquiry-btn" onclick="sendEnquiryEmail()"
                     class="flex-1 md:flex-none px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-3 active:scale-95 whitespace-nowrap">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -347,6 +364,7 @@
         { id: 'chat', name: 'Real-time Chat', hours: 35, desc: 'Instant messaging between users.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>` },
         { id: 'gps', name: 'GPS & Mapping', hours: 27, desc: 'Location tracking and maps.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>` },
         { id: 'biometric', name: 'Biometric Login', hours: 25, desc: 'FaceID or Fingerprint security.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M7 12c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5Z"/><path d="M12 12h.01"/><path d="M15 15l2 2"/><path d="M12 17v2"/><path d="M9 15l-2 2"/><path d="M7 12H5"/><path d="M9 9l-2-2"/><path d="M12 7V5"/><path d="M15 9l2-2"/><path d="M17 12h2"/></svg>` },
+        { id: 'offline', name: 'Offline Support', hours: 30, desc: 'Local storage and background syncing.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v2"/><path d="M15.53 16.53a5 5 0 0 0-7.06 0"/><path d="M18.36 13.64a9 9 0 0 0-12.72 0"/><path d="M21.19 10.81a13 13 0 0 0-18.38 0"/><line x1="1" y1="1" x2="23" y2="23"/></svg>` },
         { id: 'dam', name: 'Digital Asset Management', hours: 34, desc: 'Centralized storage for files, images, and docs.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10v6"/><path d="m9 13 3 3 3-3"/><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>` },
         { id: 'inventory', name: 'Inventory Management', hours: 32, desc: 'Track stock levels and SKU movements.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>` },
         { id: 'multilingual', name: 'Multilingual', hours: 24, desc: 'Support for multiple languages.', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>` },
@@ -431,7 +449,6 @@
         const iosIcon = document.getElementById('multi-icon-ios');
         const standardIcon = activeCard.querySelector('svg');
 
-        // Reset multi icons
         if (androidIcon) androidIcon.classList.remove('text-amber-600');
         if (iosIcon) iosIcon.classList.remove('text-amber-600');
 
@@ -570,28 +587,47 @@
         const total = document.getElementById('total-quote-display').textContent;
         const hours = document.getElementById('total-hours-display').textContent;
         const timeline = document.getElementById('formatted-time-display').textContent;
-        const selectedFeatures = Array.from(document.querySelectorAll('.quote-checkbox:checked')).map(cb => `• ${cb.dataset.name}`).join('\n');
 
-        const subject = encodeURIComponent(`Project Quote Inquiry: App Development`);
+        const combinedMult = platformMultiplier * designMultiplier;
+        const baseCostValue = Math.round(BASE_HOURS * combinedMult) * HOURLY_RATE;
+        let featHoursRaw = 0;
+        document.querySelectorAll('.quote-checkbox:checked').forEach(cb => featHoursRaw += parseInt(cb.dataset.hours));
+        const featCostValue = Math.round(featHoursRaw * combinedMult) * HOURLY_RATE;
+
+        const selectedFeaturesList = Array.from(document.querySelectorAll('.quote-checkbox:checked')).map(cb => `• ${cb.dataset.name}`).join('\n');
+
+        const today = new Date();
+        const dateString = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        const subject = encodeURIComponent(`Project Quote Inquiry: ${vision.substring(0, 30)}...`);
         const body = encodeURIComponent(
-            `Project Quote Inquiry\n` +
-            `========================\n\n` +
-            `Hi Team,\n\n` +
-            `I have generated a project estimate and would like to discuss this further.\n\n` +
-            `--- PROJECT SUMMARY ---\n` +
-            `Vision: ${vision}\n` +
-            `Platform: ${selectedPlatformLabel}\n` +
-            `Design Tier: ${selectedDesignLabel}\n\n` +
-            `--- ESTIMATED PRICING & EFFORT ---\n` +
-            `Total Quote: ${total}\n` +
-            `Total Estimated Effort: ${hours}\n` +
-            `Projected Delivery: ${timeline}\n\n` +
-            `--- SELECTED FEATURE SCOPE ---\n` +
-            `• Core Infrastructure & Base Architecture\n` +
-            `${selectedFeatures || "• No additional features selected"}\n\n` +
-            `Please let me know your availability for a follow-up consultation.\n\n` +
-            `Best regards,\n` +
-            `[Prospective Client]`
+            `Dear Software Development Team,\n\n` +
+            `I would like to formally submit a request for a project quotation based on the following scope generated via the App Cost Estimator.\n\n` +
+            `PROJECT SUMMARY\n` +
+            `--------------------------------------------------\n` +
+            `Date Generated: ${dateString}\n` +
+            `Target Platform: ${selectedPlatformLabel}\n` +
+            `Estimated Total: ${total}\n` +
+            `Estimated Effort: ${hours}\n` +
+            `Estimated Timeline: ${timeline}\n\n` +
+            `COST BREAKDOWN\n` +
+            `--------------------------------------------------\n` +
+            `Core Architecture: R${baseCostValue.toLocaleString()}\n` +
+            `Feature Development: R${featCostValue.toLocaleString()}\n\n` +
+            `PROJECT VISION & OBJECTIVES\n` +
+            `--------------------------------------------------\n` +
+            `${vision}\n\n` +
+            `SELECTED FEATURE SCOPE\n` +
+            `--------------------------------------------------\n` +
+            `${selectedFeaturesList || "• No additional features selected"}\n\n` +
+            `NEXT STEPS\n` +
+            `--------------------------------------------------\n` +
+            `Please review the above requirements and let me know if you require any further clarification to finalize this proposal. I look forward to your feedback regarding the feasibility and official timeline.\n\n` +
+            `Kind regards,\n` +
+            `[Your Name]\n` +
+            `[Your Contact Number]\n\n` +
+            `--------------------------------------------------\n` +
+            `Generated via App Cost Estimator Tool`
         );
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     }
