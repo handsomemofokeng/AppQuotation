@@ -113,8 +113,20 @@
         }
 
         #print-header { display: none; }
+
+        /* Toast notifications (bottom-right) */
+        #toast { position: fixed; right: 1rem; bottom: 1.5rem; z-index: 60; pointer-events: none; }
+        .toast { min-width: 220px; max-width: 420px; padding: 0.75rem 1rem; border-radius: 12px; color: white; font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,0.12); opacity: 0; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease; pointer-events: auto; }
+        .toast-visible { opacity: 1; transform: translateY(0); }
+        .toast-success { background: #16a34a; }
+        .toast-error { background: #ef4444; }
+
+
+
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            /* Hide transient UI elements when printing */
+            #toast { display: none !important; }
             #print-header {
                 display: block !important;
                 border: 2px solid #d97706;
@@ -138,6 +150,11 @@
             .feature-item .text-amber-600 { color: #d97706 !important; }
             /* Ensure logo icon background prints */
             .print-logo-box { background-color: #d97706 !important; }
+            /* Printed project vision & strategy blocks */
+            #print-vision { display: block !important; color: #000 !important; }
+            #print-vision .text-amber-600 { color: #d97706 !important; }
+            #print-strategy { display: block !important; color: #000 !important; }
+            #print-strategy .text-amber-600 { color: #d97706 !important; }
         }
     </style>
 </head>
@@ -174,6 +191,7 @@
 </nav>
 
 <main class="p-6 lg:p-12">
+    <div id="toast" class="hidden" aria-live="polite"></div>
     <div class="max-w-7xl mx-auto">
 
         <!-- PRINT HEADER (CALCULATOR LOGO & BRANDING) -->
@@ -203,6 +221,16 @@
                 <div><p class="text-[10px] uppercase font-black text-gray-500 mb-1">Delivery Timeline</p><p id="p-timeline" class="text-xl font-bold text-black">0d</p></div>
                 <div><p class="text-[10px] uppercase font-black text-gray-500 mb-1">Build Specs</p><p id="p-spec" class="text-xl font-black text-amber-600">Android / MVP</p></div>
             </div>
+
+            <div id="print-vision" class="hidden mt-4 p-3 rounded-md border border-gray-200">
+                <h3 class="text-sm font-black uppercase text-amber-600 mb-1">Vision</h3>
+                <div id="print-vision-content" class="text-sm text-black">Add your project vision using the "Describe Your Vision" field.</div>
+            </div>
+
+            <div id="print-strategy" class="hidden mt-6 p-4 rounded-md border border-gray-200">
+                <h3 class="text-sm font-black uppercase text-amber-600 mb-2">Project Strategy</h3>
+                <div id="print-strategy-content" class="text-sm text-black">Run "See Project Strategy" to include a strategic summary here before printing.</div>
+            </div>
         </div>
 
         <!-- Vision Area -->
@@ -218,24 +246,16 @@
                               class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6"
                               placeholder="What are you building? (e.g., 'An app for ordering home-cooked meals with subscription plans')."></textarea>
 
-                    <div id="ai-actions" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <button onclick="generateAiInsight('recommend')"
-                                class="px-6 py-4 bg-amber-600 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-amber-700 active:scale-[0.98] shadow-lg shadow-amber-600/20">
+                    <div id="ai-actions" class="grid grid-cols-1 md:grid-cols-1 gap-4">
+                        <button id="ai-recommend-strategy-btn"
+                                class="px-6 py-4 bg-amber-600 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-amber-700 active:scale-[0.98] shadow-lg shadow-amber-600/20" title="Auto-select features and generate a project strategy">
                             <span class="flex items-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                Auto-Select Features
+                                Recommend Features & Strategize
                             </span>
-                            <div id="ai-loading-recommend" class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                            <div id="ai-loading-auto" class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
                         </button>
-                        <button onclick="generateAiInsight('breakdown')"
-                                class="px-6 py-4 bg-gray-800 dark:bg-gray-700 text-white font-black rounded-2xl transition-all flex items-center justify-center gap-3 hover:bg-gray-900 dark:hover:bg-gray-600 active:scale-[0.98] shadow-lg">
-                            <span class="flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                                See Project Strategy
-                            </span>
-                            <div id="ai-loading-breakdown" class="hidden animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        </button>
-                    </div>
+                    </div> 
 
                     <div id="ai-insight-panel" class="hidden mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
                         <div class="p-5 rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/50">
@@ -281,7 +301,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div onclick="setDesign('mvp')" id="design-mvp" class="design-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
                     <svg class="w-8 h-8 mb-3 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4 a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    <span class="font-black uppercase tracking-widest text-[10px]">MVP Tier</span>
+                    <span class="font-black uppercase tracking-widest text-[10px]">Basic</span>
                 </div>
                 <div onclick="setDesign('professional')" id="design-professional" class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
                     <svg class="w-8 h-8 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 5-10 13L2 8z"></path><path d="M11 3 8 8l3 13"></path><path d="M13 3l3 5-3 13"></path><path d="M2 8h20"></path></svg>
@@ -424,18 +444,123 @@
                 document.querySelectorAll('.quote-checkbox').forEach(cb => cb.checked = false);
                 result.selectedIds?.forEach(id => { const cb = document.getElementById(id); if (cb) cb.checked = true; });
                 updateQuote();
+                showToast('Features auto-selected', 'success');
                 insightText.textContent = result.analysis;
+
+                // Clear any printable strategy when recommending features
+                const _ps = document.getElementById('print-strategy');
+                const _psc = document.getElementById('print-strategy-content');
+                if (_ps) _ps.classList.add('hidden');
+                if (_psc) _psc.innerHTML = '';
+
+                // Also clear printable vision
+                const _pv = document.getElementById('print-vision');
+                const _pvc = document.getElementById('print-vision-content');
+                if (_pv) _pv.classList.add('hidden');
+                if (_pvc) _pvc.innerHTML = '';
             } else {
                 insightTitle.textContent = "Strategic Project Roadmap";
-                insightText.innerHTML = `
+                const strategyHtml = `
                     <div><span class="font-black text-amber-600">Vision:</span> ${result.valueProp}</div>
                     <div><span class="font-black text-amber-600">Milestones:</span><ul class='list-disc pl-5'>${result.milestones.map(m=>`<li>${m}</li>`).join('')}</ul></div>
                     <div><span class="font-black text-amber-600">Tech:</span> ${result.techSummary}</div>
                 `;
+                insightText.innerHTML = strategyHtml;
+
+                // Populate printable strategy and make sure it's visible for print
+                const printStrategy = document.getElementById('print-strategy');
+                const printStrategyContent = document.getElementById('print-strategy-content');
+                if (printStrategy && printStrategyContent) {
+                    printStrategyContent.innerHTML = strategyHtml;
+                    printStrategy.classList.remove('hidden');
+                }
+
+                // Populate printable vision above strategy
+                const printVision = document.getElementById('print-vision');
+                const printVisionContent = document.getElementById('print-vision-content');
+                if (printVision && printVisionContent) {
+                    printVisionContent.textContent = details;
+                    printVision.classList.remove('hidden');
+                }
             }
             panel.classList.remove('hidden');
-        } catch (e) { insightText.textContent = "Analysis failed."; panel.classList.remove('hidden'); }
-        finally { loader.classList.add('hidden'); }
+        } catch (e) {
+            if (mode === 'recommend') {
+                insightTitle.textContent = "Auto-Select Failed";
+                insightText.innerHTML = "Auto-selection failed. Please select features manually from the list below and then click <strong>Update Quote</strong>, or try Auto-Select again.";
+                showToast('Auto-selection failed. Please select features manually and try again.', 'error');
+            } else {
+                insightTitle.textContent = "Analysis failed";
+                insightText.textContent = "Analysis failed. Please try again later.";
+                showToast('Analysis failed. Please try again later.', 'error');
+            }
+            panel.classList.remove('hidden');
+        } finally { loader.classList.add('hidden'); }
+    }
+
+    async function autoRecommendAndStrategize() {
+        const details = document.getElementById('app-details').value.trim();
+        if (!details) { alert('Please describe your app vision first!'); return; }
+
+        const btn = document.getElementById('ai-recommend-strategy-btn');
+        const loader = document.getElementById('ai-loading-auto');
+        const panel = document.getElementById('ai-insight-panel');
+        const insightText = document.getElementById('ai-insight-text');
+        const insightTitle = document.getElementById('ai-insight-title');
+
+        btn.disabled = true; loader.classList.remove('hidden'); panel.classList.add('hidden');
+
+        try {
+            // Step 1: Auto-select features
+            const recommendPrompt = `Select feature IDs from: ${FEATURES.map(f => f.id).join(', ')}. Return JSON: { "selectedIds": ["id1"], "analysis": "summary" }`;
+            const rec = await callGemini(details, recommendPrompt);
+            insightTitle.textContent = "Recommended Project Scope";
+            document.querySelectorAll('.quote-checkbox').forEach(cb => cb.checked = false);
+            rec.selectedIds?.forEach(id => { const cb = document.getElementById(id); if (cb) cb.checked = true; });
+            updateQuote();
+            showToast('Features auto-selected', 'success');
+
+            // Step 2: Project strategy (breakdown)
+            const breakdownPrompt = `Senior strategist analysis. Return JSON: { "valueProp": "text", "milestones": ["text"], "marketFit": "text", "techSummary": "text" }`;
+            const strat = await callGemini(details, breakdownPrompt);
+
+            insightTitle.textContent = "Recommendations & Strategy";
+            const strategyHtml = `
+                <div><span class="font-black text-amber-600">Vision:</span> ${strat.valueProp}</div>
+                <div><span class="font-black text-amber-600">Milestones:</span><ul class='list-disc pl-5'>${(strat.milestones||[]).map(m=>`<li>${m}</li>`).join('')}</ul></div>
+                <div><span class="font-black text-amber-600">Tech:</span> ${strat.techSummary}</div>
+            `;
+            insightText.innerHTML = strategyHtml;
+
+            // Populate printable strategy
+            const printStrategy = document.getElementById('print-strategy');
+            const printStrategyContent = document.getElementById('print-strategy-content');
+            if (printStrategy && printStrategyContent) {
+                printStrategyContent.innerHTML = strategyHtml;
+                printStrategy.classList.remove('hidden');
+            }
+
+            // Populate printable vision above strategy
+            const printVision = document.getElementById('print-vision');
+            const printVisionContent = document.getElementById('print-vision-content');
+            if (printVision && printVisionContent) {
+                printVisionContent.textContent = details;
+                printVision.classList.remove('hidden');
+            }
+
+            panel.classList.remove('hidden');
+            showToast('Recommendations applied and strategy generated', 'success');
+
+
+        } catch (err) {
+            insightTitle.textContent = "Recommend & Strategize failed";
+            insightText.innerHTML = "Auto-selection and strategy generation failed. Please select features manually and try again.";
+            panel.classList.remove('hidden');
+            showToast('Auto-selection and strategy generation failed. Please select features manually and try again.', 'error');
+        } finally {
+            loader.classList.add('hidden');
+            btn.disabled = false;
+        }
     }
 
     function toggleTheme() {
@@ -643,7 +768,39 @@
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     }
 
-    window.onload = renderFeatures;
+    // Toast helper
+    function showToast(message, type='success', duration=4000) {
+        const container = document.getElementById('toast');
+        if (!container) return;
+        container.classList.remove('hidden');
+        container.innerHTML = '';
+        const el = document.createElement('div');
+        el.className = 'toast ' + (type==='success' ? 'toast-success' : 'toast-error');
+        el.textContent = message;
+        container.appendChild(el);
+        requestAnimationFrame(() => el.classList.add('toast-visible'));
+        setTimeout(() => {
+            el.classList.remove('toast-visible');
+            setTimeout(() => {
+                if (container.contains(el)) container.removeChild(el);
+                if (!container.hasChildNodes()) container.classList.add('hidden');
+            }, 250);
+        }, duration);
+    }
+
+    window.onload = function() {
+        // Initialize features list
+        try { renderFeatures(); } catch (e) { console.error('renderFeatures error:', e); }
+
+        // Attach click handler for Recommend & Strategize button (ensures handler is bound even if inline onclick fails)
+        const recBtn = document.getElementById('ai-recommend-strategy-btn');
+        if (recBtn) {
+            recBtn.addEventListener('click', () => {
+                if (typeof autoRecommendAndStrategize === 'function') autoRecommendAndStrategize();
+                else console.warn('autoRecommendAndStrategize is not defined');
+            });
+        }
+    };
 </script>
 </body>
 </html>
