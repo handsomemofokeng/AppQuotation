@@ -242,9 +242,10 @@
             <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
                 <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 <div class="relative z-10">
-                    <textarea id="app-details" maxlength="1500" rows="4"
-                              class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-6"
+                    <textarea id="app-details" maxlength="1500" rows="5"
+                              class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-2"
                               placeholder="What are you building? (e.g., 'An app for ordering home-cooked meals with subscription plans')."></textarea>
+                    <div class="text-right text-xs text-gray-500 mb-4" id="char-counter">0/1500</div>
 
                     <div id="ai-actions" class="grid grid-cols-1 md:grid-cols-1 gap-4">
                         <button id="ai-recommend-strategy-btn"
@@ -799,6 +800,19 @@
                 if (typeof autoRecommendAndStrategize === 'function') autoRecommendAndStrategize();
                 else console.warn('autoRecommendAndStrategize is not defined');
             });
+        }
+
+        // Character counter for vision textarea
+        const visionTextarea = document.getElementById('app-details');
+        const charCounter = document.getElementById('char-counter');
+        if (visionTextarea && charCounter) {
+            const updateCounter = () => {
+                const current = visionTextarea.value.length;
+                const max = visionTextarea.maxLength;
+                charCounter.textContent = `${current}/${max}`;
+            };
+            visionTextarea.addEventListener('input', updateCounter);
+            updateCounter(); // Initial update
         }
     };
 </script>
