@@ -48,6 +48,32 @@
         }
         .dark .card-active { background-color: rgba(217, 119, 6, 0.1); }
 
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .platform-card, .design-card {
+                min-height: 80px;
+            }
+            .feature-item {
+                min-height: 120px;
+            }
+            .bottom-summary {
+                padding-bottom: max(env(safe-area-inset-bottom, 0), 1rem);
+            }
+            /* Improve scrolling on mobile */
+            html {
+                -webkit-overflow-scrolling: touch;
+            }
+            /* Better tap targets */
+            button, input, textarea, select {
+                touch-action: manipulation;
+            }
+        }
+
+        /* Ensure touch targets are at least 44px */
+        button, .platform-card, .design-card, .feature-item {
+            min-height: 44px;
+        }
+
         .feature-icon {
             position: absolute;
             top: 1.25rem;
@@ -114,8 +140,22 @@
 
         #print-header { display: none; }
 
-        /* Toast notifications (bottom-right) */
-        #toast { position: fixed; right: 1rem; bottom: 1.5rem; z-index: 60; pointer-events: none; }
+        /* Toast notifications (bottom-right on desktop, top on mobile) */
+        #toast { 
+            position: fixed; 
+            right: 1rem; 
+            bottom: 5rem; 
+            z-index: 60; 
+            pointer-events: none; 
+        }
+        @media (max-width: 640px) {
+            #toast { 
+                top: 1rem; 
+                bottom: auto; 
+                left: 1rem; 
+                right: 1rem; 
+            }
+        }
         .toast { min-width: 220px; max-width: 420px; padding: 0.75rem 1rem; border-radius: 12px; color: white; font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,0.12); opacity: 0; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease; pointer-events: auto; }
         .toast-visible { opacity: 1; transform: translateY(0); }
         .toast-success { background: #16a34a; }
@@ -158,13 +198,13 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300 pb-32">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300 pb-24 sm:pb-32">
 
-<nav class="sticky top-0 z-40 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-6 py-5">
+<nav class="sticky top-0 z-40 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 py-4 sm:py-5">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <div class="flex items-center gap-5">
-            <div class="p-3 bg-amber-600 rounded-2xl shadow-xl shadow-amber-600/30 transform hover:rotate-3 transition-transform">
-                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <div class="flex items-center gap-3 sm:gap-5">
+            <div class="p-2 sm:p-3 bg-amber-600 rounded-xl sm:rounded-2xl shadow-xl shadow-amber-600/30 transform hover:rotate-3 transition-transform">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                     <rect x="4" y="2" width="16" height="20" rx="2"/>
                     <line x1="8" y1="6" x2="16" y2="6"/>
                     <line x1="16" y1="14" x2="16" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="14" x2="8" y2="14"/>
@@ -172,25 +212,25 @@
                     <line x1="16" y1="10" x2="16" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="8" y1="10" x2="8" y2="10"/>
                 </svg>
             </div>
-            <div>
-                <h1 class="text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none">
+            <div class="min-w-0 flex-1">
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none truncate">
                     App <span class="text-amber-600">Cost Estimator</span>
                 </h1>
-                <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-2">Professional Software Quoting Tool</p>
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-1 sm:mt-2 hidden sm:block">Professional Software Quoting Tool</p>
             </div>
         </div>
-        <button id="theme-toggle" onclick="toggleTheme()" class="p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 shadow-sm hover:scale-105 transition-all">
-            <svg id="theme-toggle-light-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+        <button id="theme-toggle" onclick="toggleTheme()" class="p-2 sm:p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 shadow-sm hover:scale-105 transition-all ml-2">
+            <svg id="theme-toggle-light-icon" class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
             </svg>
-            <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
             </svg>
         </button>
     </div>
 </nav>
 
-<main class="p-6 lg:p-12">
+<main class="p-4 sm:p-6 lg:p-12">
     <div id="toast" class="hidden" aria-live="polite"></div>
     <div class="max-w-7xl mx-auto">
 
@@ -234,18 +274,18 @@
         </div>
 
         <!-- Vision Area -->
-        <section id="describe-vision-area" class="mb-16">
-            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
-                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">1</span>
+        <section id="describe-vision-area" class="mb-12 sm:mb-16">
+            <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6 sm:mb-8 flex items-center gap-3 sm:gap-4">
+                <span class="bg-amber-600 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base">1</span>
                 Describe Your Vision
             </h2>
-            <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
+            <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm relative group overflow-hidden">
                 <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 <div class="relative z-10">
                     <textarea id="app-details" maxlength="1500" rows="5"
                               class="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-4 focus:border-amber-600 focus:ring-0 transition-all text-sm mb-2"
                               placeholder="What are you building? (e.g., 'An app for ordering home-cooked meals with subscription plans')."></textarea>
-                    <div class="text-right text-xs text-gray-500 mb-4" id="char-counter">0/1500</div>
+                    <div class="text-right text-xs text-gray-500 mb-3 sm:mb-4" id="char-counter">0/1500</div>
 
                     <div id="ai-actions" class="grid grid-cols-1 md:grid-cols-1 gap-4">
                         <button id="ai-recommend-strategy-btn"
@@ -258,8 +298,8 @@
                         </button>
                     </div> 
 
-                    <div id="ai-insight-panel" class="hidden mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
-                        <div class="p-5 rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/50">
+                    <div id="ai-insight-panel" class="hidden mt-4 sm:mt-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                        <div class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/50">
                             <h4 id="ai-insight-title" class="text-xs font-black uppercase tracking-widest text-amber-600 mb-2">Analysis</h4>
                             <div id="ai-insight-text" class="text-sm leading-relaxed text-gray-700 dark:text-gray-300 space-y-2"></div>
                         </div>
@@ -269,21 +309,21 @@
         </section>
 
         <!-- Platform Area -->
-        <section id="platform-selection-area" class="mb-16">
-            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
-                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">2</span>
+        <section id="platform-selection-area" class="mb-12 sm:mb-16">
+            <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6 sm:mb-8 flex items-center gap-3 sm:gap-4">
+                <span class="bg-amber-600 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base">2</span>
                 Target Platform
             </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div onclick="setPlatform('android')" id="platform-android" class="platform-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div onclick="setPlatform('android')" id="platform-android" class="platform-card card-active p-4 sm:p-6 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
                     <svg class="w-8 h-8 mb-3 text-amber-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">Android</span>
                 </div>
-                <div onclick="setPlatform('ios')" id="platform-ios" class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                <div onclick="setPlatform('ios')" id="platform-ios" class="platform-card p-4 sm:p-6 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
                     <svg class="w-8 h-8 mb-3" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">iOS Native</span>
                 </div>
-                <div onclick="setPlatform('multi')" id="platform-multi" class="platform-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                <div onclick="setPlatform('web')" id="platform-web" class="platform-card p-4 sm:p-6 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
                     <div class="flex gap-1 mb-3">
                         <svg id="multi-icon-android" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 15c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-11 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm11.41-4.04l1.88-3.25c.14-.24.06-.54-.18-.67-.24-.14-.54-.06-.67.18l-1.9 3.29C15.43 9.61 13.78 9 12 9s-3.43.61-5.04 1.51l-1.9-3.29c-.14-.24-.43-.32-.67-.18-.24.14-.32.43-.18.67l1.88 3.25C3.18 12.64 1.23 15.65 1.23 19.14h21.54c0-3.49-1.95-6.5-4.86-8.18z"/></svg>
                         <svg id="multi-icon-ios" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.36 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -294,23 +334,23 @@
         </section>
 
         <!-- Design Level -->
-        <section id="design-selection-area" class="mb-16">
-            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
-                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">3</span>
+        <section id="design-selection-area" class="mb-12 sm:mb-16">
+            <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6 sm:mb-8 flex items-center gap-3 sm:gap-4">
+                <span class="bg-amber-600 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base">3</span>
                 Design Tier
             </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div onclick="setDesign('mvp')" id="design-mvp" class="design-card card-active p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div onclick="setDesign('mvp')" id="design-mvp" class="design-card card-active p-4 sm:p-6 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center">
                     <svg class="w-8 h-8 mb-3 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4 a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">Basic</span>
                     <p class="text-xs text-gray-500 mt-1">Clean, functional design with standard components</p>
                 </div>
-                <div onclick="setDesign('professional')" id="design-professional" class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                <div onclick="setDesign('professional')" id="design-professional" class="design-card p-4 sm:p-6 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
                     <svg class="w-8 h-8 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 5-10 13L2 8z"></path><path d="M11 3 8 8l3 13"></path><path d="M13 3l3 5-3 13"></path><path d="M2 8h20"></path></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">Professional</span>
                     <p class="text-xs text-gray-500 mt-1">Polished UI/UX with custom branding and animations</p>
                 </div>
-                <div onclick="setDesign('premium')" id="design-premium" class="design-card p-6 border-2 border-gray-100 dark:border-gray-700 rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
+                <div onclick="setDesign('premium')" id="design-premium" class="design-card p-4 sm:p-6 border-2 border-gray-100 dark:border-gray-700 rounded-2xl sm:rounded-3xl cursor-pointer hover:border-amber-600 transition-all flex flex-col items-center justify-center text-center text-gray-400">
                     <svg class="w-8 h-8 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
                     <span class="font-black uppercase tracking-widest text-[10px]">Premium</span>
                     <p class="text-xs text-gray-500 mt-1">High-end design with advanced interactions and micro-animations</p>
@@ -319,35 +359,35 @@
         </section>
 
         <!-- Features -->
-        <section id="feature-selection-area" class="mb-32">
-            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
-                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-base">4</span>
+        <section id="feature-selection-area" class="mb-24 sm:mb-32">
+            <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-6 sm:mb-8 flex items-center gap-3 sm:gap-4">
+                <span class="bg-amber-600 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base">4</span>
                 Select Project Features
             </h2>
-            <div id="base-setup-container" class="mb-6"></div>
-            <div id="feature-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+            <div id="base-setup-container" class="mb-4 sm:mb-6"></div>
+            <div id="feature-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"></div>
         </section>
     </div>
 </main>
 
 <div class="bottom-summary shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)]">
-    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="grid grid-cols-2 sm:flex sm:flex-row items-center gap-x-6 gap-y-4 w-full md:w-auto">
-            <div class="flex-shrink-0 min-w-[120px]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col gap-4 sm:gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
+            <div class="text-center sm:text-left">
                 <p class="text-[9px] uppercase font-black text-gray-500 tracking-tighter">Projected Quote</p>
-                <p id="total-quote-display" class="text-2xl font-black text-amber-600 leading-none">R0</p>
+                <p id="total-quote-display" class="text-xl sm:text-2xl font-black text-amber-600 leading-none">R0</p>
             </div>
-            <div class="flex-shrink-0">
+            <div class="text-center sm:text-left">
                 <p class="text-[9px] uppercase font-black text-gray-400">Hours</p>
                 <p id="total-hours-display" class="text-sm font-bold">0 hrs</p>
             </div>
-            <div class="flex-shrink-0">
+            <div class="text-center sm:text-left">
                 <p class="text-[9px] uppercase font-black text-gray-400">Timeline</p>
                 <p id="formatted-time-display" class="text-sm font-bold">0d</p>
             </div>
-            <div class="flex-shrink-0 col-span-2 sm:col-auto">
+            <div class="text-center sm:text-left col-span-2 sm:col-span-1">
                 <p class="text-[9px] uppercase font-black text-gray-400">Spec</p>
-                <p id="spec-display" class="text-sm font-black flex items-center">
+                <p id="spec-display" class="text-xs sm:text-sm font-black flex items-center justify-center sm:justify-start">
                     <span id="multiplier-platform" class="text-amber-600">Android</span>
                     <span class="text-gray-300 mx-1">/</span>
                     <span id="multiplier-design" class="text-amber-600">MVP</span>
@@ -355,18 +395,21 @@
             </div>
         </div>
 
-        <div class="flex gap-2 w-full md:w-auto">
-            <button onclick="window.print()" class="p-4 rounded-2xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-gray-600 dark:text-gray-400">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-                    <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
-                </svg>
+        <div class="flex flex-col sm:flex-row gap-3 w-full">
+            <button onclick="window.print()" class="p-3 sm:p-4 rounded-2xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-gray-600 dark:text-gray-400 order-2 sm:order-1">
+                <div class="flex items-center justify-center gap-2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 sm:w-5 sm:h-5">
+                        <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+                    </svg>
+                    <span class="text-sm font-medium hidden sm:inline">Print</span>
+                </div>
             </button>
             <button id="send-inquiry-btn" onclick="sendEnquiryEmail()"
-                    class="flex-1 md:flex-none px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-3 active:scale-95 whitespace-nowrap">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    class="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 sm:gap-3 active:scale-95 whitespace-nowrap order-1 sm:order-2">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
-                Send Inquiry
+                <span class="text-sm sm:text-base">Send Inquiry</span>
             </button>
         </div>
     </div>
@@ -698,7 +741,7 @@
             </div>`;
         document.getElementById('base-setup-container').innerHTML = baseHtml;
         document.getElementById('feature-grid').innerHTML = FEATURES.map(f => `
-            <label for="${f.id}" class="flex flex-col p-5 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-amber-600 rounded-3xl cursor-pointer transition-all feature-item group custom-checkbox relative overflow-hidden">
+            <label for="${f.id}" class="flex flex-col p-4 sm:p-5 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-amber-600 rounded-2xl sm:rounded-3xl cursor-pointer transition-all feature-item group custom-checkbox relative overflow-hidden">
                 <div class="feature-icon">${f.icon}</div>
                 <div class="flex items-center gap-3 mb-3 pr-12 relative z-10">
                     <div class="relative w-5 h-5">
